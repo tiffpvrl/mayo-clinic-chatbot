@@ -1,0 +1,39 @@
+{
+  "drug_name": "MoviPrep",
+  "set_id": "8ff46193-2a3b-4de0-9572-775dda8cd8b2",
+  "source": "DailyMed",
+  "sections": {
+    "indications_and_usage": {
+      "title": "1 INDICATIONS AND USAGE",
+      "content": "MoviPrep® is an osmotic laxative indicated for cleansing of the colon as a preparation for colonoscopy in adults."
+    },
+    "dosage_and_administration": {
+      "title": "2 DOSAGE AND ADMINISTRATION",
+      "content": "Preparation and Administration: • Two doses of MoviPrep are required for a complete preparation for colonoscopy, using a “Two-Day” preferred method or “One-Day” alternative method dosing regimen. ( 2.1 ) • MoviPrep must be reconstituted in water prior to ingestion. ( 2.1 ) • Additional clear liquids must be consumed after each dose of MoviPrep in both dosing regimens. ( 2.1 , 5.1 ) • Do not take other laxatives while taking MoviPrep. ( 2.1 , 5.5 ) • Do not take oral medications within 1 hour of starting each dose. ( 2.1 ) Dosing Regimen: • Two-Day (Split-Dose) (Preferred Method): Dose 1 the evening before the colonoscopy, and Dose 2 the morning of the colonoscopy (approximately 12 hours after the start of Dose 1, and at least 3 ½ hours prior to the colonoscopy). ( 2.2 ) • One-Day (Evening Only) (Alternative Method) : Dose 1 at least 3 ½ hours prior to bedtime the evening before the colonoscopy and Dose 2 approximately 1 ½ hours after starting Dose 1 the evening before the colonoscopy. ( 2.3 ) • For complete information on dosing, preparation and administration see full prescribing information ( 2.1 , 2.2 , 2.3 )"
+    },
+    "special_populations": {
+      "title": "8.2 Lactation ",
+      "content": "Risk Summary There are no data available on the presence of MoviPrep in human milk, the effects of the drug on the breastfed child, or the effects of the drug on milk production. The lack of clinical data during lactation precludes a clear determination of the risk of MoviPrep to a child during lactation; therefore, the developmental and health benefits of breastfeeding should be considered along with the mother’s clinical need for MoviPrep and any potential adverse effects on the breastfed child from MoviPrep or from the underlying maternal condition."
+    },
+    "contraindications": {
+      "title": "4 CONTRAINDICATIONS",
+      "content": "MoviPrep is contraindicated in the following conditions: • Gastrointestinal (GI) obstruction [see Warnings and Precautions (5.6) ] • Bowel perforation [see Warnings and Precautions (5.6) ] • Gastric retention • Ileus • Toxic colitis or toxic megacolon • Hypersensitivity to any ingredient in MoviPrep [see Warnings and Precautions (5.10) and Description (11) ]"
+    },
+    "warnings": {
+      "title": "5.9 Risks in Patients with Phenylketonuria",
+      "content": "Phenylalanine can be harmful to patients with phenylketonuria (PKU). MoviPrep contains phenylalanine, a component of aspartame. Each MoviPrep treatment contains 131 mg of phenylalanine (after hydrolysis of the aspartame molecule in vivo to aspartic acid and phenylalanine). Before prescribing MoviPrep to a patient with PKU, consider the combined daily amount of phenylalanine from all sources, including MoviPrep."
+    },
+    "adverse_reactions": {
+      "title": "6.2 Postmarketing Experience",
+      "content": "The following adverse reactions have been identified during post-approval use of MoviPrep or other PEG-based products. Because these reactions are reported voluntarily from a population of uncertain size, it is not always possible to reliably estimate their frequency or establish a causal relationship to drug exposure. Cardiovascular: tachycardia, palpitations, hypertension, arrhythmia, atrial fibrillation, peripheral edema, asystole, acute pulmonary edema and syncope, and dehydration. Gastrointestinal: upper gastrointestinal bleeding from a Mallory-Weiss tear, esophageal perforation [usually with gastroesophageal reflux disease (GERD)]. Hypersensitivity reactions: anaphylaxis (some of which were severe, including shock), rash, urticaria, pruritus, lip, tongue and facial swelling, dyspnea, chest tightness and throat tightness, rhinorrhea, dermatitis, fever, and chills [ see Warnings and Precautions (5.10) ] . Nervous system: tremor, seizure. Renal: renal impairment and/or failure."
+    },
+    "drug_interactions": {
+      "title": "7.2 Potential for Reduced Drug Absorption",
+      "content": "MoviPrep can reduce the absorption of other co-administered drugs. Administer oral medications at least 1 hour before the start of administration of each dose of MoviPrep [see Dosage and Administration ( 2.1 )] ."
+    },
+    "patient_counseling_information": {
+      "title": "17 PATIENT COUNSELING INFORMATION",
+      "content": "Advise the patient to read the FDA-approved patient labeling ( Medication Guide and Instructions for Use ). Instruct patients: • That two doses of MoviPrep are required for a complete preparation for colonoscopy either as a Split-Dose (2-Day), or Evening Only (1-Day) dosing regimen [see Instructions for Use ] . • Not to take other laxatives while they are taking MoviPrep. • That MoviPrep contains 131 mg of phenylalanine per treatment [see Warnings and Precautions (5.9) ] . • That each pouch needs to be reconstituted in water before ingestion and that they should drink additional clear liquids. Examples of clear liquids can be found in the Instructions for Use . • Not to take oral medications within one hour of starting each dose of MoviPrep. • To follow the directions in the Instructions for Use , for either the Two-Day Split-Dosing or the One-Day Evening Only Dosing regimen, as prescribed. • To consume additional clear liquids before, during, and after the use of MoviPrep to prevent dehydration [see Warnings and Precautions (5.1) ] . • To contact their healthcare provider if they develop significant vomiting or signs of dehydration after taking MoviPrep or if they experience altered consciousness or seizures [see Warnings and Precautions ( 5.1 , 5.2 , 5.3 , 5.4 )] • Not to eat or drink alcohol, milk, anything colored red or purple or any other foods containing pulp material. • To stop drinking MoviPrep temporarily or drink each portion at longer intervals if they develop severe abdominal discomfort or distention until these symptoms diminish. If severe symptoms persist, tell patients to contact their healthcare provider. Distributed by: Salix Pharmaceuticals, a division of Bausch Health US, LLC Bridgewater, NJ 08807 USA MoviPrep is a registered trademark of Velinor AG used under license. © 2025 Salix Pharmaceuticals, Inc. or its affiliates 9656606\t70015787-02"
+    }
+  }
+}

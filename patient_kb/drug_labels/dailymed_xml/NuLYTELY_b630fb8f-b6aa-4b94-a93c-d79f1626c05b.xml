@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://www.accessdata.fda.gov/spl/stylesheet/spl.xsl"?>
+<document xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 http://www.accessdata.fda.gov/spl/schema/spl.xsd">
+   <id root="fec3456a-b279-4603-ab4d-6a5a7df8c0a2"/>
+   <code code="34391-3" codeSystem="2.16.840.1.113883.6.1" displayName="HUMAN PRESCRIPTION DRUG LABEL"/>
+   <title>NuLYTELY® with Flavor Packs<br/>PEG-3350, Sodium Chloride, Sodium Bicarbonate and Potassium Chloride for Oral Solution
+</title>
+   <effectiveTime value="20091015"/>
+   <setId root="b630fb8f-b6aa-4b94-a93c-d79f1626c05b"/>
+   <versionNumber value="1"/>
+   <author>
+      <time/>
+      <assignedEntity>
+         <representedOrganization>
+            <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+            <name>Physicians Total Care, Inc.</name>
+            <assignedEntity>
+               <assignedOrganization>
+                  <assignedEntity>
+                     <assignedOrganization>
+                        <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+                        <name>Physicians Total Care, Inc.</name>
+                     </assignedOrganization>
+                     <performance>
+                        <actDefinition>
+                           <code code="C73607" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="relabel"/>
+                        </actDefinition>
+                     </performance>
+                  </assignedEntity>
+               </assignedOrganization>
+            </assignedEntity>
+         </representedOrganization>
+      </assignedEntity>
+   </author>
+   <component>
+      <structuredBody>
+         <component>
+            <section ID="dcl-dpl">
+               <id root="3f331303-f6b2-4c24-888e-e4104e3c555c"/>
+               <code code="48780-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL LISTING DATA ELEMENTS SECTION"/>
+               <effectiveTime value="20110511"/>
+               <subject>
+                  <manufacturedProduct>
+                     <manufacturedProduct>
+                        <code code="54868-4233" codeSystem="2.16.840.1.113883.6.69"/>
+                        <name>NuLYTELY<suffix/>
+                        </name>
+                        <formCode code="C42973" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="POWDER, FOR SOLUTION"/>
+                        <asEntityWithGeneric>
+                           <genericMedicine>
+                              <name>PEG-3350, sodium chloride, sodium bicarbonate and potassium chloride</name>
+                           </genericMedicine>
+                        </asEntityWithGeneric>
+                        <asEquivalentEntity classCode="EQUIV">
+                           <code code="C64637" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <definingMaterialKind>
+                              <code code="52268-400" codeSystem="2.16.840.1.113883.6.69"/>
+                           </definingMaterialKind>
+                        </asEquivalentEntity>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="210" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>POLYETHYLENE GLYCOL 3350</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POLYETHYLENE GLYCOL 3350</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="2.86" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="8MDF5V39QO" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM BICARBONATE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="5.6" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="451W47IQ8X" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM CHLORIDE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="0.74" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="660YQ98I10" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>POTASSIUM CHLORIDE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="295O53K152" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POTASSIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="BUC5I9595W" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>CHERRY</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="5EVU04N5QU" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>ORANGE</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="2A88ZO081O" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>PINEAPPLE</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="24RS0A988O" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>LEMON</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="C7X2M0VVNH" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>LIME</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <asContent>
+                           <quantity>
+                              <numerator value="4" unit="L"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="54868-4233-0" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43173" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="BOTTLE, PLASTIC"/>
+                           </containerPackagedProduct>
+                        </asContent>
+                     </manufacturedProduct>
+                     <subjectOf>
+                        <marketingAct>
+                           <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <statusCode code="active"/>
+                           <effectiveTime>
+                              <low value="20010719"/>
+                           </effectiveTime>
+                        </marketingAct>
+                     </subjectOf>
+                     <subjectOf>
+                        <approval>
+                           <id extension="NDA019797" root="2.16.840.1.113883.3.150"/>
+                           <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                           <author>
+                              <territorialAuthority>
+                                 <territory>
+                                    <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                 </territory>
+                              </territorialAuthority>
+                           </author>
+                        </approval>
+                     </subjectOf>
+                     <consumedIn>
+                        <substanceAdministration>
+                           <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                        </substanceAdministration>
+                     </consumedIn>
+                  </manufacturedProduct>
+               </subject>
+            </section>
+         </component>
+         <component>
+            <section ID="s1">
+               <id root="28cd2225-a3fd-405f-97a2-8bb33f881624"/>
+               <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">Rx only</content>
+                  </paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s2">
+               <id root="df91e6f6-2ce3-460b-8712-d11babfd50ed"/>
+               <code code="34089-3" codeSystem="2.16.840.1.113883.6.1" displayName="DESCRIPTION SECTION"/>
+               <title>DESCRIPTION:
+</title>
+               <text>
+                  <paragraph>A white powder for reconstitution containing 420 g polyethylene glycol 3350, 5.72 g sodium bicarbonate, 11.2 g sodium chloride, 1.48 g potassium chloride and one 2.0 g flavor pack (optional). When dissolved in water to a volume of 4 liters, NuLYTELY (PEG-3350, sodium chloride, sodium bicarbonate and potassium chloride for oral solution) is an isosmotic solution having a pleasant mineral water taste. NuLYTELY is administered orally or via nasogastric tube as a gastrointestinal lavage. NuLYTELY Flavor Packs are available in Cherry, Lemon -Lime, Orange and Pineapple. This preparation can be used without the addition of a NuLYTELY Flavor Pack.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s3">
+               <id root="c1ab05c7-f5a7-4836-b3e1-162034dc093a"/>
+               <code code="34090-1" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL PHARMACOLOGY SECTION"/>
+               <title>CLINICAL PHARMACOLOGY:
+</title>
+               <text>
+                  <paragraph>NuLYTELY induces a diarrhea which rapidly cleanses the bowel, usually within four hours. The osmotic activity of polyethylene glycol 3350 and the electrolyte concentration result in virtually no net absorption or excretion of ions or water. Accordingly, large volumes may be administered without significant changes in fluid or electrolyte balance.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s4">
+               <id root="498d6cf0-0ebe-43f3-9983-1be4ee147788"/>
+               <code code="34067-9" codeSystem="2.16.840.1.113883.6.1" displayName="INDICATIONS &amp; USAGE SECTION"/>
+               <title>INDICATIONS AND USAGE:
+</title>
+               <text>
+                  <paragraph>NuLYTELY is indicated for bowel cleansing prior to colonoscopy.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s5">
+               <id root="934be20c-62c4-4555-bf5c-dcd019f8ee2f"/>
+               <code code="34070-3" codeSystem="2.16.840.1.113883.6.1" displayName="CONTRAINDICATIONS SECTION"/>
+               <title>CONTRAINDICATIONS:
+</title>
+               <text>
+                  <paragraph>NuLYTELY is contraindicated in patients known to be hypersensitive to any of the components. NuLYTELY is contraindicated in patients with ileus, gastrointestinal obstruction, gastric retention, bowel perforation, toxic colitis or toxic megacolon.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s6">
+               <id root="e11360b4-db5c-4f08-a444-60b5408d8645"/>
+               <code code="34071-1" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS SECTION"/>
+               <title>WARNINGS:
+</title>
+               <text>
+                  <paragraph>NuLYTELY Flavor Packs are for use only in combination with the contents of the accompanying 4 liter container. No additional ingredients, e.g. flavorings, should be added to the solution. NuLYTELY should be used with caution in patients with severe ulcerative colitis. Use of NuLYTELY in children younger than 2 years of age should be carefully monitored for occurrence of possible hypoglycemia, as this solution has no caloric substrate. Dehydration has been reported in 1 child and hypokalemia has been reported in 3 children.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s7">
+               <id root="0acc330c-fb06-4d56-9786-8aa4b72af357"/>
+               <code code="42232-9" codeSystem="2.16.840.1.113883.6.1" displayName="PRECAUTIONS SECTION"/>
+               <title>PRECAUTIONS:
+</title>
+               <effectiveTime value="20091015"/>
+               <component>
+                  <section ID="s8">
+                     <id root="f6f69a97-d141-46b4-8576-40f66eb28fb9"/>
+                     <code code="34072-9" codeSystem="2.16.840.1.113883.6.1" displayName="GENERAL PRECAUTIONS SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">General:</content> Patients with impaired gag reflex, unconscious, or semiconscious patients, and patients prone to regurgitation or aspiration should be observed during the administration of NuLYTELY, especially if it is administered via nasogastric tube. If a patient experiences severe bloating, distention or abdominal pain, administration should be slowed or temporarily discontinued until the symptoms abate. If gastrointestinal obstruction or perforation is suspected, appropriate studies should be performed to rule out these conditions before administration of NuLYTELY.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s9">
+                     <id root="9ef53d7f-0425-4737-a01e-9f0f344f9919"/>
+                     <code code="34076-0" codeSystem="2.16.840.1.113883.6.1" displayName="INFORMATION FOR PATIENTS SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Information for patients:</content> NuLYTELY produces a watery stool which cleanses the bowel before examination. Prepare the solution according to the instructions on the bottle. It is more palatable if chilled. For best results, no solid food should be consumed during the 3 to 4 hour period before drinking the solution, but in no case should solid foods be eaten within 2 hours of taking NuLYTELY.
+</paragraph>
+                        <paragraph>Adults drink 240 mL (8 oz.) every 10 minutes. Continue drinking until the watery stool is clear and free of solid matter. This usually requires at least 3 liters. Any unused portion should be discarded. Pediatric patients (aged 6 months or greater) drink 25 mL/kg/hour. Continue drinking until the watery stool is clear and free of solid matter. Any unused portion should be discarded. Rapid drinking of each portion is better than drinking small amounts continuously. The first bowel movement should occur approximately one hour after the start of NuLYTELY administration. You may experience some abdominal bloating and distention before the bowels start to move. If severe discomfort or distention occur, stop drinking temporarily or drink each portion at longer intervals until these symptoms disappear.
+</paragraph>
+                        <paragraph>Use of NuLYTELY in children younger than 2 years of age should be carefully monitored for occurrence of possible hypoglycemia, as this solution has no caloric substrate. Dehydration has been reported in 1 child and hypokalemia has been reported in 3 children.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s10">
+                     <id root="d843f697-ebd1-4142-8323-04f8a772ae32"/>
+                     <code code="34073-7" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG INTERACTIONS SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Drug Interactions:</content> Oral medication administered within one hour of the start of administration of NuLYTELY may be flushed from the gastrointestinal tract and not absorbed.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s11">
+                     <id root="8d10bd68-886f-4d84-b283-6d41a11e9a79"/>
+                     <code code="34083-6" codeSystem="2.16.840.1.113883.6.1" displayName="CARCINOGENESIS &amp; MUTAGENESIS &amp; IMPAIRMENT OF FERTILITY SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Carcinogenesis, Mutagenesis, Impairment of Fertility:</content> Carcinogenic and reproductive studies with animals have not been performed.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s12">
+                     <id root="37a2e517-747b-4ccc-83fa-6ce757df5584"/>
+                     <code code="42228-7" codeSystem="2.16.840.1.113883.6.1" displayName="PREGNANCY SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Pregnancy:</content> Category C. Animal reproduction studies have not been conducted with NuLYTELY. It is also not known whether NuLYTELY can cause fetal harm when administered to a pregnant woman or can affect reproductive capacity. NuLYTELY should be given to a pregnant woman only if clearly needed.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s13">
+                     <id root="6ab3e491-76b7-4450-be9e-eb9ef043b738"/>
+                     <code code="34081-0" codeSystem="2.16.840.1.113883.6.1" displayName="PEDIATRIC USE SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Pediatric Use:</content> Safety and effectiveness of NuLYTELY in pediatric patients aged 6 months and older is supported by evidence from adequate and well-controlled clinical trials of NuLYTELY in adults with additional safety and efficacy data from published studies of similar formulations.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="s14">
+               <id root="9626e909-0aca-4762-ad57-3fe4739d67bd"/>
+               <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+               <title>ADVERSE REACTIONS:
+</title>
+               <text>
+                  <paragraph>Nausea, abdominal fullness and bloating are the most common adverse reactions (occurring in up to 50% of patients) to administration of NuLYTELY. Abdominal cramps, vomiting and anal irritation occur less frequently. These adverse reactions are transient and subside rapidly. Isolated cases of urticaria, rhinorrhea, dermatitis and (rarely) anaphylactic reaction have been reported which may represent allergic reactions.
+</paragraph>
+                  <paragraph>Published literature contains isolated reports of serious adverse reaction following the administration of PEG-ELS products in patients over 60 years of age. These adverse events include upper GI bleeding from Mallory-Weiss Tear, esophageal perforation, asystole, sudden dyspnea with pulmonary edema, and “butterfly-like” infiltrate on chest X-ray after vomiting and aspirating PEG.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+            </section>
+         </component>
+         <component>
+            <section ID="s15">
+               <id root="395ec2df-6274-4548-ae17-46f678bd3f44"/>
+               <code code="34068-7" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE &amp; ADMINISTRATION SECTION"/>
+               <title>DOSAGE AND ADMINISTRATION:
+</title>
+               <text>
+                  <paragraph>NuLYTELY is usually administered orally, but may be given via nasogastric tube to patients who are unwilling or unable to drink the solution. Ideally, the patient should fast for approximately three or four hours prior to NuLYTELY administration, but in no case should solid food be given for at least two hours before the solution is given.
+</paragraph>
+               </text>
+               <effectiveTime value="20091015"/>
+               <component>
+                  <section ID="s16">
+                     <id root="9e69b10c-6e1a-4304-9e80-9a88c371d198"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Oral administration: Adults:</content> At a rate of 240 mL(8 oz.) every 10 minutes, until the rectal effluent is clear or 4 liters are consumed. <content styleCode="bold">Pediatric Patients (aged 6 months or greater):</content> At a rate of 25 mL/kg/hour, until the rectal effluent is clear. Rapid drinking of each portion is preferred to drinking small amounts continuously. <content styleCode="bold">Nasogastric tube administration: Adults:</content> At a rate of 20-30 mL per minute (1.2-1.8 liters per hour). <content styleCode="bold">Pediatric Patients (aged 6 months or greater):</content> At a rate of 25 mL/kg/hour, until the rectal effluent is clear.
+</paragraph>
+                        <paragraph>The first bowel movement should occur approximately one hour after the start of NuLYTELY administration. Ingestion of 4 liters of NuLYTELY solution prior to gastrointestinal examination produces satisfactory preparation in over 95% of patients.
+</paragraph>
+                        <paragraph>Various regimens have been used. One method is to schedule patients for examination in midmorning or later, allowing the patients three hours for drinking and an additional one hour period for complete bowel evacuation. Another method is to administer NuLYTELY on the evening before the examination.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s17">
+                     <id root="8e5e861f-f8eb-429c-9527-8c7546eb176b"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Preparation of the solution:</content> NuLYTELY solution is prepared by filling the container to the 4 liter mark with water and shaking vigorously several times to insure that the ingredients are dissolved. Dissolution is facilitated by using lukewarm water. The solution is more palatable if chilled before administration. However, chilled solution is not recommended for infants. The reconstituted solution should be refrigerated and used within 48 hours. Discard any unused portion.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="s18">
+               <id root="c6e934bb-6b1c-4bba-a94a-2506503ba014"/>
+               <code code="34069-5" codeSystem="2.16.840.1.113883.6.1" displayName="HOW SUPPLIED SECTION"/>
+               <title>HOW SUPPLIED:
+</title>
+               <text>
+                  <paragraph>NuLYTELY, Cherry Flavor NuLYTELY, Lemon-Lime Flavor NuLYTELY, Orange Flavor NuLYTELY are available in a disposable jug, in powdered form, for oral administration as a solution following reconstitution.</paragraph>
+                  <paragraph>4 liter Plastic Bottle     NDC 54868-4233-0<br/>
+                  </paragraph>
+                  <paragraph>NuLYTELY with Flavor Packs is supplied in a disposable jug, in powdered form, for oral administration as a solution following reconstitution. Each jug has an attached package containing 4 flavor packs; one each 2.0 g: Cherry, Lemon-Lime, Orange and Pineapple flavoring, in powdered form, for the addition of ONE pack by the pharmacist prior to dispensing.
+</paragraph>
+               </text>
+               <effectiveTime value="20110511"/>
+               <component>
+                  <section ID="e18">
+                     <id root="e1027eed-a2c9-4af4-86cb-0d0e4aec2df4"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>Each jug contains:
+</title>
+                     <effectiveTime value="20091015"/>
+                     <component>
+                        <section ID="s19">
+                           <id root="d537c291-2dee-4622-8b7b-d6338d4fdf7c"/>
+                           <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                           <text>
+                              <paragraph>
+                                 <content styleCode="bold">NuLYTELY:</content> polyethylene glycol 3350 420 g, sodium bicarbonate 5.72 g, sodium chloride 11.2 g, potassium chloride 1.48 g. When made up to 4 liters volume with water, the solution contains PEG-3350 31.3 mmol/L, sodium 65 mmol/L, chloride 53 mmol/L, bicarbonate 17 mmol/L and potassium 5 mmol/L.
+</paragraph>
+                           </text>
+                           <effectiveTime value="20091015"/>
+                        </section>
+                     </component>
+                     <component>
+                        <section ID="s20">
+                           <id root="b0f3aa31-fcd8-4e57-a0e4-688ea2c100bb"/>
+                           <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                           <text>
+                              <paragraph>
+                                 <content styleCode="bold">Cherry Flavor NuLYTELY:</content> polyethylene glycol 3350 420 g, sodium bicarbonate 5.72 g, sodium chloride 11.2 g, potassium chloride 1.48 g and flavoring ingredients 2.0 g. When made up to 4 liters volume with water, the solution contains PEG-3350 31.3 mmol/L, sodium 65 mmol/L, chloride 53 mmol/L, bicarbonate 17 mmol/L and potassium 5 mmol/L.
+</paragraph>
+                           </text>
+                           <effectiveTime value="20091015"/>
+                        </section>
+                     </component>
+                     <component>
+                        <section ID="s21">
+                           <id root="9f1b11b2-6eac-42d8-837a-d17f553c207e"/>
+                           <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                           <text>
+                              <paragraph>
+                                 <content styleCode="bold">Lemon-Lime Flavor NuLYTELY:</content> polyethylene glycol 3350 420 g, sodium bicarbonate 5.72 g, sodium chloride 11.2 g, potassium chloride 1.48 g and flavoring ingredients 2.0 g. When made up to 4 liters volume with water, the solution contains PEG-3350 31.3 mmol/L, sodium 65 mmol/L, chloride 53 mmol/L, bicarbonate 17 mmol/L and potassium 5 mmol/L.
+</paragraph>
+                           </text>
+                           <effectiveTime value="20091015"/>
+                        </section>
+                     </component>
+                     <component>
+                        <section ID="s22">
+                           <id root="1c01909d-6285-4901-8faa-350775150d6e"/>
+                           <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                           <text>
+                              <paragraph>
+                                 <content styleCode="bold">Orange Flavor NuLYTELY:</content> polyethylene glycol 3350 420 g, sodium bicarbonate 5.72 g, sodium chloride 11.2 g, potassium chloride 1.48 g and flavoring ingredients 2.0 g. When made up to 4 liters volume with water, the solution contains PEG-3350 31.3 mmol/L, sodium 65 mmol/L, chloride 53 mmol/L, bicarbonate 17 mmol/L and potassium 5 mmol/L.
+</paragraph>
+                           </text>
+                           <effectiveTime value="20091015"/>
+                        </section>
+                     </component>
+                     <component>
+                        <section ID="s23">
+                           <id root="21a01aad-14c8-448f-ad04-54dc0d88d28a"/>
+                           <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                           <text>
+                              <paragraph>
+                                 <content styleCode="bold">NuLYTELY with Flavor Packs:</content> polyethylene glycol 3350 420 g, sodium bicarbonate 5.72 g, sodium chloride 11.2 g, potassium chloride 1.48 g and flavoring ingredients 2.0 g (optional). When made up to 4 liters volume with water, the solution contains PEG-3350 31.3 mmol/L, sodium 65 mmol/L, chloride 53 mmol/L, bicarbonate 17 mmol/L and potassium 5 mmol/L.
+</paragraph>
+                           </text>
+                           <effectiveTime value="20091015"/>
+                        </section>
+                     </component>
+                  </section>
+               </component>
+               <component>
+                  <section ID="s24">
+                     <id root="0d8ed744-6436-4dfd-8cb7-0f2acfc10495"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">STORAGE:</content> Store at 25°C (77°F); excursions permitted to 15-30°C (59-86°F) [see USP Controlled Room Temperature]. When reconstituted, keep solution refrigerated. Use within 48 hours. Discard unused portion.
+</paragraph>
+                        <paragraph>
+                           <br/>
+                        </paragraph>
+                        <paragraph>Distributed by Braintree Laboratories, Inc., Braintree, MA 02185
+</paragraph>
+                        <paragraph>S 12/08</paragraph>
+                        <br/>
+                        <paragraph>
+                           <br/>
+                        </paragraph>
+                        <paragraph>
+                           <content styleCode="bold">Relabeling of "Additional" label by:</content>
+                           <br/>Physicians Total Care, Inc.<br/>Tulsa, OK     74146<br/>
+                        </paragraph>
+                     </text>
+                     <effectiveTime value="20091015"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="s25">
+               <id root="893a2d28-4fd8-4e11-a0f6-7e2d58e44ff9"/>
+               <code code="51945-4" codeSystem="2.16.840.1.113883.6.1" displayName="PACKAGE LABEL.PRINCIPAL DISPLAY PANEL"/>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">PAKAGE LABEL – PRINCIPAL DISPLAY PANEL</content>
+                  </paragraph>
+                  <paragraph>NDC 54868-4233-0
+</paragraph>
+                  <paragraph>NuLYTELY® 
+</paragraph>
+                  <paragraph>(PEG-3350, Sodium Chloride, Sodium Bicarbonate and Potassium Chloride for Oral Solution)
+</paragraph>
+                  <paragraph>With Flavor Packs
+</paragraph>
+                  <paragraph>Rx Only
+</paragraph>
+                  <renderMultiMedia referencedObject="mm01"/>
+               </text>
+               <effectiveTime value="20110511"/>
+               <component>
+                  <observationMedia ID="mm01">
+                     <text>image of package label</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="4233.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+      </structuredBody>
+   </component>
+</document>

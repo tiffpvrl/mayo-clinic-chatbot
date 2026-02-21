@@ -1,0 +1,36 @@
+{
+  "drug_name": "GaviLyte-C",
+  "source": "OpenFDA",
+  "sections": {
+    "indications_and_usage": {
+      "title": "Indications And Usage",
+      "content": "INDICATIONS AND USAGE GaviLyte- C with flavor pack is indicated for bowel cleansing prior to colonoscopy or barium enema X-ray examination."
+    },
+    "dosage_and_administration": {
+      "title": "Dosage And Administration",
+      "content": "DOSAGE AND ADMINISTRATION GaviLyte- C with flavor pack can be administered orally or by nasogastric tube. Patients should fast at least 3 hours prior to administration. A one hour waiting period after the appearance of clear liquid stool should be allowed prior to examination to complete bowel evacuation. No foods except clear liquids should be permitted prior to examination after GaviLyte- C with flavor pack administration. ORAL: The recommended adult oral dose is 240 mL (8 fl. oz.) every 10 minutes (see INFORMATION FOR PATIENTS). Lavage is complete when fecal discharge is clear. Lavage is usually complete after the ingestion of 3 to 4 liters. NASOGASTRIC TUBE: GaviLyte- C with flavor pack is administered at a rate of 20 to 30 mL per minute (1.2 to 1.8 L/hour). PREPARATION OF GaviLyte- C with flavor pack SOLUTION: This preparation can be used with or without the lemon flavor pack. 1. To add flavor, tear open lemon flavor pack at the indicated marking and pour contents into the bottle BEFORE reconstitution. 2. SHAKE WELL to incorporate flavoring into the powder. 3. Add tap water to FILL line. Replace cap tightly and mix or shake well until all ingredients have dissolved. (No other additional ingredients, e.g. flavorings, should be added to the solution.) Note: If not using flavor pack, omit steps one and two, above."
+    },
+    "contraindications": {
+      "title": "Contraindications",
+      "content": "CONTRAINDICATIONS GaviLyte- C with flavor pack is contraindicated in patients known to be hypersensitive to any of the components. GaviLyte- C with flavor pack is contraindicated in patients with ileus, gastrointestinal obstruction, gastric retention, bowel perforation, toxic colitis or toxic megacolon."
+    },
+    "warnings": {
+      "title": "Warnings",
+      "content": "WARNINGS Flavor pack is for use only in combination with the contents of the accompanying 4 liter container. No other additional ingredients (e.g., flavorings) should be added to the solution. GaviLyte- C with flavor pack should be used with caution in patients with severe ulcerative colitis."
+    },
+    "precautions": {
+      "title": "Precautions",
+      "content": "PRECAUTIONS General Patients with impaired gag reflex, unconscious or semiconscious patients and patients prone to regurgitation or aspiration should be observed during the administration of GaviLyte- C with flavor pack, especially if it is administered via nasogastric tube. If gastrointestinal obstruction or perforation is suspected appropriate studies should be performed to rule out these conditions before administration of GaviLyte- C with flavor pack. INFORMATION FOR PATIENTS GaviLyte- C with flavor pack produces a watery stool which cleanses the bowel prior to examination. For best results, no solid food should be ingested during the 3 to 4 hour period prior to the initiation of GaviLyte- C with flavor pack administration. In no case should solid foods be eaten within 2 hours of drinking GaviLyte- C with flavor pack. The rate of administration is 240 mL (8 fl. oz.) every 10 minutes. Rapid drinking of each portion is preferred rather than drinking small amounts continuously. The first bowel movement should occur approximately one hour after the start of GaviLyte- C with flavor pack administration. Administration of GaviLyte- C with flavor pack should be continued until the watery stool is clear and free of solid matter. This normally requires the consumption of approximately 3 to 4 liters (3 to 4 quarts), although more or less may be required in some patients. The unused portion should be discarded. DRUG INTERACTIONS Oral medication administered within one hour of start of administration of GaviLyte- C with flavor pack may be flushed from the gastrointestinal tract and not absorbed. CARCINOGENESIS, MUTAGENESIS, IMPAIRMENT OF FERTILITY Studies to evaluate carcinogenic or mutagenic potential or potential to adversely affect male or female fertility have not been performed. PREGNANCY Category C. Animal reproduction studies have not been conducted with GaviLyte- C with flavor pack, and it is not known whether GaviLyte- C with flavor pack can affect reproductive capacity or harm the fetus when administered to a pregnant patient. GaviLyte- C with flavor pack should be given to a pregnant patient only if clearly needed. PEDIATRIC USE Safety and effectiveness in pediatric patients have not been established. GERIATRIC USE Published literature contains isolated reports of serious adverse reactions following the administration of PEG-ELS products in patients over 60 years of age. These adverse events include upper GI bleeding from Mallory-Weiss Tear, esophageal perforation, asystole, sudden dyspnea with pulmonary edema, and \"butterfly-like\" infiltrate on chest x-ray after vomiting and aspirating PEG."
+    },
+    "adverse_reactions": {
+      "title": "Adverse Reactions",
+      "content": "ADVERSE REACTIONS Nausea, abdominal fullness and bloating are the most frequent adverse reactions, occurring in up to 50% of patients. Abdominal cramps, vomiting and anal irritation occur less frequently. These adverse reactions are transient. Isolated cases of urticaria, rhinorrhea, dermatitis, and rarely anaphylaxis, angioedema, tongue edema, and face edema have been reported which may represent allergic reactions."
+    }
+  },
+  "brand_names": [
+    "GaviLyte - C TM"
+  ],
+  "generic_names": [
+    "POLYETHYLENE GLYCOL-3350 AND ELECTROLYTES WITH FLAVOR PACK"
+  ]
+}
