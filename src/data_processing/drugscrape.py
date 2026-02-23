@@ -371,7 +371,7 @@ class BowelPrepDrugDownloader:
 
 if __name__ == "__main__":
     # Initialize downloader
-    downloader = BowelPrepDrugDownloader(output_dir="patient_kb/drug_labels")
+    downloader = BowelPrepDrugDownloader(output_dir="src/data_processing/patient_kb/drug_labels")
     
     # Download all drug information
     all_data = downloader.download_all_drugs()
@@ -381,5 +381,5 @@ if __name__ == "__main__":
     
     print("\n" + "="*70)
     print("Download complete!")
-    print(f"Check the 'patient_kb/drug_labels' directory for all files")
+    print(f"Check the 'src/data_processing/patient_kb/drug_labels' directory for all files")
     print("="*70)
