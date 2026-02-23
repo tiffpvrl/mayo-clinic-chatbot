@@ -246,6 +246,25 @@
       "organization": "USMSTF",
       "drug_name": null,
       "page_number": null,
+      "chunk_index": 11,
+      "total_chunks": 75,
+      "tags": []
+    }
+  },
+  {
+    "id": "guideline_colonoscopy_surveillance_after_colorectal_cancer.17_012",
+    "content": "Kahi  et al. September 30, 2015), the Database of Abstracts of Reviews and \nEff ects (2005 to October 7, 2015), and the Cochrane Database \nof Systematic Reviews (2005 to October 7, 2015). In MEDLINE, subject headings for colorectal neoplasms were combined with the subheading for surgery, resection, postoperative, colectomy, curative, survivor, survival, neoplasm recurrence, second pri-mary neoplasms, and treatment outcome. Th  e resulting set was \ncombined with subject and keywords for colonoscopy or follow- up studies.",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/colonoscopy_surveillance_after_colorectal_cancer.17.pdf",
+      "document_type": "clinical_guideline",
+      "section_title": "METHODOLOGY",
+      "section_hierarchy": [
+        "METHODOLOGY"
+      ],
+      "publication_year": "2016",
+      "organization": "USMSTF",
+      "drug_name": null,
+      "page_number": null,
       "chunk_index": 12,
       "total_chunks": 75,
       "tags": []
@@ -467,6 +486,25 @@
     "content": "and Evaluation Ratings of Evidence \n  Rating of evidence     Deﬁ nition  \n A: High quality  Further research is very unlikely to change our \nconﬁ  dence in the estimate of effect \n B: Moderate quality  Further research is likely to have an important \nimpact on our conﬁ  dence in the estimate of effect \nand may change the estimate \n C: Low quality  Further research is very likely to have an important \nimpact on our conﬁ  dence in the estimate of effect \nand is likely to change the estimate \n D: Very low quality  Any estimate of effect is very uncertain",
     "metadata": {
       "source_file": "src/data_processing/patient_kb/pdf_assets/colonoscopy_surveillance_after_colorectal_cancer.17.pdf",
+      "document_type": "clinical_guideline",
+      "section_title": "Table 1  .     Grading of Recommendations Assessment, Development,",
+      "section_hierarchy": [
+        "Table 1  .     Grading of Recommendations Assessment, Development,"
+      ],
+      "publication_year": "2016",
+      "organization": "USMSTF",
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 23,
+      "total_chunks": 75,
+      "tags": []
+    }
+  },
+  {
+    "id": "guideline_colonoscopy_surveillance_after_colorectal_cancer.17_024",
+    "content": "and Evaluation Ratings of Evidence \n  Rating of evidence     Deﬁ nition  \n A: High quality  Further research is very unlikely to change our \nconﬁ  dence in the estimate of effect \n B: Moderate quality  Further research is likely to have an important \nimpact on our conﬁ  dence in the estimate of effect \nand may change the estimate \n C: Low quality  Further research is very likely to have an important \nimpact on our conﬁ  dence in the estimate of effect \nand is likely to change the estimate \n D: Very low quality  Any estimate of effect is very uncertain",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/colonoscopy_surveillance_after_colorectal_cancer.17.pdf",
       "document_type": "clinical_guideline",
       "section_title": "Table 1  .     Grading of Recommendations Assessment, Development,",
       "section_hierarchy": [
@@ -1977,6 +2015,27 @@
       "organization": null,
       "drug_name": null,
       "page_number": null,
+      "chunk_index": 14,
+      "total_chunks": 37,
+      "tags": [
+        "electrolyte_risk"
+      ]
+    }
+  },
+  {
+    "id": "patient_Preparing for Your Colonoscopy_ Types of Kits & Instructions_0_15",
+    "content": "Hyperphosphatemia and phosphate nephropathy (kidney injury due to\nhigh phosphates).\n\nHypocalcemia (low calcium).\n\nHypomagnesemia (low magnesium).\n\nElevated blood urea nitrogen (BUN).\n\nDehydration.\n\nSeizures.\n\nConditions that put you at risk of these complications include:\nInflammatory bowel disease.2/21/26, 4:07 PM Preparing for Your Colonoscopy: Types of Kits & Instructions",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/Preparing for Your Colonoscopy_ Types of Kits & Instructions.pdf",
+      "document_type": "patient_instructions",
+      "section_title": "Additional Information",
+      "section_hierarchy": [
+        "Additional Information"
+      ],
+      "publication_year": null,
+      "organization": null,
+      "drug_name": null,
+      "page_number": null,
       "chunk_index": 15,
       "total_chunks": 37,
       "tags": [
@@ -2077,6 +2136,27 @@
     "content": "If you think you might have\ndifficulty with this, you might have better luck with:\nA sulfate-free and flavored formula, such as NuLYTELY or TriLyte (PEG),\nfor better taste. less to drink. A sodium phosphate solution (NaP), which is said to be easier to take,\nespecially if it’s in tablet form, such as Visicol and OsmoPrep. But only\nif you don’t have any of the conditions (risk factors) listed above. What is the easiest colonoscopy prep to tolerate?",
     "metadata": {
       "source_file": "src/data_processing/patient_kb/pdf_assets/Preparing for Your Colonoscopy_ Types of Kits & Instructions.pdf",
+      "document_type": "patient_instructions",
+      "section_title": "Additional Information",
+      "section_hierarchy": [
+        "Additional Information"
+      ],
+      "publication_year": null,
+      "organization": null,
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 20,
+      "total_chunks": 37,
+      "tags": [
+        "phosphate_risk"
+      ]
+    }
+  },
+  {
+    "id": "patient_Preparing for Your Colonoscopy_ Types of Kits & Instructions_0_20",
+    "content": "If you think you might have\ndifficulty with this, you might have better luck with:\nA sulfate-free and flavored formula, such as NuLYTELY or TriLyte (PEG),\nfor better taste. less to drink. A sodium phosphate solution (NaP), which is said to be easier to take,\nespecially if it’s in tablet form, such as Visicol and OsmoPrep. But only\nif you don’t have any of the conditions (risk factors) listed above. What is the easiest colonoscopy prep to tolerate?",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/Preparing for Your Colonoscopy_ Types of Kits & Instructions.pdf",
       "document_type": "patient_instructions",
       "section_title": "Additional Information",
       "section_hierarchy": [
@@ -2350,6 +2430,27 @@
     "content": "But when you know what to expect, it doesn’t need to be\nan ordeal.\n\nWith so many different types of bowel pep kits to choose from,\nyour healthcare provider can help you choose the best formula for you.\n\nMedically Reviewed.Last updated on 03/24/2022.2/21/26, 4:07 PM Preparing for Your Colonoscopy: Types of Kits & Instructions",
     "metadata": {
       "source_file": "src/data_processing/patient_kb/pdf_assets/Preparing for Your Colonoscopy_ Types of Kits & Instructions.pdf",
+      "document_type": "patient_instructions",
+      "section_title": "Additional Information",
+      "section_hierarchy": [
+        "Additional Information"
+      ],
+      "publication_year": null,
+      "organization": null,
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 33,
+      "total_chunks": 37,
+      "tags": [
+        "when_to_contact_provider"
+      ]
+    }
+  },
+  {
+    "id": "patient_Preparing for Your Colonoscopy_ Types of Kits & Instructions_0_33",
+    "content": "But when you know what to expect, it doesn’t need to be\nan ordeal.\n\nWith so many different types of bowel pep kits to choose from,\nyour healthcare provider can help you choose the best formula for you.\n\nMedically Reviewed.Last updated on 03/24/2022.2/21/26, 4:07 PM Preparing for Your Colonoscopy: Types of Kits & Instructions",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/Preparing for Your Colonoscopy_ Types of Kits & Instructions.pdf",
       "document_type": "patient_instructions",
       "section_title": "Additional Information",
       "section_hierarchy": [
@@ -2662,6 +2763,8 @@
         "diet",
         "diet_pattern:clear_liquid_multi_day",
         "dosing",
+        "diet_pattern:clear_liquid_multi_day",
+        "diet",
         "timing"
       ]
     }
@@ -2919,6 +3022,28 @@
       "tags": [
         "med_class:antiplatelet",
         "when_to_contact_provider"
+      ]
+    }
+  },
+  {
+    "id": "patient_Colonoscopy Bowel Preparation Using MiraLAX & Gatorade_0_9",
+    "content": "Medications like aspirin, antibiotics or diuretics should be taken with a sip\nof water on the day of the exam.\n\nIf you’re unsure which medications you\ncan continue to take, please get in touch with your healthcare provider.\n\nThree days before your colonoscopy\nStop eating these high-fiber foods three days before your colonoscopy:2/21/26, 4:06 PM Colonoscopy Bowel Preparation Using MiraLAX & Gatorade",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/Colonoscopy Bowel Preparation Using MiraLAX & Gatorade.pdf",
+      "document_type": "patient_instructions",
+      "section_title": "Introduction / General",
+      "section_hierarchy": [
+        "Introduction / General"
+      ],
+      "publication_year": null,
+      "organization": null,
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 9,
+      "total_chunks": 32,
+      "tags": [
+        "when_to_contact_provider",
+        "med_class:antiplatelet"
       ]
     }
   },
@@ -5420,6 +5545,65 @@
       "organization": "Multi-Society",
       "drug_name": null,
       "page_number": null,
+      "chunk_index": 26,
+      "total_chunks": 174,
+      "tags": [
+        "regimen_pattern:same_day",
+        "same_day",
+        "regimen_pattern:split_dose",
+        "dosing",
+        "split_dose"
+      ]
+    }
+  },
+  {
+    "id": "guideline_2025_taskforce_bowelprep_027",
+    "content": "We recommend that individuals undergoing colonoscopy receive both verbal and written patient education instructions for all components of the\ncolonoscopy preparation (strong recommendation, high-quality evidence). We suggest that individuals undergoing colonoscopy receive some form of patient navigation, including telephonic or virtual navigation using\nautomated electronic messaging to improve rates of adequate bowel preparation (weak recommendation, moderate-quality evidence). We recommend limiting dietary modifications to the day before colonoscopy for ambulatory patients at low risk for inadequate bowel preparation\n(strong recommendation, high-quality evidence). We recommend dietary modifications should include the use of low-residue and low-fiber foods or full liquids for the early and midday meals on the\nday before colonoscopy when using a split-dose bowel preparation regimen for ambulatory patients at low risk for inadequate bowel preparation\n(strong recommendation, high-quality evidence). We do not recommend one bowel preparation purgative as superior to others about bowel preparation adequacy for ambulatory patients at low risk\nfor inadequate bowel preparation (strong recommendation, high-quality evidence). We suggest 2 L bowel preparation regimens instead of 4 L regimen preparation (weak recommendation, moderate-quality evidence).We recommend the selection of a bowel preparation regimen that considers the individual ’s medical history, medications, and, when available, the\nadequacy of bowel preparation reported from prior colonoscopies (strong recommendation, moderate-quality evidence). recommendation, high-quality evidence). (strong recommendation, high-quality evidence). We recommend that a same-day regimen is an acceptable alternative to split dosing for individuals undergoing an afternoon colonoscopy (strong\nrecommendation, high-quality evidence). We suggest that a same-day regimen is an inferior alternative to split dosing for individuals undergoing a morning colonoscopy (weak\nrecommendation, low-quality evidence). For individuals using a split-dose regimen for colonoscopy preparation, we recommend the consumption of the second portion begin 4 –6 hr before\nthe time of colonoscopy and be completed at least 2 hr before the procedure start (strong recommendation, moderate-quality evidence). We suggest the adjunctive use of oral simethicone for bowel preparation before colonoscopy (weak recommendation, moderate-quality evidence).We suggest against the routine use of nonsimethicone adjuncts for bowel preparation before colonoscopy (weak recommendation, low-quality\nevidence). When patients report incomplete adherence to the bowel preparation regimen or offer statements suggesting that their bowel preparation may not be\nadequate (e.g., dark bowel effluent), we suggest insertion of the colonoscope to the sigmoid colon to confirm inadequacy before aborting the\nprocedure (weak recommendation, low-quality evidence). We recommend bowel preparation quality be assessed only after all washing and suctioning have been completed, using reliably understood\ndescriptors that communicate the adequacy of the preparation (strong recommendation, moderate-quality evidence). We recommend the term “adequate bowel preparation ”be used to indicate that standard screening or surveillance intervals can be assigned based on\nthe findings of the colonoscopy (strong recommendation, moderate-quality evidence). We suggest the routine use of irrigation pumps to assist with bowel preparation during colonoscopy (weak recommendation, very low-quality\nevidence). We suggest the use of same-day salvage maneuvers when feasible for inadequate bowel preparations (weak recommendation, moderate-quality\nevidence). We recommend routine tracking of the rate of adequate bowel preparations at the level of individual endoscopists and at the level of the endoscopy\nunit (strong recommendation, moderate-quality evidence).",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/2025_taskforce_bowelprep.pdf",
+      "document_type": "clinical_guideline",
+      "section_title": "TABLE 2. Recommendations of the US Multi-Society Task Force on Colorectal Cancer for optimizing bowe",
+      "section_hierarchy": [
+        "TABLE 2. Recommendations of the US Multi-Society Task Force on Colorectal Cancer for optimizing bowe"
+      ],
+      "publication_year": "2025",
+      "organization": "Multi-Society",
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 27,
+      "total_chunks": 174,
+      "tags": [
+        "quality_indicator",
+        "diet",
+        "procedure_time:morning",
+        "regimen_pattern:same_day",
+        "same_day",
+        "volume_type:high",
+        "volume_type:low",
+        "regimen_pattern:split_dose",
+        "adjunct:simethicone",
+        "procedure_time:afternoon",
+        "content_type:table",
+        "dosing",
+        "setting:outpatient",
+        "split_dose"
+      ]
+    }
+  },
+  {
+    "id": "guideline_2025_taskforce_bowelprep_028",
+    "content": "We recommend an endoscopy unit-level and individual endoscopist-level bowel preparation adequacy rate of /C2190% (strong recommendation,\nmoderate-quality evidence).\n\nWhen the bowel preparation is deemed inadequate to allow assigning standard screening or surveillance intervals, we recommend rescheduling a\ncolonoscopy within 12 mo for screening or surveillance colonoscopies, and as soon as possible (i.e.\n\ngenerally within 3 mo) for those performed for anabnormal noncolonoscopic colorectal cancer screening test (strong recommendation, moderate-quality evidence).\n\nIn the setting of a previous inadequate bowel preparation, we recommend modifications to bowel preparation instructions to include 1 or more of the\nfollowing: increased attention to communicating the bowel preparation regimen instructions; increased use of patient navigation; restricting th e\nintake of vegetables and legumes for 2 to 3 d before colonoscopy; allowing only clear liquids on the day before colonoscopy; the addition of\npromotility agents; treatment of underlying constipation; temporary cessation of anticholinergic, opioid, or other constipating medications; a nd/or\nWe recommend individuals at high risk for inadequate bowel preparation quality be managed like individuals with a prior inadequate bowel\npreparation, with modifications to their bowel preparation regimen as previously described (strong recommendation, moderate-quality evidence) .\n\nWe suggest the following bowel preparation regimen for individuals at high risk for inadequate bowel preparation quality: split-dose 4 L polyethyle ne\nglycol-electrolyte lavage solution þ15 mg bisacodyl the afternoon before the colonoscopy and a low-residue diet 3 and 2 d before colonoscopy\nchanging to clear-liquid diet the day before colonoscopy (weak recommendation, low-quality evidence).",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/2025_taskforce_bowelprep.pdf",
+      "document_type": "clinical_guideline",
+      "section_title": "TABLE 2. Recommendations of the US Multi-Society Task Force on Colorectal Cancer for optimizing bowe",
+      "section_hierarchy": [
+        "TABLE 2. Recommendations of the US Multi-Society Task Force on Colorectal Cancer for optimizing bowe"
+      ],
+      "publication_year": "2025",
+      "organization": "Multi-Society",
+      "drug_name": null,
+      "page_number": null,
       "chunk_index": 28,
       "total_chunks": 174,
       "tags": [
@@ -5453,7 +5637,9 @@
       "chunk_index": 29,
       "total_chunks": 174,
       "tags": [
-        "dosing",
+        "timing",
+        "drug_interactions",
+        "regimen_pattern:same_day",
         "same_day",
         "drug_interactions",
         "regimen_pattern:same_day",
@@ -13812,6 +13998,46 @@
     }
   },
   {
+    "id": "patient_Colonoscopy_ Prep & Procedure Details_0_28",
+    "content": "Benign, precancerous or cancerous polyps.2/21/26, 4:07 PM Colonoscopy: Prep & Procedure Details",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/Colonoscopy_ Prep & Procedure Details.pdf",
+      "document_type": "patient_instructions",
+      "section_title": "Additional Information",
+      "section_hierarchy": [
+        "Additional Information"
+      ],
+      "publication_year": null,
+      "organization": null,
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 28,
+      "total_chunks": 39,
+      "tags": []
+    }
+  },
+  {
+    "id": "patient_Colonoscopy_ Prep & Procedure Details_0_29",
+    "content": "Inflammation (colitis) from infection, ischemia or autoimmune disease. Chronic tissue damage, such as scarring. Obstruction or narrowing of your intestine (stenosis). Abnormal pouches in your intestinal lining (diverticulosis). Your doctor will discuss your results with you and what they mean. Additional Common Questions\nVideo content: This video is available to watch online. flavorId/1_5f3sgelj/format/url/protocol/https/a.mp4)\nLearn why you should get a colonoscopy.",
+    "metadata": {
+      "source_file": "patient_kb/pdf_assets/Colonoscopy_ Prep & Procedure Details.pdf",
+      "document_type": "patient_instructions",
+      "section_title": "Additional Information",
+      "section_hierarchy": [
+        "Additional Information"
+      ],
+      "publication_year": null,
+      "organization": null,
+      "drug_name": null,
+      "page_number": null,
+      "chunk_index": 29,
+      "total_chunks": 39,
+      "tags": [
+        "gi_conditions"
+      ]
+    }
+  },
+  {
     "id": "patient_Colonoscopy_ Prep & Procedure Details_0_30",
     "content": "Are there alternative ways of screening for\ncolon cancer? There are several other screening tests for colorectal cancer. Colonoscopy\nis the most sensitive test, meaning it’s the most likely to detect early cancer\nor precancerous conditions. Detecting potential cancer as early as possible\nis important to preventing and treating it effectively. Colonoscopy is also\nthe only screening test for colorectal cancer that’s both diagnostic and\ntherapeutic at the same time.",
     "metadata": {
@@ -16231,8 +16457,8 @@
       "chunk_index": 4,
       "total_chunks": 28,
       "tags": [
-        "transportation",
-        "diet"
+        "diet",
+        "transportation"
       ]
     }
   },
@@ -21445,8 +21671,8 @@
       "chunk_index": 4,
       "total_chunks": 10,
       "tags": [
-        "pediatric",
-        "diet"
+        "diet",
+        "pediatric"
       ]
     }
   },
@@ -21559,8 +21785,8 @@
       "chunk_index": 9,
       "total_chunks": 10,
       "tags": [
-        "diet",
-        "timing"
+        "timing",
+        "diet"
       ]
     }
   },
@@ -21626,8 +21852,8 @@
       "chunk_index": 2,
       "total_chunks": 17,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -22265,6 +22491,7 @@
       "tags": [
         "phosphate_risk",
         "dosing",
+        "phosphate_risk",
         "timing"
       ]
     }
@@ -22543,6 +22770,10 @@
         "diet",
         "dehydration_risk",
         "timing",
+        "diet",
+        "side_effects",
+        "dehydration_risk",
+        "when_to_contact_provider",
         "dosing"
       ]
     }
@@ -22821,6 +23052,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -22891,6 +23123,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -22977,6 +23210,8 @@
       "chunk_index": 5,
       "total_chunks": 13,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -23112,8 +23347,8 @@
       "chunk_index": 11,
       "total_chunks": 13,
       "tags": [
-        "drug_interactions",
-        "timing"
+        "timing",
+        "drug_interactions"
       ]
     }
   },
@@ -23331,8 +23566,8 @@
       "chunk_index": 8,
       "total_chunks": 11,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -23503,6 +23738,8 @@
       "chunk_index": 5,
       "total_chunks": 13,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -23623,6 +23860,8 @@
       "chunk_index": 10,
       "total_chunks": 13,
       "tags": [
+        "dosing",
+        "phenylalanine_content",
         "diet",
         "dehydration_risk",
         "phenylalanine_content",
@@ -23828,8 +24067,8 @@
       "chunk_index": 6,
       "total_chunks": 52,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -24098,6 +24337,8 @@
       "chunk_index": 18,
       "total_chunks": 52,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -25061,8 +25302,8 @@
       "chunk_index": 8,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "dosing"
+        "dosing",
+        "pediatric"
       ]
     }
   },
@@ -25439,8 +25680,8 @@
       "chunk_index": 25,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -25526,6 +25767,7 @@
       "chunk_index": 29,
       "total_chunks": 57,
       "tags": [
+        "renal_disease",
         "dosing",
         "heart_failure",
         "renal_disease"
@@ -25593,8 +25835,8 @@
       "chunk_index": 32,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -25838,8 +26080,8 @@
       "chunk_index": 43,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -25861,8 +26103,8 @@
       "chunk_index": 44,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "dosing"
+        "dosing",
+        "pediatric"
       ]
     }
   },
@@ -26249,6 +26491,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -26298,8 +26541,8 @@
       "chunk_index": 6,
       "total_chunks": 43,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -26795,8 +27038,8 @@
       "chunk_index": 27,
       "total_chunks": 43,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -27028,8 +27271,8 @@
       "total_chunks": 43,
       "tags": [
         "geriatric",
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -27125,6 +27368,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -27195,6 +27439,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -27240,8 +27485,8 @@
       "chunk_index": 3,
       "total_chunks": 26,
       "tags": [
-        "diet",
-        "timing"
+        "timing",
+        "diet"
       ]
     }
   },
@@ -27265,6 +27510,7 @@
       "tags": [
         "volume_type:high",
         "dosing",
+        "volume_type:high",
         "timing"
       ]
     }
@@ -27329,6 +27575,8 @@
       "chunk_index": 7,
       "total_chunks": 26,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -27719,8 +27967,8 @@
       "chunk_index": 24,
       "total_chunks": 26,
       "tags": [
-        "drug_interactions",
-        "timing"
+        "timing",
+        "drug_interactions"
       ]
     }
   },
@@ -27901,8 +28149,8 @@
       "chunk_index": 6,
       "total_chunks": 52,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -28171,6 +28419,8 @@
       "chunk_index": 18,
       "total_chunks": 52,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -29056,6 +29306,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -29105,8 +29356,8 @@
       "chunk_index": 6,
       "total_chunks": 43,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -29602,8 +29853,8 @@
       "chunk_index": 27,
       "total_chunks": 43,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -29835,8 +30086,8 @@
       "total_chunks": 43,
       "tags": [
         "geriatric",
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -29932,6 +30183,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -30067,8 +30319,8 @@
       "chunk_index": 4,
       "total_chunks": 42,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -30265,6 +30517,8 @@
       "chunk_index": 13,
       "total_chunks": 42,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -30880,6 +31134,8 @@
       "chunk_index": 39,
       "total_chunks": 42,
       "tags": [
+        "dosing",
+        "phenylalanine_content",
         "diet",
         "dehydration_risk",
         "phenylalanine_content",
@@ -30997,8 +31253,8 @@
       "chunk_index": 2,
       "total_chunks": 39,
       "tags": [
-        "pediatric",
-        "dosing"
+        "dosing",
+        "pediatric"
       ]
     }
   },
@@ -31069,8 +31325,8 @@
       "chunk_index": 5,
       "total_chunks": 39,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -31822,6 +32078,10 @@
         "diet",
         "dehydration_risk",
         "timing",
+        "diet",
+        "side_effects",
+        "dehydration_risk",
+        "when_to_contact_provider",
         "dosing"
       ]
     }
@@ -31978,8 +32238,8 @@
       "chunk_index": 5,
       "total_chunks": 56,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -32025,8 +32285,8 @@
       "chunk_index": 7,
       "total_chunks": 56,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -32183,6 +32443,8 @@
       "chunk_index": 14,
       "total_chunks": 56,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -33317,8 +33579,8 @@
       "chunk_index": 6,
       "total_chunks": 52,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -33587,6 +33849,8 @@
       "chunk_index": 18,
       "total_chunks": 52,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -34392,8 +34656,8 @@
       "chunk_index": 1,
       "total_chunks": 10,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -34480,8 +34744,8 @@
       "chunk_index": 5,
       "total_chunks": 10,
       "tags": [
-        "diet",
-        "gi_conditions"
+        "gi_conditions",
+        "diet"
       ]
     }
   },
@@ -34547,8 +34811,8 @@
       "total_chunks": 10,
       "tags": [
         "geriatric",
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -34956,8 +35220,8 @@
       "chunk_index": 4,
       "total_chunks": 10,
       "tags": [
-        "pediatric",
-        "diet"
+        "diet",
+        "pediatric"
       ]
     }
   },
@@ -35070,8 +35334,8 @@
       "chunk_index": 9,
       "total_chunks": 10,
       "tags": [
-        "diet",
-        "timing"
+        "timing",
+        "diet"
       ]
     }
   },
@@ -35137,8 +35401,8 @@
       "chunk_index": 2,
       "total_chunks": 17,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -35776,6 +36040,7 @@
       "tags": [
         "phosphate_risk",
         "dosing",
+        "phosphate_risk",
         "timing"
       ]
     }
@@ -36054,6 +36319,10 @@
         "diet",
         "dehydration_risk",
         "timing",
+        "diet",
+        "side_effects",
+        "dehydration_risk",
+        "when_to_contact_provider",
         "dosing"
       ]
     }
@@ -36332,6 +36601,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -36402,6 +36672,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -36488,6 +36759,8 @@
       "chunk_index": 5,
       "total_chunks": 13,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -36623,8 +36896,8 @@
       "chunk_index": 11,
       "total_chunks": 13,
       "tags": [
-        "drug_interactions",
-        "timing"
+        "timing",
+        "drug_interactions"
       ]
     }
   },
@@ -36842,8 +37115,8 @@
       "chunk_index": 8,
       "total_chunks": 11,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -37014,6 +37287,8 @@
       "chunk_index": 5,
       "total_chunks": 13,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -37134,6 +37409,8 @@
       "chunk_index": 10,
       "total_chunks": 13,
       "tags": [
+        "dosing",
+        "phenylalanine_content",
         "diet",
         "dehydration_risk",
         "phenylalanine_content",
@@ -37339,8 +37616,8 @@
       "chunk_index": 6,
       "total_chunks": 52,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -37609,6 +37886,8 @@
       "chunk_index": 18,
       "total_chunks": 52,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -38572,8 +38851,8 @@
       "chunk_index": 8,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "dosing"
+        "dosing",
+        "pediatric"
       ]
     }
   },
@@ -38950,8 +39229,8 @@
       "chunk_index": 25,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -39037,6 +39316,7 @@
       "chunk_index": 29,
       "total_chunks": 57,
       "tags": [
+        "renal_disease",
         "dosing",
         "heart_failure",
         "renal_disease"
@@ -39104,8 +39384,8 @@
       "chunk_index": 32,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -39349,8 +39629,8 @@
       "chunk_index": 43,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -39372,8 +39652,8 @@
       "chunk_index": 44,
       "total_chunks": 57,
       "tags": [
-        "pediatric",
-        "dosing"
+        "dosing",
+        "pediatric"
       ]
     }
   },
@@ -39760,6 +40040,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -39809,8 +40090,8 @@
       "chunk_index": 6,
       "total_chunks": 43,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -40306,8 +40587,8 @@
       "chunk_index": 27,
       "total_chunks": 43,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -40539,8 +40820,8 @@
       "total_chunks": 43,
       "tags": [
         "geriatric",
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -40636,6 +40917,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -40706,6 +40988,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -40751,8 +41034,8 @@
       "chunk_index": 3,
       "total_chunks": 26,
       "tags": [
-        "diet",
-        "timing"
+        "timing",
+        "diet"
       ]
     }
   },
@@ -40776,6 +41059,7 @@
       "tags": [
         "volume_type:high",
         "dosing",
+        "volume_type:high",
         "timing"
       ]
     }
@@ -40840,6 +41124,8 @@
       "chunk_index": 7,
       "total_chunks": 26,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -41230,8 +41516,8 @@
       "chunk_index": 24,
       "total_chunks": 26,
       "tags": [
-        "drug_interactions",
-        "timing"
+        "timing",
+        "drug_interactions"
       ]
     }
   },
@@ -41412,8 +41698,8 @@
       "chunk_index": 6,
       "total_chunks": 52,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -41682,6 +41968,8 @@
       "chunk_index": 18,
       "total_chunks": 52,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -42567,6 +42855,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -42616,8 +42905,8 @@
       "chunk_index": 6,
       "total_chunks": 43,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -43113,8 +43402,8 @@
       "chunk_index": 27,
       "total_chunks": 43,
       "tags": [
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -43346,8 +43635,8 @@
       "total_chunks": 43,
       "tags": [
         "geriatric",
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
@@ -43443,6 +43732,7 @@
         "diet",
         "electrolyte_risk",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -43578,8 +43868,8 @@
       "chunk_index": 4,
       "total_chunks": 42,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -43776,6 +44066,8 @@
       "chunk_index": 13,
       "total_chunks": 42,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -44391,6 +44683,8 @@
       "chunk_index": 39,
       "total_chunks": 42,
       "tags": [
+        "dosing",
+        "phenylalanine_content",
         "diet",
         "dehydration_risk",
         "phenylalanine_content",
@@ -44508,8 +44802,8 @@
       "chunk_index": 2,
       "total_chunks": 39,
       "tags": [
-        "pediatric",
-        "dosing"
+        "dosing",
+        "pediatric"
       ]
     }
   },
@@ -44580,8 +44874,8 @@
       "chunk_index": 5,
       "total_chunks": 39,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -45333,6 +45627,10 @@
         "diet",
         "dehydration_risk",
         "timing",
+        "diet",
+        "side_effects",
+        "dehydration_risk",
+        "when_to_contact_provider",
         "dosing"
       ]
     }
@@ -45489,8 +45787,8 @@
       "chunk_index": 5,
       "total_chunks": 56,
       "tags": [
-        "diet",
         "dosing",
+        "diet",
         "timing"
       ]
     }
@@ -45536,8 +45834,8 @@
       "chunk_index": 7,
       "total_chunks": 56,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -45694,6 +45992,8 @@
       "chunk_index": 14,
       "total_chunks": 56,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -46828,8 +47128,8 @@
       "chunk_index": 6,
       "total_chunks": 52,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -47098,6 +47398,8 @@
       "chunk_index": 18,
       "total_chunks": 52,
       "tags": [
+        "electrolyte_risk",
+        "renal_disease",
         "dosing",
         "seizure_risk",
         "renal_disease",
@@ -47903,8 +48205,8 @@
       "chunk_index": 1,
       "total_chunks": 10,
       "tags": [
-        "diet",
-        "dosing"
+        "dosing",
+        "diet"
       ]
     }
   },
@@ -47991,8 +48293,8 @@
       "chunk_index": 5,
       "total_chunks": 10,
       "tags": [
-        "diet",
-        "gi_conditions"
+        "gi_conditions",
+        "diet"
       ]
     }
   },
@@ -48058,8 +48360,8 @@
       "total_chunks": 10,
       "tags": [
         "geriatric",
-        "pediatric",
-        "side_effects"
+        "side_effects",
+        "pediatric"
       ]
     }
   },
