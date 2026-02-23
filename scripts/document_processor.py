@@ -69,11 +69,46 @@ MEDICATION_CLASSES = {
     "nsaids": ["ibuprofen", "naproxen", "aleve", "naprelan", "naprosyn", "anaprox"],
 }
 
-# Topic tags for filtered retrieval
+# Topic / routing tags for filtered retrieval
+# NOTE: Some tags are simple topics (e.g., "diet"), others act more like facets
+# and are emitted with prefixes at runtime (e.g., "procedure_time:morning").
 TOPIC_TAGS = {
-    "dosing", "timing", "diet", "clear_liquids", "side_effects", "contraindications",
-    "drug_interactions", "medication_management", "split_dose", "same_day",
-    "transportation", "preparation_steps", "what_to_expect", "when_to_contact_provider",
+    # Core topics
+    "dosing",
+    "timing",
+    "diet",
+    "clear_liquids",
+    "side_effects",
+    "contraindications",
+    "drug_interactions",
+    "medication_management",
+    "split_dose",
+    "same_day",
+    "transportation",
+    "preparation_steps",
+    "what_to_expect",
+    "when_to_contact_provider",
+    # Patient risk / history
+    "constipation_history",
+    "prior_poor_prep",
+    "dehydration_risk",
+    "electrolyte_risk",
+    "phenylalanine_content",
+    "phosphate_risk",
+    "seizure_risk",
+    # Procedure / indication context
+    "quality_indicator",
+    "surveillance_interval",
+    "scoring_system",
+    # Faceted families (actual emitted tags may use prefixes, e.g. procedure_time:morning)
+    "procedure_time",
+    "setting",
+    "indication",
+    "regimen_pattern",
+    "diet_pattern",
+    "holds",
+    "diabetes_meds",
+    "adjunct",
 }
 
 
@@ -163,7 +198,7 @@ def tag_content(content: str) -> set[str]:
     tags = set()
     text_lower = content.lower()
 
-    # Medical conditions
+    # Medical conditions / risk profiles
     condition_patterns = [
         (r"\b(renal|kidney|ckd|esrd)\b", "renal_disease"),
         (r"\b(diabete|g6pd|phenylketonuria|pku)\b", "metabolic_conditions"),
@@ -171,6 +206,12 @@ def tag_content(content: str) -> set[str]:
         (r"\b(pregnancy|pregnant|lactation|breastfeed)\b", "pregnancy_lactation"),
         (r"\b(geriatric|elderly|age 60|over 60)\b", "geriatric"),
         (r"\b(pediatric|children|child)\b", "pediatric"),
+        (r"\b(heart failure|congestive heart failure|chf)\b", "heart_failure"),
+        (r"\b(cirrhosis|cirrhotic|liver disease)\b", "cirrhosis"),
+        (r"\b(chronic constipation|constipation)\b", "constipation_history"),
+        (r"\b(previous|prior)\s+(poor|inadequate)\s+(prep|preparation|bowel preparation)\b", "prior_poor_prep"),
+        (r"\b(frail|frailty|limited mobility|walker|wheelchair)\b", "mobility_frailty"),
+        (r"\b(sleep apnea|osa|cpap)\b", "sleep_apnea_obesity"),
     ]
     for pattern, tag in condition_patterns:
         if re.search(pattern, text_lower):
@@ -181,7 +222,7 @@ def tag_content(content: str) -> set[str]:
         if any(drug in text_lower for drug in drug_list):
             tags.add(f"med_class:{med_class}")
 
-    # Topics
+    # Topics / routing facets
     topic_patterns = [
         (r"\b(dosage|dose|dosing)\b", "dosing"),
         (r"\b(timing|when to take|hours before)\b", "timing"),
@@ -193,10 +234,53 @@ def tag_content(content: str) -> set[str]:
         (r"\b(same.?day|same day)\b", "same_day"),
         (r"\b(transport|ride home|driver)\b", "transportation"),
         (r"\b(contact|call|provider|healthcare)\b", "when_to_contact_provider"),
+        # Risk / safety
+        (r"\b(dehydration|dehydrate)\b", "dehydration_risk"),
+        (r"\b(electrolyte|hyponatremia|hypokalemia|hyperphosphatemia)\b", "electrolyte_risk"),
+        (r"\b(phenylalanine|aspartame|pku)\b", "phenylalanine_content"),
+        (r"\b(sodium phosphate|phosphate nephropathy)\b", "phosphate_risk"),
+        (r"\b(seizure|tonic[- ]clonic)\b", "seizure_risk"),
+        # Guideline / quality
+        (r"\b(quality indicator|quality metrics|adequate bowel preparation)\b", "quality_indicator"),
+        (r"\b(Boston Bowel Preparation Scale|BBPS)\b", "scoring_system"),
+        (r"\bsurveillance interval\b", "surveillance_interval"),
+        (r"\b(1[- ]year|3[- ]year|5[- ]year|10[- ]year)\b.*\b(surveillance|follow[- ]?up)\b", "surveillance_interval"),
+        # Procedure context
+        (r"\b(morning colonoscopy|morning appointment)\b", "procedure_time:morning"),
+        (r"\b(afternoon colonoscopy|afternoon appointment)\b", "procedure_time:afternoon"),
+        (r"\b(inpatient)\b", "setting:inpatient"),
+        (r"\b(outpatient|ambulatory)\b", "setting:outpatient"),
+        (r"\b(screening colonoscopy)\b", "indication:screening"),
+        (r"\b(surveillance colonoscopy|post[- ]polypectomy|postpolypectomy|post resection|after colorectal cancer)\b", "indication:surveillance"),
+        (r"\b(diagnostic colonoscopy)\b", "indication:diagnostic"),
+        (r"\b(first colonoscopy|index colonoscopy)\b", "first_colonoscopy"),
+        (r"\b(inflammatory bowel disease|ibd)\b.*\b(surveillance|colonoscopy)\b", "ibd_surveillance"),
+        (r"\b(colorectal cancer resection|after crc resection|post[- ]crc)\b", "surveillance_after_crc"),
+        # Regimen & diet patterns
+        (r"\b(two[- ]day prep|2[- ]day prep|2 day prep)\b", "regimen_pattern:2_day"),
+        (r"\b(clear liquid diet\b|\bclear liquids for 2 days\b)\b", "diet_pattern:clear_liquid_multi_day"),
+        (r"\b(low[- ]residue diet|low[- ]fiber diet)\b", "diet_pattern:low_residue"),
+        (r"\b4\s*(liter|l)\b", "volume_type:high"),
+        (r"\b2\s*(liter|l)\b", "volume_type:low"),
+        # Medication holding & diabetes regimens
+        (r"\b(iron supplement|iron tablet|ferrous)\b", "holds:iron"),
+        (r"\b(nsaid|nonsteroidal anti[- ]inflammatory)\b", "holds:nsaids"),
+        (r"\b(herbal supplement|herbal medicine|ginkgo|ginseng|st\.?\s*john['’]s wort)\b", "holds:herbal_supplements"),
+        (r"\b(insulin)\b", "diabetes_meds:insulin"),
+        (r"\b(metformin|sulfonylurea|glipizide|glyburide|dpp-4|sglt2)\b", "diabetes_meds:oral_agents"),
+        # Adjunctive agents
+        (r"\b(simethicone)\b", "adjunct:simethicone"),
+        (r"\b(ondansetron|zofran|antiemetic)\b", "adjunct:antiemetic"),
     ]
     for pattern, tag in topic_patterns:
         if re.search(pattern, text_lower):
             tags.add(tag)
+
+    # Derived regimen patterns from simpler tags
+    if "split_dose" in tags:
+        tags.add("regimen_pattern:split_dose")
+    if "same_day" in tags:
+        tags.add("regimen_pattern:same_day")
 
     return tags
 
@@ -261,6 +345,21 @@ def chunk_drug_label(
     return chunks
 
 
+def _strip_references_section(content: str) -> str:
+    """
+    Remove the REFERENCES / BIBLIOGRAPHY section from clinical guideline content.
+    Citation lists add noise and can confuse the RAG chatbot.
+    """
+    ref_pattern = re.compile(
+        r"\n\s*(REFERENCES|References|BIBLIOGRAPHY|Bibliography|REFERENCES AND NOTES)\s*\n",
+        re.IGNORECASE,
+    )
+    match = ref_pattern.search(content)
+    if match:
+        return content[: match.start()].rstrip()
+    return content
+
+
 def chunk_clinical_guideline(
     content: str,
     source_path: Path,
@@ -268,7 +367,10 @@ def chunk_clinical_guideline(
     """
     Chunk clinical guidelines by section headers.
     Looks for patterns like INTRODUCTION, METHODS, RECOMMENDATIONS, Table N, etc.
+    Excludes the REFERENCES section to avoid confusing the chatbot.
     """
+    content = _strip_references_section(content)
+
     chunks = []
     doc_type = DocumentType.CLINICAL_GUIDELINE
     year = extract_publication_year(source_path, content)
@@ -280,19 +382,30 @@ def chunk_clinical_guideline(
         re.MULTILINE,
     )
 
-    # Simpler: split on lines that look like headers (ALL CAPS, or "1. Title")
+    # Simpler: split on lines that look like headers (ALL CAPS, or "1. Title", or "Table N")
     lines = content.split("\n")
     current_section_title = "Introduction"
     current_content: list[str] = []
     section_titles: list[str] = []
+    _table_header_re = re.compile(r"^TABLE\s+\d+", re.IGNORECASE)
+
+    def is_table_section(title: str) -> bool:
+        return bool(_table_header_re.match(title.strip()))
 
     def flush_section(title: str, text: str):
         if not text.strip():
             return
-        sub_chunks = _split_long_section(text, max_chars=600)
+        # Keep tables in a single chunk so row/column relationships aren't split
+        if is_table_section(title):
+            max_chars = 4000
+        else:
+            max_chars = 600
+        sub_chunks = _split_long_section(text, max_chars=max_chars)
         for i, sub in enumerate(sub_chunks):
             chunk_id = f"guideline_{source_path.stem}_{len(chunks):03d}"
             tags = tag_content(sub)
+            if is_table_section(title):
+                tags.add("content_type:table")
             meta = ChunkMetadata(
                 source_file=str(source_path),
                 document_type=doc_type,
@@ -307,13 +420,13 @@ def chunk_clinical_guideline(
 
     for line in lines:
         stripped = line.strip()
-        # Header heuristic: ALL CAPS (at least 4 chars), or "1. SECTION NAME"
+        # Header heuristic: ALL CAPS, "1. SECTION NAME", or "Table N" / "TABLE N. Title"
         is_header = (
             len(stripped) >= 4
             and stripped.isupper()
             and len(stripped) < 80
             and not stripped.endswith(".")
-        ) or bool(re.match(r"^\d+\.\s+[A-Z]", stripped))
+        ) or bool(re.match(r"^\d+\.\s+[A-Z]", stripped)) or bool(_table_header_re.match(stripped))
 
         if is_header and current_content:
             flush_section(current_section_title, "\n".join(current_content))
@@ -462,6 +575,38 @@ def _split_long_section(text: str, max_chars: int = 600) -> list[str]:
 # ---------------------------------------------------------------------------
 
 
+def _clean_pdf_page_text(page_text: str) -> str:
+    """
+    Heuristically remove headers, footers, and page numbers from a single PDF page.
+    This targets things like journal headers, URLs, and standalone page numbers.
+    """
+    if not page_text:
+        return ""
+
+    cleaned_lines: list[str] = []
+    for line in page_text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            cleaned_lines.append("")
+            continue
+
+        # Standalone page numbers or simple ranges (e.g., "719" or "719-721")
+        if re.fullmatch(r"\d+(-\d+)?", stripped):
+            continue
+
+        # Common header/footer patterns: URLs, volume/issue, journal names
+        if re.search(r"https?://\S+", stripped) or re.search(r"www\.[\w\.-]+", stripped, re.IGNORECASE):
+            continue
+        if re.search(r"\b(volume|vol\.|no\.|issue)\b", stripped, re.IGNORECASE):
+            continue
+        if re.search(r"\bGASTROINTESTINAL ENDOSCOPY\b", stripped, re.IGNORECASE):
+            continue
+
+        cleaned_lines.append(line)
+
+    return "\n".join(cleaned_lines).strip()
+
+
 def load_pdf_text(path: Path) -> str:
     """Extract text from PDF using PyPDF2 or pypdf."""
     if PdfReader is None:
@@ -469,7 +614,11 @@ def load_pdf_text(path: Path) -> str:
             "PDF processing requires PyPDF2 or pypdf. Install with: pip install PyPDF2"
         )
     reader = PdfReader(str(path))
-    return "\n\n".join(page.extract_text() or "" for page in reader.pages)
+    pages = []
+    for page in reader.pages:
+        raw = page.extract_text() or ""
+        pages.append(_clean_pdf_page_text(raw))
+    return "\n\n".join(p for p in pages if p)
 
 
 def load_drug_label_json(path: Path) -> list[dict]:
