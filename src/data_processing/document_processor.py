@@ -805,8 +805,8 @@ def process_patient_kb(
 if __name__ == "__main__":
     import sys
 
-    kb = Path("patient_kb")
-    out = Path("patient_kb/processed_chunks.json")
+    kb = Path("src/data_processing/patient_kb")
+    out = Path("src/data_processing/patient_kb/processed_chunks/processed_chunks.json")
 
     if len(sys.argv) > 1:
         kb = Path(sys.argv[1])

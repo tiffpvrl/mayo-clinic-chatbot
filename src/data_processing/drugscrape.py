@@ -155,7 +155,7 @@ class BowelPrepDrugDownloader:
         
         return ' '.join(filter(None, text_parts))
     
-    def search_openfda(self, drug_name: str, generic_name: str = None) -> List[Dict]:
+    def search_openfda(self, drug_name: str, generic_name) -> List[Dict]:
         """Search OpenFDA for drug label information"""
         print(f"\nSearching OpenFDA for: {drug_name}")
         
@@ -371,7 +371,7 @@ class BowelPrepDrugDownloader:
 
 if __name__ == "__main__":
     # Initialize downloader
-    downloader = BowelPrepDrugDownloader(output_dir="patient_kb/drug_labels")
+    downloader = BowelPrepDrugDownloader(output_dir="src/data_processing/patient_kb/drug_labels")
     
     # Download all drug information
     all_data = downloader.download_all_drugs()
@@ -381,5 +381,5 @@ if __name__ == "__main__":
     
     print("\n" + "="*70)
     print("Download complete!")
-    print(f"Check the 'patient_kb/drug_labels' directory for all files")
+    print(f"Check the 'src/data_processing/patient_kb/drug_labels' directory for all files")
     print("="*70)
