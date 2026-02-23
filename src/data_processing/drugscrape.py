@@ -155,7 +155,7 @@ class BowelPrepDrugDownloader:
         
         return ' '.join(filter(None, text_parts))
     
-    def search_openfda(self, drug_name: str, generic_name: str = None) -> List[Dict]:
+    def search_openfda(self, drug_name: str, generic_name) -> List[Dict]:
         """Search OpenFDA for drug label information"""
         print(f"\nSearching OpenFDA for: {drug_name}")
         
