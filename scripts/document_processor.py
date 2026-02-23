@@ -667,6 +667,59 @@ def process_document(path: Path, base_dir: Path) -> list[ProcessedChunk]:
     return chunk_clinical_guideline(content, path)
 
 
+def build_processing_summary(chunks: list[ProcessedChunk]) -> dict[str, Any]:
+    """
+    Build a summary dict from processed chunks for reporting and debugging.
+    Matches the structure of processing_summary.json.
+    """
+    if not chunks:
+        return {
+            "total_chunks": 0,
+            "chunks_by_document_type": {},
+            "chunks_by_source_file": {},
+            "chunks_by_drug": {},
+            "tag_frequencies": {},
+            "content_length": {"min": 0, "max": 0, "avg": 0.0},
+            "unique_source_files": 0,
+        }
+
+    by_doc_type: dict[str, int] = {}
+    by_source: dict[str, int] = {}
+    by_drug: dict[str, int] = {}
+    tag_counts: dict[str, int] = {}
+    lengths: list[int] = []
+
+    for c in chunks:
+        dt = c.metadata.document_type.value
+        by_doc_type[dt] = by_doc_type.get(dt, 0) + 1
+
+        source_name = Path(c.metadata.source_file).name
+        by_source[source_name] = by_source.get(source_name, 0) + 1
+
+        if c.metadata.drug_name:
+            by_drug[c.metadata.drug_name] = by_drug.get(c.metadata.drug_name, 0) + 1
+
+        for tag in c.metadata.tags:
+            tag_counts[tag] = tag_counts.get(tag, 0) + 1
+
+        lengths.append(len(c.content))
+
+    n = len(lengths)
+    return {
+        "total_chunks": n,
+        "chunks_by_document_type": dict(sorted(by_doc_type.items())),
+        "chunks_by_source_file": dict(sorted(by_source.items(), key=lambda x: -x[1])),
+        "chunks_by_drug": dict(sorted(by_drug.items(), key=lambda x: -x[1])),
+        "tag_frequencies": dict(sorted(tag_counts.items(), key=lambda x: -x[1])),
+        "content_length": {
+            "min": min(lengths),
+            "max": max(lengths),
+            "avg": round(sum(lengths) / n, 1),
+        },
+        "unique_source_files": len(by_source),
+    }
+
+
 def process_patient_kb(
     kb_dir: Path | str = "patient_kb",
     output_path: Path | str | None = "patient_kb/processed_chunks.json",
@@ -734,6 +787,13 @@ def process_patient_kb(
         ]
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(serializable, f, indent=2, ensure_ascii=False)
+
+        # Write processing summary alongside chunks (same directory)
+        summary_path = output_path.parent / "processing_summary.json"
+        summary = build_processing_summary(all_chunks)
+        with open(summary_path, "w", encoding="utf-8") as f:
+            json.dump(summary, f, indent=2, ensure_ascii=False)
+        print(f"Summary saved to: {summary_path}")
 
     return all_chunks
 
