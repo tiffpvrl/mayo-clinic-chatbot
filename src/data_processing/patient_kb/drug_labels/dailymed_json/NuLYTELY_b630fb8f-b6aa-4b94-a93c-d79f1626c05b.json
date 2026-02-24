@@ -1,0 +1,39 @@
+{
+  "drug_name": "NuLYTELY",
+  "set_id": "b630fb8f-b6aa-4b94-a93c-d79f1626c05b",
+  "source": "DailyMed",
+  "sections": {
+    "special_populations": {
+      "title": "special_populations",
+      "content": "STORAGE: Store at 25°C (77°F); excursions permitted to 15-30°C (59-86°F) [see USP Controlled Room Temperature]. When reconstituted, keep solution refrigerated. Use within 48 hours. Discard unused portion. Distributed by Braintree Laboratories, Inc., Braintree, MA 02185 S 12/08 Relabeling of \"Additional\" label by: Physicians Total Care, Inc. Tulsa, OK     74146"
+    },
+    "indications_and_usage": {
+      "title": "INDICATIONS AND USAGE:\n",
+      "content": "NuLYTELY is indicated for bowel cleansing prior to colonoscopy."
+    },
+    "contraindications": {
+      "title": "CONTRAINDICATIONS:\n",
+      "content": "NuLYTELY is contraindicated in patients known to be hypersensitive to any of the components. NuLYTELY is contraindicated in patients with ileus, gastrointestinal obstruction, gastric retention, bowel perforation, toxic colitis or toxic megacolon."
+    },
+    "warnings_and_precautions": {
+      "title": "WARNINGS:\n",
+      "content": "NuLYTELY Flavor Packs are for use only in combination with the contents of the accompanying 4 liter container. No additional ingredients, e.g. flavorings, should be added to the solution. NuLYTELY should be used with caution in patients with severe ulcerative colitis. Use of NuLYTELY in children younger than 2 years of age should be carefully monitored for occurrence of possible hypoglycemia, as this solution has no caloric substrate. Dehydration has been reported in 1 child and hypokalemia has been reported in 3 children."
+    },
+    "patient_counseling_information": {
+      "title": "patient_counseling_information",
+      "content": "Information for patients: NuLYTELY produces a watery stool which cleanses the bowel before examination. Prepare the solution according to the instructions on the bottle. It is more palatable if chilled. For best results, no solid food should be consumed during the 3 to 4 hour period before drinking the solution, but in no case should solid foods be eaten within 2 hours of taking NuLYTELY. Adults drink 240 mL (8 oz.) every 10 minutes. Continue drinking until the watery stool is clear and free of solid matter. This usually requires at least 3 liters. Any unused portion should be discarded. Pediatric patients (aged 6 months or greater) drink 25 mL/kg/hour. Continue drinking until the watery stool is clear and free of solid matter. Any unused portion should be discarded. Rapid drinking of each portion is better than drinking small amounts continuously. The first bowel movement should occur approximately one hour after the start of NuLYTELY administration. You may experience some abdominal bloating and distention before the bowels start to move. If severe discomfort or distention occur, stop drinking temporarily or drink each portion at longer intervals until these symptoms disappear. Use of NuLYTELY in children younger than 2 years of age should be carefully monitored for occurrence of possible hypoglycemia, as this solution has no caloric substrate. Dehydration has been reported in 1 child and hypokalemia has been reported in 3 children."
+    },
+    "drug_interactions": {
+      "title": "drug_interactions",
+      "content": "Drug Interactions: Oral medication administered within one hour of the start of administration of NuLYTELY may be flushed from the gastrointestinal tract and not absorbed."
+    },
+    "adverse_reactions": {
+      "title": "ADVERSE REACTIONS:\n",
+      "content": "Nausea, abdominal fullness and bloating are the most common adverse reactions (occurring in up to 50% of patients) to administration of NuLYTELY. Abdominal cramps, vomiting and anal irritation occur less frequently. These adverse reactions are transient and subside rapidly. Isolated cases of urticaria, rhinorrhea, dermatitis and (rarely) anaphylactic reaction have been reported which may represent allergic reactions. Published literature contains isolated reports of serious adverse reaction following the administration of PEG-ELS products in patients over 60 years of age. These adverse events include upper GI bleeding from Mallory-Weiss Tear, esophageal perforation, asystole, sudden dyspnea with pulmonary edema, and “butterfly-like” infiltrate on chest X-ray after vomiting and aspirating PEG."
+    },
+    "dosage_and_administration": {
+      "title": "DOSAGE AND ADMINISTRATION:\n",
+      "content": "NuLYTELY is usually administered orally, but may be given via nasogastric tube to patients who are unwilling or unable to drink the solution. Ideally, the patient should fast for approximately three or four hours prior to NuLYTELY administration, but in no case should solid food be given for at least two hours before the solution is given."
+    }
+  }
+}

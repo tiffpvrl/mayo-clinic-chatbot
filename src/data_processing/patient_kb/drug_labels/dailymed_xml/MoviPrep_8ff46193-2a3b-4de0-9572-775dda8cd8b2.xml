@@ -1,0 +1,2317 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="https://www.accessdata.fda.gov/spl/stylesheet/spl.xsl" type="text/xsl"?>
+<document xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 https://www.accessdata.fda.gov/spl/schema/spl.xsd">
+   <id root="1e0ca4a8-3483-40c3-b75f-6ae9cea97652"/>
+   <code code="34391-3" codeSystem="2.16.840.1.113883.6.1" displayName="HUMAN PRESCRIPTION DRUG LABEL"/>
+   <title>These highlights do not include all the information needed to use MOVIPREP safely and effectively. See full prescribing information for MOVIPREP.<br/>
+      <br/>MOVIPREP® (polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid for oral solution)<br/>Initial U.S. Approval: 2006</title>
+   <effectiveTime value="20251031"/>
+   <setId root="8ff46193-2a3b-4de0-9572-775dda8cd8b2"/>
+   <versionNumber value="46"/>
+   <author>
+      <time/>
+      <assignedEntity>
+         <representedOrganization>
+            <id extension="793108036" root="1.3.6.1.4.1.519.1"/>
+            <name>Salix Pharmaceuticals, Inc.</name>
+            <assignedEntity>
+               <assignedOrganization>
+                  <assignedEntity>
+                     <assignedOrganization>
+                        <id extension="239828197" root="1.3.6.1.4.1.519.1"/>
+                        <name>Norgine Limited</name>
+                     </assignedOrganization>
+                     <performance>
+                        <actDefinition>
+                           <code code="C43360" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="MANUFACTURE"/>
+                           <product>
+                              <manufacturedProduct classCode="MANU">
+                                 <manufacturedMaterialKind>
+                                    <code code="65649-201" codeSystem="2.16.840.1.113883.6.69"/>
+                                 </manufacturedMaterialKind>
+                              </manufacturedProduct>
+                           </product>
+                        </actDefinition>
+                     </performance>
+                  </assignedEntity>
+               </assignedOrganization>
+            </assignedEntity>
+         </representedOrganization>
+      </assignedEntity>
+   </author>
+   <component>
+      <structuredBody>
+         <component>
+            <section>
+               <id root="d52ff0b2-b279-4039-8b1d-4787de738b9f"/>
+               <code code="48780-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL product data elements section"/>
+               <effectiveTime value="20251031"/>
+               <subject>
+                  <manufacturedProduct>
+                     <manufacturedProduct>
+                        <code code="65649-201" codeSystem="2.16.840.1.113883.6.69"/>
+                        <name>MoviPrep</name>
+                        <formCode code="C47916" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="KIT"/>
+                        <asEntityWithGeneric>
+                           <genericMedicine>
+                              <name>POLYETHYLENE GLYCOL 3350, SODIUM SULFATE, SODIUM CHLORIDE, POTASSIUM CHLORIDE, ASCORBIC ACID, SODIUM ASCORBATE</name>
+                           </genericMedicine>
+                        </asEntityWithGeneric>
+                        <asContent>
+                           <quantity>
+                              <numerator unit="1" value="1"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="65649-201-75" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43186" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="CONTAINER"/>
+                           </containerPackagedProduct>
+                           <subjectOf>
+                              <marketingAct>
+                                 <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                                 <statusCode code="active"/>
+                                 <effectiveTime>
+                                    <low value="20061001"/>
+                                 </effectiveTime>
+                              </marketingAct>
+                           </subjectOf>
+                           <subjectOf>
+                              <characteristic classCode="OBS">
+                                 <code code="SPLCMBPRDTP" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                                 <value code="C112160" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="Type 0: Not a Combination Product" xsi:type="CE"/>
+                              </characteristic>
+                           </subjectOf>
+                        </asContent>
+                        <asContent>
+                           <quantity>
+                              <numerator unit="1" value="1"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="65649-201-76" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43186" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="CONTAINER"/>
+                           </containerPackagedProduct>
+                           <subjectOf>
+                              <marketingAct>
+                                 <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                                 <statusCode code="active"/>
+                                 <effectiveTime>
+                                    <low value="20061001"/>
+                                 </effectiveTime>
+                              </marketingAct>
+                           </subjectOf>
+                           <subjectOf>
+                              <characteristic classCode="OBS">
+                                 <code code="SPLCMBPRDTP" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                                 <value code="C112160" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="Type 0: Not a Combination Product" xsi:type="CE"/>
+                              </characteristic>
+                           </subjectOf>
+                        </asContent>
+                        <part>
+                           <quantity>
+                              <numerator unit="L" value="2"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <partProduct>
+                              <name>Pouch A</name>
+                              <formCode code="C42986" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="SOLUTION"/>
+                              <asEntityWithGeneric>
+                                 <genericMedicine>
+                                    <name>POLYETHYLENE GLYCOL 3350, SODIUM SULFATE, SODIUM CHLORIDE, POTASSIUM CHLORIDE</name>
+                                 </genericMedicine>
+                              </asEntityWithGeneric>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator unit="g" value="100"/>
+                                    <denominator unit="L" value="1"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POLYETHYLENE GLYCOL 3350</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>POLYETHYLENE GLYCOL 3350</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator unit="g" value="7.5"/>
+                                    <denominator unit="L" value="1"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="0YPR65R21J" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM SULFATE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="36KCS0R750" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>SODIUM SULFATE ANHYDROUS</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator unit="g" value="2.69"/>
+                                    <denominator unit="L" value="1"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="451W47IQ8X" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CHLORIDE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="Q32ZN48698" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>CHLORIDE ION</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator unit="g" value="1.015"/>
+                                    <denominator unit="L" value="1"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="660YQ98I10" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POTASSIUM CHLORIDE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="295O53K152" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>POTASSIUM CATION</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="IACT">
+                                 <ingredientSubstance>
+                                    <code code="Z0H242BBR1" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>ASPARTAME</name>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="IACT">
+                                 <ingredientSubstance>
+                                    <code code="24RS0A988O" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>LEMON</name>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <asContent>
+                                 <quantity>
+                                    <numerator unit="L" value="1"/>
+                                    <denominator value="1"/>
+                                 </quantity>
+                                 <containerPackagedProduct>
+                                    <code/>
+                                    <formCode code="C43200" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="POUCH"/>
+                                 </containerPackagedProduct>
+                                 <subjectOf>
+                                    <characteristic classCode="OBS">
+                                       <code code="SPLCMBPRDTP" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                                       <value code="C112160" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="Type 0: Not a Combination Product" xsi:type="CE"/>
+                                    </characteristic>
+                                 </subjectOf>
+                              </asContent>
+                           </partProduct>
+                           <subjectOf>
+                              <approval>
+                                 <id extension="NDA021881" root="2.16.840.1.113883.3.150"/>
+                                 <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                                 <author>
+                                    <territorialAuthority>
+                                       <territory>
+                                          <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                       </territory>
+                                    </territorialAuthority>
+                                 </author>
+                              </approval>
+                           </subjectOf>
+                           <subjectOf>
+                              <marketingAct>
+                                 <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                                 <statusCode code="active"/>
+                                 <effectiveTime>
+                                    <low value="20061001"/>
+                                 </effectiveTime>
+                              </marketingAct>
+                           </subjectOf>
+                           <consumedIn>
+                              <substanceAdministration>
+                                 <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                              </substanceAdministration>
+                           </consumedIn>
+                        </part>
+                        <part>
+                           <quantity>
+                              <numerator unit="L" value="2"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <partProduct>
+                              <name>Pouch B</name>
+                              <formCode code="C42986" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="SOLUTION"/>
+                              <asEntityWithGeneric>
+                                 <genericMedicine>
+                                    <name>ASCORBIC ACID, SODIUM ASCORBATE</name>
+                                 </genericMedicine>
+                              </asEntityWithGeneric>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator unit="g" value="4.7"/>
+                                    <denominator unit="L" value="1"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="PQ6CK8PD0R" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>ASCORBIC ACID</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="PQ6CK8PD0R" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>ASCORBIC ACID</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIM">
+                                 <quantity>
+                                    <numerator unit="g" value="5.9"/>
+                                    <denominator unit="L" value="1"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="S033EH8359" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM ASCORBATE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="PQ6CK8PD0R" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>ASCORBIC ACID</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="IACT">
+                                 <ingredientSubstance>
+                                    <code code="23OV73Q5G9" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>ACESULFAME POTASSIUM</name>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <asContent>
+                                 <quantity>
+                                    <numerator unit="L" value="1"/>
+                                    <denominator value="1"/>
+                                 </quantity>
+                                 <containerPackagedProduct>
+                                    <code/>
+                                    <formCode code="C43200" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="POUCH"/>
+                                 </containerPackagedProduct>
+                                 <subjectOf>
+                                    <characteristic classCode="OBS">
+                                       <code code="SPLCMBPRDTP" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                                       <value code="C112160" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="Type 0: Not a Combination Product" xsi:type="CE"/>
+                                    </characteristic>
+                                 </subjectOf>
+                              </asContent>
+                           </partProduct>
+                           <subjectOf>
+                              <approval>
+                                 <id extension="NDA021881" root="2.16.840.1.113883.3.150"/>
+                                 <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                                 <author>
+                                    <territorialAuthority>
+                                       <territory>
+                                          <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                       </territory>
+                                    </territorialAuthority>
+                                 </author>
+                              </approval>
+                           </subjectOf>
+                           <subjectOf>
+                              <marketingAct>
+                                 <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                                 <statusCode code="active"/>
+                                 <effectiveTime>
+                                    <low value="20061001"/>
+                                 </effectiveTime>
+                              </marketingAct>
+                           </subjectOf>
+                           <consumedIn>
+                              <substanceAdministration>
+                                 <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                              </substanceAdministration>
+                           </consumedIn>
+                        </part>
+                     </manufacturedProduct>
+                     <subjectOf>
+                        <approval>
+                           <id extension="NDA021881" root="2.16.840.1.113883.3.150"/>
+                           <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                           <author>
+                              <territorialAuthority>
+                                 <territory>
+                                    <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                 </territory>
+                              </territorialAuthority>
+                           </author>
+                        </approval>
+                     </subjectOf>
+                     <subjectOf>
+                        <marketingAct>
+                           <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <statusCode code="active"/>
+                           <effectiveTime>
+                              <low value="20061001"/>
+                           </effectiveTime>
+                        </marketingAct>
+                     </subjectOf>
+                  </manufacturedProduct>
+               </subject>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_0a32b14b-8ff4-4983-ba2d-2384e8fc4827">
+               <id root="77419528-578f-4257-969b-7c8020181d25"/>
+               <code code="34067-9" codeSystem="2.16.840.1.113883.6.1" displayName="INDICATIONS &amp; USAGE SECTION"/>
+               <title>1 INDICATIONS AND USAGE</title>
+               <text>
+                  <paragraph>MoviPrep® is an osmotic laxative indicated for cleansing of the colon as a preparation for colonoscopy in adults.</paragraph>
+               </text>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <paragraph>MoviPrep is an osmotic laxative indicated for cleansing of the colon as a preparation for colonoscopy in adults. (<linkHtml href="#LINK_0a32b14b-8ff4-4983-ba2d-2384e8fc4827">1</linkHtml>)</paragraph>
+                     </text>
+                  </highlight>
+               </excerpt>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">
+               <id root="999e41b0-38bb-42c6-90a0-8a1707ded197"/>
+               <code code="34068-7" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE &amp; ADMINISTRATION SECTION"/>
+               <title>2 DOSAGE AND ADMINISTRATION</title>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <paragraph>
+                           <content styleCode="underline">Preparation and Administration:</content>
+                        </paragraph>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>Two doses of MoviPrep are required for a complete preparation for colonoscopy, using a “Two-Day” preferred method or “One-Day” alternative method dosing regimen. (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>MoviPrep must be reconstituted in water prior to ingestion. (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Additional clear liquids must be consumed after each dose of MoviPrep in both dosing regimens. (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>, <linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Do not take other laxatives while taking MoviPrep. (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>, <linkHtml href="#LINK_5000b334-e723-4bc5-a761-7ddba73fee00">5.5</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Do not take oral medications within 1 hour of starting each dose. (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>)</item>
+                        </list>
+                        <paragraph>
+                           <content styleCode="underline">Dosing Regimen:</content>
+                        </paragraph>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="italics">Two-Day (Split-Dose) (Preferred Method): </content>Dose 1 the evening before the colonoscopy, and Dose 2 the morning of the colonoscopy (approximately 12 hours after the start of Dose 1, and at least 3 ½ hours prior to the colonoscopy). (<linkHtml href="#ID_e328a85d-ccab-42ed-894f-41d6dfee98d6">2.2</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="italics">One-Day (Evening Only) (Alternative Method)</content>: Dose 1 at least 3 ½ hours prior to bedtime the evening before the colonoscopy and Dose 2 approximately 1 ½ hours after starting Dose 1 the evening before the colonoscopy. (<linkHtml href="#ID_89b6bfd8-2d6f-47ce-bac4-284d157f7885">2.3</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>For complete information on dosing, preparation and administration see full prescribing information (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>, <linkHtml href="#ID_e328a85d-ccab-42ed-894f-41d6dfee98d6">2.2</linkHtml>, <linkHtml href="#ID_89b6bfd8-2d6f-47ce-bac4-284d157f7885">2.3</linkHtml>)</item>
+                        </list>
+                     </text>
+                  </highlight>
+               </excerpt>
+               <component>
+                  <section ID="ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">
+                     <id root="f8c55b12-405e-4805-a6bd-363b3eea4c35"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>2.1 Important Preparation and Administration Instructions</title>
+                     <text>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>Correct fluid and electrolyte abnormalities before treatment with MoviPrep <content styleCode="italics">[see <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (<linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>)].</content>
+                           </item>
+                           <item>
+                              <caption>•</caption>Two doses of MoviPrep are required for a complete preparation for colonoscopy. The time interval between the two doses depends on the regimen prescribed and the planned timing of the colonoscopy procedure. <content styleCode="italics">[see <linkHtml href="#LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">Dosage and Administration</linkHtml> (<linkHtml href="#ID_e328a85d-ccab-42ed-894f-41d6dfee98d6">2.2</linkHtml>, <linkHtml href="#ID_89b6bfd8-2d6f-47ce-bac4-284d157f7885">2.3</linkHtml>
+                              </content>)<content styleCode="italics">]</content>.</item>
+                           <item>
+                              <caption>•</caption>The “Split-Dose” is the preferred method and consists of two separate doses: the first dose is taken the evening before the colonoscopy, and the second dose is taken the next day, the morning of the day of the colonoscopy <content styleCode="italics">[see <linkHtml href="#LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">Dosage and Administration</linkHtml> (<linkHtml href="#ID_e328a85d-ccab-42ed-894f-41d6dfee98d6">2.2</linkHtml>)].</content>
+                           </item>
+                           <item>
+                              <caption>•</caption>The “Evening Only” is the alternative method and consists of two separate doses: both doses are taken in the evening before the day of the colonoscopy, with a minimum of 1.5 hours between the start of the first dose and the start of the second dose <content styleCode="italics">[see <linkHtml href="#LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">Dosage and Administration</linkHtml> (<linkHtml href="#ID_89b6bfd8-2d6f-47ce-bac4-284d157f7885">2.3</linkHtml>)].</content>
+                           </item>
+                           <item>
+                              <caption>•</caption>Both MoviPrep dosing regimens require administration of MoviPrep using the mixing container provided to reconstitute the contents of Pouch A and B with water to the Fill Line. Do not reconstitute with other liquids and/or add starch-based thickeners to the mixing container <content styleCode="italics">[see <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (5.7)].</content>
+                           </item>
+                           <item>
+                              <caption>•</caption>Additional clear liquids (including water) must be consumed in both dosing regimens <content styleCode="italics">[see <linkHtml href="#LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">Dosage and Administration</linkHtml> (<linkHtml href="#ID_e328a85d-ccab-42ed-894f-41d6dfee98d6">2.2</linkHtml>, <linkHtml href="#ID_89b6bfd8-2d6f-47ce-bac4-284d157f7885">2.3</linkHtml>), <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (<linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>)]</content>.</item>
+                           <item>
+                              <caption>•</caption>Consume only clear liquids (no solid food) from the start of MoviPrep treatment until after the colonoscopy.</item>
+                           <item>
+                              <caption>•</caption>Do not eat or drink alcohol, milk, anything colored red or purple or any other foods containing pulp material.</item>
+                           <item>
+                              <caption>•</caption>Do not take other laxatives while taking MoviPrep <content styleCode="italics">[see <linkHtml href="#LINK_4708c1ca-3187-4192-b153-d2e3a3cd07a1">Drug Interactions</linkHtml> (<linkHtml href="#ID_22c42072-1b18-40ff-8325-685d1770546e">7.3</linkHtml>)]</content>.</item>
+                           <item>
+                              <caption>•</caption>Do not take oral medications within 1 hour before or after starting each dose of MoviPrep <content styleCode="italics">[see <linkHtml href="#LINK_4708c1ca-3187-4192-b153-d2e3a3cd07a1">Drug Interactions</linkHtml> (<linkHtml href="#LINK_9988ce78-afd0-4759-b6b7-a88ed2bda197">7.2</linkHtml>)].</content>
+                           </item>
+                           <item>
+                              <caption>•</caption>Ensure completion of Dose 2, including all additional liquids, at least 2 hours before the colonoscopy.</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Storage</content>: After reconstitution, store MoviPrep solution in an upright position and keep refrigerated. Use within 24 hours after it is mixed in water.</item>
+                        </list>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="ID_e328a85d-ccab-42ed-894f-41d6dfee98d6">
+                     <id root="0ecf3e4e-1b11-4720-999c-7bdb147b89c4"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>2.2 Two-Day Split-Dosing Regimen (Preferred Method) </title>
+                     <text>
+                        <paragraph>The Two-Day Split-Dosing regimen is the preferred dosing method.</paragraph>
+                        <paragraph>Instruct adult patients that on the day before the clinical procedure, they can consume breakfast, followed by a light lunch (no solid foods), and clear soup and/or plain yogurt for dinner, which must be completed at least 1 hour prior to the start of the first MoviPrep dose.</paragraph>
+                        <paragraph>Instruct adult patients to take two separate doses in conjunction with fluids as follows:</paragraph>
+                        <paragraph>
+                           <content styleCode="underline">Dose 1 – In the evening before the colonoscopy, approximately 10 to 12 hours before Dose 2:</content>
+                        </paragraph>
+                        <list listType="ordered">
+                           <item>
+                              <caption>1.</caption>Empty the contents of 1 Pouch A and 1 Pouch B into the mixing container that comes with MoviPrep.</item>
+                           <item>
+                              <caption>2.</caption>Add lukewarm water to the Fill Line on the mixing container (32 fluid ounces). Do not add other ingredients to the MoviPrep solution.</item>
+                           <item>
+                              <caption>3.</caption>Thoroughly mix with a spoon or shake with lid on securely until the contents of Pouch A and B are completely dissolved.</item>
+                           <item>
+                              <caption>4.</caption>Drink 8 ounces of the solution every 15 minutes. This should take about 1 hour. Be sure to drink all the solution.</item>
+                           <item>
+                              <caption>5.</caption>Refill the mixing container halfway to the Fill Line (at least 16 ounces) with a clear liquid and drink all this liquid before going to bed.</item>
+                        </list>
+                        <paragraph>
+                           <content styleCode="underline">Dose 2 – Take next morning, on the day of the colonoscopy, approximately 12 hours after the start of Dose 1 and at least 3 ½ hours prior to colonoscopy:</content>
+                        </paragraph>
+                        <list listType="ordered">
+                           <item>
+                              <caption>1.</caption>Empty the contents of 1 Pouch A and 1 Pouch B into the mixing container that comes with MoviPrep.</item>
+                           <item>
+                              <caption>2.</caption>Add lukewarm water to the Fill Line on the mixing container (32 fluid ounces).  Do not add other ingredients to the MoviPrep solution.</item>
+                           <item>
+                              <caption>3.</caption>Thoroughly mix with a spoon or shake with lid on securely until the contents of Pouch A and B are completely dissolved.</item>
+                           <item>
+                              <caption>4.</caption>Drink 8 ounces of the solution every 15 minutes. This should take about 1 hour.  Be sure to drink all of the solution.</item>
+                           <item>
+                              <caption>5.</caption>Refill the mixing container halfway to the Fill Line (at least 16 ounces) with a clear liquid and drink all this liquid at least 2 hours before the colonoscopy.</item>
+                           <item>
+                              <caption>6.</caption>Consume additional water or clear liquids up to 2 hours before the colonoscopy or as prescribed by your healthcare provider. <content styleCode="italics">
+                                 <content styleCode="underline">Then stop drinking liquids until after the colonoscopy.</content>
+                              </content>
+                           </item>
+                           <item>
+                              <caption> </caption>Stop drinking MoviPrep temporarily or drink each portion at longer intervals if severe bloating, abdominal discomfort or distention occurs, until these symptoms resolve.</item>
+                        </list>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="ID_89b6bfd8-2d6f-47ce-bac4-284d157f7885">
+                     <id root="45ef7e71-36d6-4161-bf1f-54624254b76a"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>2.3 One-Day Evening Only Dosing Regimen (Alternative Method) </title>
+                     <text>
+                        <paragraph>The One-Day Evening Only regimen is the alternative dosing method for patients for whom the Split-Dosing regimen is inappropriate.</paragraph>
+                        <paragraph>Instruct adult patients that on the day before the clinical procedure, they can consume breakfast, followed by a light lunch (no solid foods), and clear soup and/or plain yogurt for dinner, which must be completed at least 1 hour prior to the start of the first MoviPrep dose.</paragraph>
+                        <paragraph>Instruct adult patients to take two separate doses in conjunction with fluids as follows:</paragraph>
+                        <paragraph>
+                           <content styleCode="underline">Dose 1 – At least 3 ½ hours before bedtime the evening before the colonoscopy</content>:</paragraph>
+                        <list listType="ordered">
+                           <item>
+                              <caption>1.</caption>Empty the contents of 1 Pouch A and 1 Pouch B into the mixing container that comes with MoviPrep.</item>
+                           <item>
+                              <caption>2.</caption>Add lukewarm water to the Fill Line on the mixing container (32 fluid ounces). Do not add other ingredients to the MoviPrep solution.</item>
+                           <item>
+                              <caption>3.</caption>Thoroughly mix with a spoon or shake with lid on securely until the contents of Pouch A and B are completely dissolved.</item>
+                           <item>
+                              <caption>4.</caption>Drink 8 ounces of the solution every 15 minutes. This should take about 1 hour.  Be sure to drink all the solution.</item>
+                        </list>
+                        <paragraph>
+                           <content styleCode="underline">Dose 2 – At least 1 ½ hours after starting Dose 1 on the evening before the colonoscopy</content>:</paragraph>
+                        <list listType="ordered">
+                           <item>
+                              <caption>1.</caption>Empty the contents of 1 Pouch A and 1 Pouch B into the mixing container that comes with MoviPrep.</item>
+                           <item>
+                              <caption>2.</caption>Add lukewarm water to the Fill Line on the mixing container (32 fluid ounces). Do not add other ingredients to the MoviPrep solution.</item>
+                           <item>
+                              <caption>3.</caption>Thoroughly mix with a spoon or shake with lid on securely until the contents of Pouch A and B are completely dissolved.</item>
+                           <item>
+                              <caption>4.</caption>Drink 8 ounces of the solution every 15 minutes. This should take about 1 hour.  Be sure to drink all of the solution.</item>
+                           <item>
+                              <caption>5.</caption>Refill the mixing container to the Fill Line (32 fluid ounces) with a clear liquid and drink all this liquid before going to bed.</item>
+                           <item>
+                              <caption>6.</caption>Consume additional water or clear liquids up to 2 hours before the colonoscopy or as prescribed by your healthcare provider. <content styleCode="italics">
+                                 <content styleCode="underline">Then stop drinking liquids until after the colonoscopy.</content>
+                              </content>
+                           </item>
+                           <item>
+                              <caption> </caption>Stop drinking MoviPrep temporarily or drink each portion at longer intervals if severe bloating, abdominal discomfort or distention occurs, until these symptoms resolve.</item>
+                        </list>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_f938473b-868c-48e3-ad03-cbb630bd85dc">
+               <id root="9dfde0e1-d512-40da-8642-e62c0a6795cb"/>
+               <code code="43678-2" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE FORMS &amp; STRENGTHS SECTION"/>
+               <title>3 DOSAGE FORMS AND STRENGTHS</title>
+               <text>
+                  <paragraph>MoviPrep is supplied as a white to yellow powder for reconstitution and is available in a carton that contains 2 pouches labeled Pouch A and 2 pouches labeled Pouch B.</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>Each Pouch A contains 100 grams of polyethylene glycol (PEG) 3350, 7.5 grams of sodium sulfate, 2.691 grams of sodium chloride, and 1.015 grams of potassium chloride.  Pouch A contains lemon flavoring <content styleCode="italics">[<linkHtml href="#LINK_3609aa33-59d5-4faa-92cb-a14143c437fb">see Description (11)</linkHtml>].</content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Each Pouch B contains 4.7 grams of ascorbic acid and 5.9 grams of sodium ascorbate.</item>
+                  </list>
+               </text>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <paragraph>For Oral Solution: 2 pouches labeled Pouch A and 2 pouches labeled Pouch B. (<linkHtml href="#LINK_f938473b-868c-48e3-ad03-cbb630bd85dc">3</linkHtml>)</paragraph>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>Each Pouch A contains 100 grams of polyethylene glycol (PEG) 3350, 7.5 grams of sodium sulfate, 2.691 grams of sodium chloride, and 1.015 grams of potassium chloride. Pouch A contains lemon flavoring. (<linkHtml href="#LINK_f938473b-868c-48e3-ad03-cbb630bd85dc">3</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Each Pouch B contains 4.7 grams of ascorbic acid and 5.9 grams of sodium ascorbate. (<linkHtml href="#LINK_f938473b-868c-48e3-ad03-cbb630bd85dc">3</linkHtml>)</item>
+                        </list>
+                     </text>
+                  </highlight>
+               </excerpt>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">
+               <id root="8ea9423f-7548-4024-a934-ff21e07af83f"/>
+               <code code="34070-3" codeSystem="2.16.840.1.113883.6.1" displayName="CONTRAINDICATIONS SECTION"/>
+               <title>4 CONTRAINDICATIONS</title>
+               <text>
+                  <paragraph>MoviPrep is contraindicated in the following conditions:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>Gastrointestinal (GI) obstruction <content styleCode="italics">[see <linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">Warnings and Precautions (5.6)</linkHtml>]</content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Bowel perforation <content styleCode="italics">[see <linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">Warnings and Precautions (5.6)</linkHtml>]</content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Gastric retention</item>
+                     <item>
+                        <caption>•</caption>Ileus</item>
+                     <item>
+                        <caption>•</caption>Toxic colitis or toxic megacolon</item>
+                     <item>
+                        <caption>•</caption>Hypersensitivity to any ingredient in MoviPrep <content styleCode="italics">[see <linkHtml href="#ID_2c32d27f-b541-472b-a5fa-59b6b38131a8">Warnings and Precautions (5.10)</linkHtml> and <linkHtml href="#LINK_3609aa33-59d5-4faa-92cb-a14143c437fb">Description (11)</linkHtml>]</content>
+                     </item>
+                  </list>
+               </text>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>Gastrointestinal (GI) obstruction (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>, <linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">5.6</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Bowel perforation (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>, <linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">5.6</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Gastric retention (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Ileus (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Toxic colitis or toxic megacolon (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>Hypersensitivity to any ingredient in MoviPrep (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>, <linkHtml href="#ID_2c32d27f-b541-472b-a5fa-59b6b38131a8">5.10</linkHtml>)</item>
+                        </list>
+                     </text>
+                  </highlight>
+               </excerpt>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">
+               <id root="dd0f167a-7f2d-47c7-8b91-3644d84ef36b"/>
+               <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+               <title>5 WARNINGS AND PRECAUTIONS</title>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Risk of fluid and electrolyte abnormalities:</content> Encourage adequate hydration, assess concurrent medications, and consider laboratory assessments prior to and after use. (<linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>, <linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Cardiac arrhythmias:</content> Consider pre-dose and post-colonoscopy ECGs in patients at increased risk. (<linkHtml href="#LINK_f54a421c-f5d1-4264-83af-f450327f1144">5.2</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Seizures</content>: Use caution in patients with a history of seizures and patients at increased risk of seizure, including medications that lower the seizure threshold. (<linkHtml href="#LINK_f50cee28-8278-4b55-85dc-ee930f4eaa7e">5.3</linkHtml>, <linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Patients with renal impairment or taking concomitant medications that affect renal function:</content> Use caution, ensure adequate hydration and consider laboratory testing. (<linkHtml href="#LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">5.4</linkHtml>, <linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>, <linkHtml href="#ID_3218e1d4-8187-4258-a4d2-8b206790e453">8.6</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Colonic mucosal ulcerations</content>: Consider potential for ulcerations when interpreting colonoscopy findings in patients with known or suspected inflammatory bowel disease. (<linkHtml href="#LINK_5000b334-e723-4bc5-a761-7ddba73fee00">5.5</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Suspected GI obstruction or perforation</content>: Rule out the diagnosis before administration. (<linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">5.6</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Patients at risk for aspiration:</content> Observe during administration. (<linkHtml href="#LINK_ea4da79f-ef17-44fc-994c-0c302dd83b9c">5.7</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Glucose-6-phosphate dehydrogenase deficiency (G-6-PD)</content>: Use with caution. (<linkHtml href="#LINK_b8afd528-37b8-4881-9956-c4cdb80da33c">5.8</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Risks in patients with phenylketonuria</content>: Contains phenylalanine (<linkHtml href="#LINK_6c894a44-2159-468f-8ef7-f94f9d36d873">5.9</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>
+                              <content styleCode="underline">Hypersensitivity reactions, including anaphylaxis</content>: Inform patients to seek immediate medical care if symptoms occur. (<linkHtml href="#ID_2c32d27f-b541-472b-a5fa-59b6b38131a8">5.10</linkHtml>)</item>
+                        </list>
+                     </text>
+                  </highlight>
+               </excerpt>
+               <component>
+                  <section ID="LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">
+                     <id root="2a1f980e-25ff-40bc-a549-8c960eb4fed7"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.1 Serious Fluid and Electrolyte Abnormalities</title>
+                     <text>
+                        <paragraph>Advise patients to hydrate adequately before, during, and after the use of MoviPrep. If a patient develops significant vomiting or signs of dehydration after taking MoviPrep, consider performing post-colonoscopy lab tests (electrolytes, creatinine, and BUN).</paragraph>
+                        <paragraph>Bowel preparations can cause fluid and electrolyte disturbances, which can lead to serious adverse reactions including cardiac arrhythmias, seizures, and renal impairment <content styleCode="italics">[see <linkHtml href="#LINK_d8262298-644b-449a-96d9-9f475fa919ec">Adverse Reactions</linkHtml> (<linkHtml href="#LINK_ca0beb77-dca4-4a69-a641-c15a34319d03">6.2</linkHtml>)]</content>. Correct fluid and electrolyte abnormalities before treatment with MoviPrep. MoviPrep should be used with caution in patients using concomitant medications that increase the risk of electrolyte abnormalities [such as diuretics, angiotensin converting enzyme (ACE) inhibitors or angiotensin receptor blockers (ARBs)] or in patients with known or suspected hyponatremia. Consider performing pre-dose and post-colonoscopy laboratory tests (sodium, potassium, calcium, creatinine, and BUN) in these patients <content styleCode="italics">[see <linkHtml href="#LINK_4708c1ca-3187-4192-b153-d2e3a3cd07a1">Drug Interactions</linkHtml> (<linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>)].</content>
+                        </paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_f54a421c-f5d1-4264-83af-f450327f1144">
+                     <id root="ba498d4a-ae49-4339-9b8b-3f733ee3c167"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.2 Cardiac Arrhythmias</title>
+                     <text>
+                        <paragraph>There have been rare reports of serious arrhythmias (including atrial fibrillation) associated with the use of ionic osmotic laxative products for bowel preparation. These occur predominantly in patients with underlying cardiac risk factors and electrolyte disturbances. Use caution when prescribing MoviPrep for patients at increased risk of arrhythmias (e.g., patients with a history of prolonged QT, uncontrolled arrhythmias, recent myocardial infarction, unstable angina, congestive heart failure, cardiomyopathy, or electrolyte imbalance). Consider pre-dose and post-colonoscopy ECGs in patients at increased risk of serious cardiac arrhythmias.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_f50cee28-8278-4b55-85dc-ee930f4eaa7e">
+                     <id root="bd02c67b-f85e-40fe-a39a-3b0d1c999e6d"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.3 Seizures</title>
+                     <text>
+                        <paragraph>There have been rare reports of generalized tonic-clonic seizures and/or loss of consciousness associated with use of bowel preparation products in patients with no prior history of seizures. The seizure cases were associated with electrolyte abnormalities (e.g., hyponatremia, hypokalemia, hypocalcemia, and hypomagnesemia) and low serum osmolality. The neurologic abnormalities resolved with correction of fluid and electrolyte abnormalities.</paragraph>
+                        <paragraph>Use caution when prescribing MoviPrep for patients with a history of seizures and in patients at increased risk of seizure, such as patients taking medications that lower the seizure threshold (e.g., tricyclic antidepressants), patients withdrawing from alcohol or benzodiazepines, or patients with known or suspected hyponatremia <content styleCode="italics">[see <linkHtml href="#LINK_4708c1ca-3187-4192-b153-d2e3a3cd07a1">Drug Interactions</linkHtml> (<linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>)].</content>
+                        </paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">
+                     <id root="1d2ca7eb-f0c4-4f56-bf6a-7b20821ecd3f"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.4 Use in Patients with Renal Impairment</title>
+                     <text>
+                        <paragraph>Use MoviPrep with caution in patients with renal impairment or patients taking concomitant medications that affect renal function (such as diuretics, ACE inhibitors, angiotensin receptor blockers, or nonsteroidal anti-inflammatory drugs) <content styleCode="italics">[see <linkHtml href="#LINK_4708c1ca-3187-4192-b153-d2e3a3cd07a1">Drug Interactions</linkHtml> (<linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>)].</content> These patients may be at risk for renal injury. Advise these patients of the importance of adequate hydration before, during, and after use of MoviPrep, and consider performing pre-dose and post-colonoscopy laboratory tests (electrolytes, creatinine, and BUN) in these patients <content styleCode="italics">[see <linkHtml href="#LINK_71c19183-3a2c-4ac5-a8e0-b777cccb52e1">Use in Specific Populations</linkHtml> (<linkHtml href="#ID_3218e1d4-8187-4258-a4d2-8b206790e453">8.6</linkHtml>)].</content>
+                        </paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_5000b334-e723-4bc5-a761-7ddba73fee00">
+                     <id root="f3213674-0147-4706-ae1d-a828b3c5db8d"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.5 Colonic Mucosal Ulceration, Ischemic Colitis and Ulcerative Colitis</title>
+                     <text>
+                        <paragraph>Osmotic laxatives may produce colonic mucosal aphthous ulcerations, and there have been reports of more serious cases of ischemic colitis requiring hospitalization. Concurrent use of stimulant laxatives and MoviPrep may increase the risk of mucosal ulceration or ischemic colitis and is not recommended. Consider the potential for mucosal ulcerations resulting from the bowel preparation when interpreting colonoscopy findings in patients with known or suspected inflammatory bowel disease.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">
+                     <id root="d201f1f0-4f4d-42b2-b622-ec3b75016d96"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.6 Use in Patients with Significant Gastrointestinal Disease</title>
+                     <text>
+                        <paragraph>If gastrointestinal obstruction or perforation is suspected, perform appropriate diagnostic studies to rule out these conditions before administering MoviPrep <content styleCode="italics">[see <linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">Contraindications</linkHtml> (<linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">4</linkHtml>)]</content>.</paragraph>
+                        <paragraph>Use with caution in patients with severe ulcerative colitis.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_ea4da79f-ef17-44fc-994c-0c302dd83b9c">
+                     <id root="cd1e8484-dfba-4be1-bec1-c366bb72ad5c"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.7 Aspiration</title>
+                     <text>
+                        <paragraph>Patients with impaired gag reflex or other swallowing abnormalities are at risk for regurgitation or aspiration of MoviPrep. Observe these patients during the administration of MoviPrep. Use with caution in these patients.</paragraph>
+                        <paragraph>Do not combine MoviPrep with starch-based thickeners <content styleCode="italics">[see <linkHtml href="#LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">Dosage and Administration</linkHtml> (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>)]</content>. Polyethylene glycol (PEG), a component of MoviPrep, when mixed with starch-thickened liquids reduces the viscosity of the starch-thickened liquid. When a PEG-based product used for another indication was mixed in starch-based pre-thickened liquids used in patients with dysphagia, thinning of the liquid occurred and cases of choking and potential aspiration were reported.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_b8afd528-37b8-4881-9956-c4cdb80da33c">
+                     <id root="2c1cbadc-6448-4757-a34a-9574b432ed6a"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.8 Glucose-6-Phosphate Dehydrogenase (G6PD) Deficiency</title>
+                     <text>
+                        <paragraph>Since MoviPrep contains sodium ascorbate and ascorbic acid, MoviPrep should be used with caution in patients with glucose-6-phosphate dehydrogenase (G6PD) deficiency, especially G6PD deficiency patients with an active infection, with a history of hemolysis, or taking concomitant medications known to precipitate hemolytic reactions.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_6c894a44-2159-468f-8ef7-f94f9d36d873">
+                     <id root="5e66237f-61d7-4df6-8d38-c2dad54b1e4a"/>
+                     <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+                     <title>5.9 Risks in Patients with Phenylketonuria</title>
+                     <text>
+                        <paragraph>Phenylalanine can be harmful to patients with phenylketonuria (PKU). MoviPrep contains phenylalanine, a component of aspartame. Each MoviPrep treatment contains 131 mg of phenylalanine (after hydrolysis of the aspartame molecule <content styleCode="italics">in vivo </content>to aspartic acid and phenylalanine). Before prescribing MoviPrep to a patient with PKU, consider the combined daily amount of phenylalanine from all sources, including MoviPrep.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="ID_2c32d27f-b541-472b-a5fa-59b6b38131a8">
+                     <id root="b38411b5-8f27-45c1-b340-d7b801bb1bc4"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>5.10 Hypersensitivity Reactions</title>
+                     <text>
+                        <paragraph>MoviPrep contains polyethylene glycol (PEG) and lemon flavoring (containing citral, lime oil, maltodextrin, acacia gum, vitamin E, and other natural flavoring agents) and may cause serious hypersensitivity reactions including anaphylaxis, angioedema, rash, urticaria, and pruritus <content styleCode="italics">
+                              <linkHtml href="#LINK_71b39a2f-b803-4763-9c12-8bbd7e8e34a5">[see Contraindications (4)</linkHtml>, <linkHtml href="#LINK_ca0beb77-dca4-4a69-a641-c15a34319d03">Adverse Reactions (6.2)</linkHtml> and <linkHtml href="#LINK_3609aa33-59d5-4faa-92cb-a14143c437fb">Description (11)</linkHtml>]</content>. Inform patients of the signs and symptoms of anaphylaxis and instruct them to seek immediate medical care should signs and symptoms occur.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_d8262298-644b-449a-96d9-9f475fa919ec">
+               <id root="9d971351-8272-410d-af21-65a801e895cd"/>
+               <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+               <title>6 ADVERSE REACTIONS</title>
+               <text>
+                  <paragraph>The following serious or otherwise important adverse reactions for bowel preparations are described elsewhere in the labeling:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>Serious Fluid and Electrolyte Abnormalities <content styleCode="italics">[see <linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">Warnings and Precautions (5.1)</linkHtml>]</content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Cardiac Arrhythmias <content styleCode="italics">[see <linkHtml href="#LINK_f54a421c-f5d1-4264-83af-f450327f1144">Warnings and Precautions (5.2)</linkHtml>]</content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Seizures <content styleCode="italics">[see <linkHtml href="#LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">Warnings and Precautions (5.3)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Patients with Renal Impairment <content styleCode="italics">[see <linkHtml href="#LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">Warnings and Precautions (5.4)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Colonic Mucosal Ulceration, Ischemic Colitis and Ulcerative Colitis <content styleCode="italics">[see <linkHtml href="#LINK_5000b334-e723-4bc5-a761-7ddba73fee00">Warnings and Precautions (5.5)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Patients with Significant Gastrointestinal Disease <content styleCode="italics">[see <linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">Warnings and Precautions (5.6)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Aspiration <content styleCode="italics">[see <linkHtml href="#LINK_ea4da79f-ef17-44fc-994c-0c302dd83b9c">Warnings and Precautions (5.7)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Glucose-6-Phosphate Dehydrogenase (G6PD) Deficiency <content styleCode="italics">[see <linkHtml href="#LINK_b8afd528-37b8-4881-9956-c4cdb80da33c">Warnings and Precautions (5.8)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Risks in Patients with Phenylketonuria <content styleCode="italics">[see <linkHtml href="#LINK_6c894a44-2159-468f-8ef7-f94f9d36d873">Warnings and Precautions (5.9)]</linkHtml>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Hypersensitivity Reactions <content styleCode="italics">[see <linkHtml href="#ID_2c32d27f-b541-472b-a5fa-59b6b38131a8">Warnings and Precautions (5.10)]</linkHtml>
+                        </content>
+                     </item>
+                  </list>
+               </text>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <paragraph>Most common adverse reactions (≥ 5%) are:</paragraph>
+                        <list listType="unordered">
+                           <item>
+                              <caption>•</caption>Two-Day (Split-Dose): malaise, nausea, abdominal pain, vomiting, and upper abdominal pain. (<linkHtml href="#LINK_aec94712-09cd-41f6-8145-784221d1e132">6.1</linkHtml>)</item>
+                           <item>
+                              <caption>•</caption>One-Day (Evening-Only): abdominal distension, anal discomfort, thirst, nausea, abdominal pain, sleep disorder, rigors, hunger, malaise, vomiting, and dizziness. (<linkHtml href="#LINK_aec94712-09cd-41f6-8145-784221d1e132">6.1</linkHtml>)</item>
+                        </list>
+                        <paragraph>
+                           <content styleCode="bold">To report SUSPECTED ADVERSE REACTIONS, contact Salix Pharmaceuticals at 1-800-321-4576 or FDA at 1-800-FDA-1088 or<linkHtml href="http://www.fda.gov/medwatch"> www.fda.gov/medwatch.</linkHtml>
+                           </content>
+                        </paragraph>
+                     </text>
+                  </highlight>
+               </excerpt>
+               <component>
+                  <section ID="LINK_aec94712-09cd-41f6-8145-784221d1e132">
+                     <id root="50a9b640-3561-47d4-81b8-35d59c3959bc"/>
+                     <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+                     <title>6.1 Clinical Studies Experience</title>
+                     <text>
+                        <paragraph>Because clinical trials are conducted under widely varying conditions, adverse reaction rates observed in the clinical trials of a drug cannot be directly compared to rates in the clinical trials of another drug and may not reflect the rates observed in clinical practice.</paragraph>
+                        <paragraph>The safety of MoviPrep as a Two-Day Split-Dosing and One-Day Evening Only Dosing Regimen was evaluated in two randomized, active-controlled, multicenter, investigator-blinded clinical trials in adult patients scheduled to have an elective colonoscopy <content styleCode="italics">[see <linkHtml href="#LINK_92c55957-cc2c-42d1-b670-11f13c2f28a0">Clinical Studies (14)</linkHtml>]</content>. The safety analysis for Study 1 included 359 adult patients ranging in age from 18 to 88 years (mean age 59), with 52% female and 48% male patients. The safety analysis for Study 2 included 340 adult patients ranging in age from 21 to 76 years (mean age 53), with 53% male and 47% female patients.</paragraph>
+                        <paragraph>Tables 1 and 2 display adverse reactions reported in at least 2% and 5% of patients in either treatment group in Study 1 and Study 2, respectively. Since diarrhea was considered as a part of the efficacy assessment, it was not defined as an adverse reaction in these trials.</paragraph>
+                        <table ID="_RefID0E2WAE" width="98.04%">
+                           <caption>Table 1: Common Adverse Reactions<footnote ID="_Ref101270158">Reported in at least 2% of patients in either treatment group</footnote> in Patients Undergoing Colonoscopy in Study 1</caption>
+                           <col width="32%"/>
+                           <col width="34%"/>
+                           <col width="34%"/>
+                           <tbody>
+                              <tr>
+                                 <td styleCode="Rrule Botrule Lrule Toprule " valign="top"/>
+                                 <td align="center" styleCode="Botrule Toprule " valign="top">
+                                    <paragraph>
+                                       <content styleCode="bold">MoviPrep</content>
+                                       <br/>
+                                       <content styleCode="bold">Two-Day Split Dosing Regimen</content>
+                                       <br/>
+                                       <content styleCode="bold">(N=180)</content>
+                                    </paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="middle">
+                                    <paragraph>
+                                       <content styleCode="bold">4 Liter PEG + Electrolytes Solution</content>
+                                       <br/>
+                                       <content styleCode="bold">(N=179)</content>
+                                    </paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Malaise</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>19%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>18%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Nausea</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>14%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>20%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Abdominal pain</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>13%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>15%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Vomiting</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>8%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>13%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Upper abdominal pain</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>6%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>6%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Botrule Lrule " valign="top">
+                                    <paragraph>Dyspepsia</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Botrule Lrule " valign="top">
+                                    <paragraph>3%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Botrule Lrule " valign="top">
+                                    <paragraph>1%</paragraph>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <table ID="_RefID0E51AE" width="98.04%">
+                           <caption>Table 2: Common Adverse Reactions<footnote ID="_Ref101270438">Reported in at least 5% of patients in either treatment group</footnote>
+                              <footnote ID="_Ref101270674">Patients were specifically asked about the occurrence of the following symptoms: shivering, anal irritations, abdominal bloating or fullness, sleep loss, nausea, vomiting, weakness, hunger sensation, abdominal cramps or pain, thirst sensation, and dizziness.</footnote> in Patients Undergoing Colonoscopy in Study 2</caption>
+                           <col width="32%"/>
+                           <col width="34%"/>
+                           <col width="34%"/>
+                           <tbody>
+                              <tr>
+                                 <td styleCode="Rrule Botrule Lrule Toprule " valign="top"/>
+                                 <td align="center" styleCode="Botrule Toprule " valign="top">
+                                    <paragraph>
+                                       <content styleCode="bold">MoviPrep</content>
+                                       <br/>
+                                       <content styleCode="bold">One-Day Evening Only</content>
+                                    </paragraph>
+                                    <paragraph>
+                                       <content styleCode="bold">Dosing Regimen (N=169)</content>
+                                    </paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="middle">
+                                    <paragraph>
+                                       <content styleCode="bold">90 mL Oral Sodium Phosphate Solution</content>
+                                       <br/>
+                                       <content styleCode="bold">(N=171)</content>
+                                    </paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Abdominal distension</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>60%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>41%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Anal discomfort</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>51%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>52%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Thirst</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>47%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>65%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Nausea</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>47%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>47%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Abdominal pain</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>39%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>32%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Sleep disorder</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>35%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>29%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Rigors</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>34%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>30%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Hunger</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>30%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>71%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Malaise</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>27%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>53%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Vomiting</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>7%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>8%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Dizziness</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>7%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>18%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Headache </paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>2%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>5%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>Hypokalemia</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>0%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Lrule Botrule " valign="top">
+                                    <paragraph>6%</paragraph>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td styleCode="Rrule Botrule Lrule " valign="top">
+                                    <paragraph>Hyperphosphatemia</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Botrule Lrule " valign="top">
+                                    <paragraph>0%</paragraph>
+                                 </td>
+                                 <td align="center" styleCode="Rrule Botrule Lrule " valign="top">
+                                    <paragraph>6%</paragraph>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_ca0beb77-dca4-4a69-a641-c15a34319d03">
+                     <id root="f76ab81e-325f-4332-af4b-b09a0acb24e6"/>
+                     <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+                     <title>6.2 Postmarketing Experience</title>
+                     <text>
+                        <paragraph>The following adverse reactions have been identified during post-approval use of MoviPrep or other PEG-based products. Because these reactions are reported voluntarily from a population of uncertain size, it is not always possible to reliably estimate their frequency or establish a causal relationship to drug exposure.</paragraph>
+                        <paragraph>
+                           <content styleCode="italics">Cardiovascular:</content> tachycardia, palpitations, hypertension, arrhythmia, atrial fibrillation, peripheral edema, asystole, acute pulmonary edema and syncope, and dehydration.</paragraph>
+                        <paragraph>
+                           <content styleCode="italics">Gastrointestinal: </content>upper gastrointestinal bleeding from a Mallory-Weiss tear, esophageal perforation [usually with gastroesophageal reflux disease (GERD)].</paragraph>
+                        <paragraph>
+                           <content styleCode="italics">Hypersensitivity reactions: </content>anaphylaxis (some of which were severe, including shock), rash, urticaria, pruritus, lip, tongue and facial swelling, dyspnea, chest tightness and throat tightness, rhinorrhea, dermatitis, fever, and chills <content styleCode="italics">[<linkHtml href="#ID_2c32d27f-b541-472b-a5fa-59b6b38131a8">see Warnings and Precautions (5.10)</linkHtml>]</content>.</paragraph>
+                        <paragraph>
+                           <content styleCode="italics">Nervous system: </content>tremor, seizure.</paragraph>
+                        <paragraph>
+                           <content styleCode="italics">Renal: </content>renal impairment and/or failure.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_4708c1ca-3187-4192-b153-d2e3a3cd07a1">
+               <id root="576d18f1-4fde-416d-ab70-0cb4c4af6b7f"/>
+               <code code="34073-7" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG INTERACTIONS SECTION"/>
+               <title>7 DRUG INTERACTIONS</title>
+               <effectiveTime value="20251031"/>
+               <excerpt>
+                  <highlight>
+                     <text>
+                        <paragraph>Drugs that increase risk for fluid and electrolyte imbalance. (<linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">7.1</linkHtml>)</paragraph>
+                     </text>
+                  </highlight>
+               </excerpt>
+               <component>
+                  <section ID="LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">
+                     <id root="0ae55aa2-456f-42ec-b5b8-d819e81105fc"/>
+                     <code code="34073-7" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG INTERACTIONS SECTION"/>
+                     <title>7.1 Drugs That May Increase Risks due to Fluid and Electrolyte Abnormalities</title>
+                     <text>
+                        <paragraph>Use caution when prescribing MoviPrep for patients with conditions and/or who are using medications that increase the risk for fluid and electrolyte disturbances or may increase the risk of renal impairment, seizures, arrhythmias, or QT prolongation in the setting of fluid and electrolyte abnormalities <content styleCode="italics">[see <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (<linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>, <linkHtml href="#LINK_f54a421c-f5d1-4264-83af-f450327f1144">5.2</linkHtml>, <linkHtml href="#LINK_f50cee28-8278-4b55-85dc-ee930f4eaa7e">5.3</linkHtml>, <linkHtml href="#LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">5.4</linkHtml>)]. </content>Consider additional patient evaluations as appropriate.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_9988ce78-afd0-4759-b6b7-a88ed2bda197">
+                     <id root="1eaf2b25-4894-49a6-b646-48499981e370"/>
+                     <code code="34073-7" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG INTERACTIONS SECTION"/>
+                     <title>7.2 Potential for Reduced Drug Absorption</title>
+                     <text>
+                        <paragraph>MoviPrep can reduce the absorption of other co-administered drugs. Administer oral medications at least 1 hour before the start of administration of each dose of MoviPrep <content styleCode="italics">[see <linkHtml href="#LINK_1c9644a4-8151-42b3-9e49-c53bc24fec60">Dosage and Administration</linkHtml> (<linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">2.1</linkHtml>)]</content>.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="ID_22c42072-1b18-40ff-8325-685d1770546e">
+                     <id root="565b4b2f-f059-4670-a66b-9004d6544b95"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>7.3 Stimulant Laxatives  </title>
+                     <text>
+                        <paragraph>Concurrent use of stimulant laxatives and MoviPrep may increase the risk of mucosal ulceration or ischemic colitis. Avoid use of stimulant laxatives (e.g., bisacodyl, sodium picosulfate) while taking MoviPrep <content styleCode="italics">[see <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (<linkHtml href="#LINK_5000b334-e723-4bc5-a761-7ddba73fee00">5.5</linkHtml>, <linkHtml href="#LINK_70a8a35b-8f05-4625-aa16-44fce19864c3">5.6</linkHtml>)].</content>
+                        </paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_71c19183-3a2c-4ac5-a8e0-b777cccb52e1">
+               <id root="c9544d3c-dd9c-471c-9a15-552c6189bce4"/>
+               <code code="43684-0" codeSystem="2.16.840.1.113883.6.1" displayName="USE IN SPECIFIC POPULATIONS SECTION"/>
+               <title>8 USE IN SPECIFIC POPULATIONS</title>
+               <effectiveTime value="20251031"/>
+               <component>
+                  <section ID="LINK_6d17b91f-3b8a-476f-a837-9bb6ba7d275f">
+                     <id root="249d1c92-bdbb-4367-80c7-cfa5d9d91214"/>
+                     <code code="42228-7" codeSystem="2.16.840.1.113883.6.1" displayName="PREGNANCY SECTION"/>
+                     <title>8.1 Pregnancy</title>
+                     <text>
+                        <paragraph>
+                           <content styleCode="underline">Risk Summary</content>
+                        </paragraph>
+                        <paragraph>There are no available data on MoviPrep in pregnant women to inform a drug-associated risk for adverse developmental outcomes. Animal reproduction studies have not been conducted with MoviPrep.</paragraph>
+                        <paragraph>The estimated background risk of major birth defects and miscarriage for the indicated population is unknown. All pregnancies have a background risk of birth defect, loss, or other adverse outcomes. In the U.S. general population, the estimated background risk of major birth defects and miscarriage in clinically recognized pregnancies is 2% to 4% and 15% to 20%, respectively.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="ID_e3e6d373-a8b1-4297-bcf6-ae32c77c07fe">
+                     <id root="8ffe70aa-a5ed-4990-9fc8-bde860748b7c"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <title>8.2 Lactation </title>
+                     <text>
+                        <paragraph>
+                           <content styleCode="underline">Risk Summary</content>
+                        </paragraph>
+                        <paragraph>There are no data available on the presence of MoviPrep in human milk, the effects of the drug on the breastfed child, or the effects of the drug on milk production. The lack of clinical data during lactation precludes a clear determination of the risk of MoviPrep to a child during lactation; therefore, the developmental and health benefits of breastfeeding should be considered along with the mother’s clinical need for MoviPrep and any potential adverse effects on the breastfed child from MoviPrep or from the underlying maternal condition.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_d2f92ecb-2475-4d89-a856-03e568341c63">
+                     <id root="c8d8683b-91a6-496d-9787-1f20347c0b90"/>
+                     <code code="34081-0" codeSystem="2.16.840.1.113883.6.1" displayName="PEDIATRIC USE SECTION"/>
+                     <title>8.4 Pediatric Use</title>
+                     <text>
+                        <paragraph>The safety and effectiveness of MoviPrep in pediatric patients have not been established.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="LINK_6ec30bdd-9757-4d4f-bb4f-922e43a4ae4b">
+                     <id root="771c9605-8b2b-4300-95f1-49da191b14f1"/>
+                     <code code="34082-8" codeSystem="2.16.840.1.113883.6.1" displayName="GERIATRIC USE SECTION"/>
+                     <title>8.5 Geriatric Use</title>
+                     <text>
+                        <paragraph>Of the 413 patients in clinical trials receiving MoviPrep, 91 (22%) patients were aged 65 or older, while 25 (6%) patients were over 75 years of age. No overall differences in safety or effectiveness were observed between geriatric patients and younger patients, and other reported clinical experience has not identified differences in responses between geriatric patients and younger patients. However, elderly patients are more likely to have decreased hepatic, renal or cardiac function and may be more susceptible to adverse reactions resulting from fluid and electrolyte abnormalities <content styleCode="italics">[see <linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">Warnings and Precautions (5.1)</linkHtml>]</content>.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+               <component>
+                  <section ID="ID_3218e1d4-8187-4258-a4d2-8b206790e453">
+                     <id root="041e3693-96b6-48b8-905c-69077debb6a7"/>
+                     <code code="88828-9" codeSystem="2.16.840.1.113883.6.1" displayName="RENAL IMPAIRMENT SUBSECTION"/>
+                     <title>8.6 Renal Impairment </title>
+                     <text>
+                        <paragraph>Use MoviPrep with caution in patients with renal impairment or patients taking concomitant medications that may affect renal function <content styleCode="italics">[see <linkHtml href="#LINK_8ea89ca0-7b50-4f8b-a9e9-d4409053f078">Drug Interactions (7.1)</linkHtml>]</content>. These patients may be at risk for renal injury. Advise these patients of the importance of adequate hydration before, during and after the use of MoviPrep, and consider performing baseline and post-colonoscopy laboratory tests (electrolytes, creatinine, and BUN) in these patients <content styleCode="italics">[see <linkHtml href="#LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">Warnings and Precautions (5.4)].</linkHtml>
+                           </content>
+                        </paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_29b80266-4cad-444e-b9bc-46c0ea8646a5">
+               <id root="bd599a1a-2b12-479e-b550-30724d2055a8"/>
+               <code code="34088-5" codeSystem="2.16.840.1.113883.6.1" displayName="OVERDOSAGE SECTION"/>
+               <title>10 OVERDOSAGE</title>
+               <text>
+                  <paragraph>Overdosage of more than the recommended dose of MoviPrep may lead to severe electrolyte disturbances, including hyponatremia and/or hypokalemia, as well as dehydration and hypovolemia, with signs and symptoms of these disturbances. Certain severe electrolyte disturbances may lead to cardiac arrhythmias, seizures, and renal failure <content styleCode="italics">[see <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (<linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>, <linkHtml href="#LINK_f54a421c-f5d1-4264-83af-f450327f1144">5.2</linkHtml>, <linkHtml href="#LINK_f50cee28-8278-4b55-85dc-ee930f4eaa7e">5.3</linkHtml>)]</content>. Monitor for fluid and electrolyte disturbances and treat symptomatically.</paragraph>
+               </text>
+               <effectiveTime value="20251031"/>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_3609aa33-59d5-4faa-92cb-a14143c437fb">
+               <id root="e3961804-26d9-492e-b1f5-51f40318a4b4"/>
+               <code code="34089-3" codeSystem="2.16.840.1.113883.6.1" displayName="DESCRIPTION SECTION"/>
+               <title>11 DESCRIPTION</title>
+               <text>
+                  <paragraph>MoviPrep (polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid for oral solution) is an osmotic laxative consisting of 4 pouches (2 of Pouch A and 2 of Pouch B) containing white to yellow powder for reconstitution.</paragraph>
+                  <paragraph>Each Pouch A contains 100 grams of polyethylene glycol (PEG) 3350, 7.5 grams of sodium sulfate, 2.691 grams of sodium chloride, and 1.015 grams of potassium chloride, plus the following excipients: aspartame (sweetener), acesulfame potassium (sweetener), and lemon flavoring containing citral, lime oil, maltodextrin, acacia gum, vitamin E, and other natural flavoring agents. Pouch A contains 111.9 g of powder for oral solution.</paragraph>
+                  <paragraph>Each Pouch B contains 4.7 grams of ascorbic acid and 5.9 grams of sodium ascorbate. Pouch B contains 10.6 g of powder for oral solution.</paragraph>
+                  <paragraph>When 1 Pouch A and 1 Pouch B are dissolved together in water to a volume of 1 liter, MoviPrep (polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid) is an oral solution having a lemon taste.</paragraph>
+                  <paragraph>The entire, reconstituted, 2-liter MoviPrep colon preparation contains 200 grams of polyethylene glycol (PEG) 3350, 15 grams of sodium sulfate, 5.38 grams of sodium chloride, 2.03 grams of potassium chloride, 9.4 grams of ascorbic acid, and 11.8 grams of sodium ascorbate plus the following excipients: aspartame (sweetener), acesulfame potassium (sweetener), and lemon flavoring.</paragraph>
+                  <paragraph>A mixing container for reconstitution is enclosed.</paragraph>
+                  <paragraph>Phenylketonurics: Contains Phenylalanine 131 mg per treatment.</paragraph>
+               </text>
+               <effectiveTime value="20251031"/>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_14b67ead-1939-4734-9b40-fab1f2a4045d">
+               <id root="2db052f1-3883-40de-9a89-c35e9290c36e"/>
+               <code code="34090-1" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL PHARMACOLOGY SECTION"/>
+               <title>12 CLINICAL PHARMACOLOGY</title>
+               <effectiveTime value="20251031"/>
+               <component>
+                  <section ID="LINK_0afcf608-8f3b-4544-ac18-ac68348b6991">
+                     <id root="31d7d299-80f3-4281-a723-ca2becb7a4ba"/>
+                     <code code="43679-0" codeSystem="2.16.840.1.113883.6.1" displayName="MECHANISM OF ACTION SECTION"/>
+                     <title>12.1 Mechanism of Action</title>
+                     <text>
+                        <paragraph>The primary mode of action is osmotic action of polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid, which induce a laxative effect. The physiological consequence is increased water retention in the lumen of the colon, resulting in loose stools.</paragraph>
+                     </text>
+                     <effectiveTime value="20251031"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_92c55957-cc2c-42d1-b670-11f13c2f28a0">
+               <id root="023990ab-491a-4c12-bf1e-243acd7c1731"/>
+               <code code="34092-7" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL STUDIES SECTION"/>
+               <title>14 CLINICAL STUDIES</title>
+               <text>
+                  <paragraph>The colon cleansing efficacy and safety of MoviPrep was evaluated in two randomized, actively-controlled, multi-center, investigator-blinded trials in adult patients scheduled to have an elective colonoscopy.</paragraph>
+                  <paragraph>In Study 1, patients were randomized to one of the following two colon preparation treatments: 1) 2 liters of MoviPrep with 1 additional liter of clear liquid split into two doses (during the evening before and the morning of the colonoscopy) and 2) 4 liters of polyethylene glycol plus electrolytes solution (4L PEG + E) split into two doses (during the evening before and the morning of the colonoscopy). Patients were allowed to have a morning breakfast, a light lunch, clear soup and/or plain yogurt for dinner. Dinner had to be completed at least one hour prior to initiation of the colon preparation administration.</paragraph>
+                  <paragraph>The primary efficacy endpoint was the proportion of patients with effective colon cleansing as judged by blinded gastroenterologists on the basis of videotapes recorded during the colonoscopy.</paragraph>
+                  <paragraph>The blinded gastroenterologists graded the colon cleansing twice (during introduction and withdrawal of the colonoscope) and the poorer of the two assessments was used in the primary efficacy analysis.</paragraph>
+                  <paragraph>The efficacy analysis included 308 adult patients who had an elective colonoscopy. Patients ranged in age from 18 to 88 years old (mean age about 59 years old) with 52% female and 48% male patients. Table 3 displays the results.</paragraph>
+                  <table ID="_RefID0EAOAG" width="98.04%">
+                     <caption>Table 3: Effectiveness of Overall Colon Cleansing of MoviPrep vs. 4 Liter Polyethylene Glycol plus Electrolytes Solution in Study 1</caption>
+                     <col width="19%"/>
+                     <col width="30%"/>
+                     <col width="26%"/>
+                     <col width="25%"/>
+                     <tbody>
+                        <tr>
+                           <td styleCode="Rrule Botrule Lrule Toprule " valign="top"/>
+                           <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">Responders</content>
+                                 <br/>
+                                 <content styleCode="bold">A<sup>2</sup> or B<sup>3</sup> (%)</content>
+                              </paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">C<sup>4</sup> (%)</content>
+                              </paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">D<sup>5</sup> (%)</content>
+                              </paragraph>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td styleCode="Rrule Lrule Botrule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption> </caption>
+                                    <content styleCode="bold">MoviPrep</content>
+                                    <br/>
+                                    <content styleCode="bold">(N=153)</content>
+                                 </item>
+                              </list>
+                           </td>
+                           <td align="center" styleCode="Rrule Lrule Botrule " valign="middle">
+                              <paragraph>88.9</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Lrule Botrule " valign="middle">
+                              <paragraph>9.8</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Lrule Botrule " valign="middle">
+                              <paragraph>1.3</paragraph>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td styleCode="Rrule Botrule Lrule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption> </caption>
+                                    <content styleCode="bold">4L PEG + E<sup>1</sup>
+                                    </content>
+                                    <br/>
+                                    <content styleCode="bold">(N=155)</content>
+                                 </item>
+                              </list>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule " valign="middle">
+                              <paragraph>94.8</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule " valign="middle">
+                              <paragraph>4.5</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule " valign="middle">
+                              <paragraph>0.6</paragraph>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <list listType="ordered">
+                     <item>
+                        <caption>1</caption>4L PEG + E is 4 Liter Polyethylene Glycol plus Electrolytes Solution.</item>
+                     <item>
+                        <caption>2</caption>A: colon empty and clean or presence of clear liquid, but easily removed by suction</item>
+                     <item>
+                        <caption>3</caption>B: brown liquid or semisolid remaining amounts of stool, fully removable by suction or displaceable, thus allowing a complete visualization of the gut mucosa</item>
+                     <item>
+                        <caption>4</caption>C: semisolid amounts of stool, only partially removable with a risk of incomplete visualization of the gut mucosa</item>
+                     <item>
+                        <caption>5</caption>D: semisolid or solid amounts of stool; consequently colonoscopy incomplete or needed to be terminated.</item>
+                  </list>
+                  <paragraph>4L PEG+E’s responder rate was not significantly higher than MoviPrep’s responder rate.</paragraph>
+                  <paragraph>In Study 2, patients were randomized to one of the following two colon preparation treatments: 1) 2 liters of MoviPrep with 1 additional liter of clear liquid in the evening prior to the colonoscopy and 2) 90 mL of oral sodium phosphate solution (90 mL OSPS) with at least 2 liters of additional clear liquid during the day and evening prior to the colonoscopy. Patients randomized to MoviPrep therapy were allowed to have a morning breakfast; a light lunch; and clear soup and/or plain yogurt for dinner. Dinner had to be completed at least one hour prior to initiation of the colon preparation administration.</paragraph>
+                  <paragraph>The primary efficacy endpoint was the proportion of patients with effective colon cleansing as judged by the colonoscopist and one blinded gastroenterologist (on the basis of videotapes recorded during the colonoscopy).  In case of a discrepancy between the colonoscopist and the blinded gastroenterologist, a second blinded gastroenterologist made the final efficacy determination.</paragraph>
+                  <paragraph>The efficacy analysis included 280 adult patients who had an elective colonoscopy. Patients ranged in age from 21 to 76 years old (mean age about 53 years old) with 47% female and 53% male patients. Table 4 displays the results.</paragraph>
+                  <table ID="_RefID0EWRAG" width="98.04%">
+                     <caption>Table 4: Effectiveness of Overall Colon Cleansing of MoviPrep vs. 90 mL Oral Sodium Phosphate Solution in Study 2</caption>
+                     <col width="13%"/>
+                     <col width="32%"/>
+                     <col width="27%"/>
+                     <col width="27%"/>
+                     <tbody>
+                        <tr>
+                           <td styleCode="Rrule Botrule Lrule Toprule " valign="top"/>
+                           <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">Responders</content>
+                                 <br/>
+                                 <content styleCode="bold">A<sup>2</sup> or B<sup>3</sup> (%)</content>
+                              </paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">C<sup>4</sup> (%)</content>
+                              </paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule Toprule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">D<sup>5</sup> (%)</content>
+                              </paragraph>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td styleCode="Rrule Lrule Botrule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">MoviPrep</content>
+                                 <br/>
+                                 <content styleCode="bold">(N=137)</content>
+                              </paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Lrule Botrule " valign="middle">
+                              <paragraph>73.0</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Lrule Botrule " valign="middle">
+                              <paragraph>23.4</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Lrule Botrule " valign="middle">
+                              <paragraph>3.6</paragraph>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td styleCode="Rrule Botrule Lrule " valign="top">
+                              <paragraph>
+                                 <content styleCode="bold">90 mL OSPS<sup>1</sup>
+                                 </content>
+                                 <br/>
+                                 <content styleCode="bold">(N=143)</content>
+                              </paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule " valign="middle">
+                              <paragraph>64.4</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule " valign="middle">
+                              <paragraph>29.4</paragraph>
+                           </td>
+                           <td align="center" styleCode="Rrule Botrule Lrule " valign="middle">
+                              <paragraph>6.3</paragraph>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <list listType="ordered">
+                     <item>
+                        <caption>1</caption>OSPS is Oral Sodium Phosphate Solution. </item>
+                     <item>
+                        <caption>2</caption>A: empty and clean or clear liquid (transparent, yellow, or green)</item>
+                     <item>
+                        <caption>3</caption>B: brown liquid or semisolid remaining small amounts of stool, fully removable by suction or displaceable allowing a complete visualization of the underlying mucosa</item>
+                     <item>
+                        <caption>4</caption>C: semisolid only partially removable/displaceable stools; risk of incomplete examination of the underlying mucosa</item>
+                     <item>
+                        <caption>5</caption>D: heavy and hard stool making the segment examination uninterpretable and, consequently, the colonoscopy needed to be terminated.</item>
+                  </list>
+                  <paragraph>MoviPrep’s responder rate was not significantly higher than OSPS’s responder rate.</paragraph>
+               </text>
+               <effectiveTime value="20251031"/>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_efdaf199-bc84-444a-af8b-4a7dbc6ac5f2">
+               <id root="86070a2a-4e64-410b-a742-4e9e4f8a470d"/>
+               <code code="34069-5" codeSystem="2.16.840.1.113883.6.1" displayName="HOW SUPPLIED SECTION"/>
+               <title>16 HOW SUPPLIED/STORAGE AND HANDLING</title>
+               <text>
+                  <paragraph>MoviPrep (polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid for oral solution) is supplied as a white to yellow powder for reconstitution and is lemon flavored.</paragraph>
+                  <paragraph>NDC 65649-201-75, MoviPrep, single-use outer carton:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>Each outer carton contains a disposable mixing container with lid for reconstitution of MoviPrep, prescribing information and patient information, and one inner carton.</item>
+                     <item>
+                        <caption>•</caption>Each inner carton contains 2 pouches labeled Pouch A and 2 pouches labeled Pouch B.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="underline">Storage</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Store carton/container at room temperature, between 20° to 25°C (68° to 77°F); excursions permitted to 15° to 30°C (59° to 86°F). When reconstituted, store upright and keep solution refrigerated. Use within 24 hours <content styleCode="italics">[see <linkHtml href="#ID_2f9587ed-82e3-4a5b-9ce9-c437b3adea8f">Dosage and Administration (2.1)</linkHtml>]</content>.</item>
+                  </list>
+               </text>
+               <effectiveTime value="20251031"/>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_ecb9535f-0e0a-4cad-87c0-4bee36ef5fe0">
+               <id root="02bfd2f9-e3c4-4d06-914f-3ca519109cfb"/>
+               <code code="34076-0" codeSystem="2.16.840.1.113883.6.1" displayName="INFORMATION FOR PATIENTS SECTION"/>
+               <title>17 PATIENT COUNSELING INFORMATION</title>
+               <text>
+                  <paragraph>Advise the patient to read the FDA-approved patient labeling (<linkHtml href="#ID_b31f3bab-b5a8-455b-91af-9240a9d2ea65">Medication Guide</linkHtml> and <linkHtml href="#ID_91b6a629-f751-4b89-bbda-8e46bfc78b06">Instructions for Use</linkHtml>).</paragraph>
+                  <paragraph>Instruct patients:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>That two doses of MoviPrep are required for a complete preparation for colonoscopy either as a Split-Dose (2-Day), or Evening Only (1-Day) dosing regimen <content styleCode="italics">[see <linkHtml href="#ID_91b6a629-f751-4b89-bbda-8e46bfc78b06">Instructions for Use</linkHtml>]</content>.</item>
+                     <item>
+                        <caption>•</caption>Not to take other laxatives while they are taking MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>That MoviPrep contains 131 mg of phenylalanine per treatment <content styleCode="italics">[see <linkHtml href="#LINK_6c894a44-2159-468f-8ef7-f94f9d36d873">Warnings and Precautions (5.9)</linkHtml>]</content>.</item>
+                     <item>
+                        <caption>•</caption>That each pouch needs to be reconstituted in water before ingestion and that they should drink additional clear liquids. Examples of clear liquids can be found in the <content styleCode="italics">
+                           <linkHtml href="#ID_91b6a629-f751-4b89-bbda-8e46bfc78b06">Instructions for Use</linkHtml>
+                        </content>.</item>
+                     <item>
+                        <caption>•</caption>Not to take oral medications within one hour of starting each dose of MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>To follow the directions in the <content styleCode="italics">
+                           <linkHtml href="#ID_91b6a629-f751-4b89-bbda-8e46bfc78b06">Instructions for Use</linkHtml>
+                        </content>, for either the Two-Day Split-Dosing or the One-Day Evening Only Dosing regimen, as prescribed.</item>
+                     <item>
+                        <caption>•</caption>To consume additional clear liquids before, during, and after the use of MoviPrep to prevent dehydration <content styleCode="italics">[see <linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">Warnings and Precautions (5.1)</linkHtml>]</content>.</item>
+                     <item>
+                        <caption>•</caption>To contact their healthcare provider if they develop significant vomiting or signs of dehydration after taking MoviPrep or if they experience altered consciousness or seizures <content styleCode="italics">[see <linkHtml href="#LINK_6f67e1a2-ccd1-43ac-8dac-2b03da609995">Warnings and Precautions</linkHtml> (<linkHtml href="#LINK_c4c9add6-b30a-4384-9a40-096e1ba2dc73">5.1</linkHtml>
+                           <content styleCode="underline">, </content>
+                           <linkHtml href="#LINK_f54a421c-f5d1-4264-83af-f450327f1144">5.2</linkHtml>
+                           <content styleCode="underline">, </content>
+                           <linkHtml href="#LINK_f50cee28-8278-4b55-85dc-ee930f4eaa7e">5.3</linkHtml>
+                           <content styleCode="underline">, </content>
+                           <linkHtml href="#LINK_a22702a3-17a5-488e-bd7a-58f04ce19c98">5.4</linkHtml>)]</content>
+                     </item>
+                     <item>
+                        <caption>•</caption>Not to eat or drink alcohol, milk, anything colored red or purple or any other foods containing pulp material.</item>
+                     <item>
+                        <caption>•</caption>To stop drinking MoviPrep temporarily or drink each portion at longer intervals if they develop severe abdominal discomfort or distention until these symptoms diminish. If severe symptoms persist, tell patients to contact their healthcare provider.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Distributed by:</content>
+                  </paragraph>
+                  <paragraph>Salix Pharmaceuticals, a division of<br/>Bausch Health US, LLC<br/>Bridgewater, NJ 08807 USA</paragraph>
+                  <paragraph>MoviPrep is a registered trademark of Velinor AG used under license.</paragraph>
+                  <paragraph>© 2025 Salix Pharmaceuticals, Inc. or its affiliates</paragraph>
+                  <paragraph>9656606	70015787-02</paragraph>
+               </text>
+               <effectiveTime value="20251031"/>
+            </section>
+         </component>
+         <component>
+            <section ID="ID_b31f3bab-b5a8-455b-91af-9240a9d2ea65">
+               <id root="506025bc-2903-4204-84fa-3e7278eb6ee6"/>
+               <code code="42231-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL MEDGUIDE SECTION"/>
+               <title>MEDICATION GUIDE </title>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">MoviPrep<sup>®</sup> (moo-vee-prěp)</content>
+                     <br/>
+                     <content styleCode="bold">(polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid for oral solution)</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Read this Medication Guide and Instructions for Use before your colonoscopy and again before you start taking MoviPrep.</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">What is the most important information I should know about MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">MoviPrep and other bowel preparations can cause serious side effects, including:</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Serious loss of body fluid (dehydration) and changes in blood salts (electrolytes) in your blood. These changes can cause:</content>
+                     </item>
+                     <item>
+                        <caption>o</caption>abnormal heartbeats that can cause death.</item>
+                     <item>
+                        <caption>o</caption>seizures. This can happen even if you have never had a seizure.</item>
+                     <item>
+                        <caption>o</caption>kidney problems.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Your chance of having fluid loss and changes in body salts with MoviPrep is higher if you:</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>have heart problems.</item>
+                     <item>
+                        <caption>•</caption>have kidney problems.</item>
+                     <item>
+                        <caption>•</caption>take water pills (diuretics), high blood pressure medicine, or non-steroidal anti-inflammatory drugs (NSAIDs).</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Tell your healthcare provider right away if you have any of these symptoms of serious loss of body fluid (dehydration) while taking MoviPrep:</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>vomiting</item>
+                     <item>
+                        <caption>•</caption>urinating less often than normal</item>
+                     <item>
+                        <caption>•</caption>dizziness</item>
+                     <item>
+                        <caption>•</caption>headache</item>
+                     <item>
+                        <caption> </caption>
+                        <content styleCode="bold">See “What are the possible side effects of MoviPrep?” for more information about side effects.</content>
+                     </item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">What is MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>MoviPrep is a prescription medicine used by adults to clean the colon before a colonoscopy. MoviPrep cleans your colon by causing you to have diarrhea (loose stools). Cleaning your colon helps your healthcare provider see the inside of your colon more clearly during your colonoscopy.</paragraph>
+                  <paragraph>It is not known if MoviPrep is safe and effective in children.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Who should not take MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>Do not take MoviPrep if your healthcare provider has told you that you have:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>a blockage in your intestine (bowel obstruction).</item>
+                     <item>
+                        <caption>•</caption>an opening in the wall of your stomach or intestine (bowel perforation).</item>
+                     <item>
+                        <caption>•</caption>problems with food and fluid emptying from your stomach (gastric retention).</item>
+                     <item>
+                        <caption>•</caption>a problem with food moving too slowly through your intestines (ileus).</item>
+                     <item>
+                        <caption>•</caption>a very dilated intestine (toxic megacolon).</item>
+                     <item>
+                        <caption>•</caption>an allergy to any of the ingredients in MoviPrep. See the end of this Medication Guide for a complete list of ingredients in MoviPrep.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">What should I tell my healthcare provider before taking MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>Before taking MoviPrep, tell your healthcare provider <content styleCode="bold">about all of your medical conditions, including </content>if you:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>have problems with serious loss of body fluid (dehydration) and changes in blood salts (electrolytes).</item>
+                     <item>
+                        <caption>•</caption>have heart problems.</item>
+                     <item>
+                        <caption>•</caption>have seizures or take medicines for seizures.</item>
+                     <item>
+                        <caption>•</caption>have kidney problems or take medicines for kidney problems.</item>
+                     <item>
+                        <caption>•</caption>have stomach or bowel problems, including ulcerative colitis.</item>
+                     <item>
+                        <caption>•</caption>have problems with swallowing, gastric reflux, or if you inhale food or fluid into your lungs when eating or drinking (aspirate).</item>
+                     <item>
+                        <caption>•</caption>have a condition called glucose-6-phosphate dehydrogenase (G6PD) deficiency that destroys red blood cells.</item>
+                     <item>
+                        <caption>•</caption>are withdrawing from alcohol or benzodiazepines.</item>
+                     <item>
+                        <caption>•</caption>have phenylketonuria (PKU). MoviPrep contains phenylalanine.</item>
+                     <item>
+                        <caption>•</caption>are allergic to any of the ingredients in MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>are pregnant or plan to become pregnant. It is not known if MoviPrep will harm your unborn baby. Talk to your healthcare provider if you are pregnant.</item>
+                     <item>
+                        <caption>•</caption>are breastfeeding or plan to breastfeed. It is not known if MoviPrep passes into your breast milk. You and your healthcare provider should decide if you will take MoviPrep while breastfeeding.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Tell your healthcare provider about all the medicines you take, </content>including prescription and over-the-counter medicines, vitamins, and herbal supplements.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">MoviPrep may affect how other medicines work.</content> Do not take medicines by mouth 1 hour before or after starting each dose of MoviPrep.</paragraph>
+                  <paragraph>Especially tell your healthcare provider if you take:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>medicines to treat a blood salt (electrolyte) imbalance.</item>
+                     <item>
+                        <caption>•</caption>medicines for blood pressure or heart problems.</item>
+                     <item>
+                        <caption>•</caption>medicines for seizures (antiepileptics).</item>
+                     <item>
+                        <caption>•</caption>medicines for kidney problems.</item>
+                     <item>
+                        <caption>•</caption>water pills (diuretics).</item>
+                     <item>
+                        <caption>•</caption>non-steroidal anti-inflammatory drugs (NSAIDs).</item>
+                     <item>
+                        <caption>•</caption>laxatives. Do not take other laxatives while taking MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>medicines for depression or other mental health problems.</item>
+                     <item>
+                        <caption>•</caption>starch-based thickeners. For people who have trouble swallowing, do not mix MoviPrep with starch-based thickeners.</item>
+                  </list>
+                  <paragraph>Ask your healthcare provider or pharmacist for a list of these medicines if you are not sure if you are taking any of the medicines listed above.</paragraph>
+                  <paragraph>Know the medicines you take. Keep a list of them to show your healthcare provider and pharmacist when you get a new medicine.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">How should I take MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">See the Instructions for Use for dosing instructions.</content> You must read, understand, and follow these instructions to take MoviPrep the right way.</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>Take MoviPrep exactly as your healthcare provider tells you to take it. Your healthcare provider will tell you to take the Two-Day Split-Dosing regimen option or the One-Day Evening Only Dosing regimen option.</item>
+                     <item>
+                        <caption>•</caption>On the day before the procedure, you can have breakfast, followed by a light lunch (no solid foods), and dinner of clear soup with or without plain yogurt, or plain yogurt only. You must finish dinner at least 1 hour before the start of the first MoviPrep dose.</item>
+                     <item>
+                        <caption>•</caption>Drink only clear liquids before, during, and after you take MoviPrep, until 2 hours before your colonoscopy to help prevent fluid loss (dehydration).</item>
+                     <item>
+                        <caption>•</caption>Do not eat solid food while taking MoviPrep until after your colonoscopy.</item>
+                     <item>
+                        <caption>•</caption>Do not eat or drink alcohol, milk, anything colored red or purple or any other foods with pulp.</item>
+                     <item>
+                        <caption>•</caption>It is important for you to drink the additional amount of clear liquids listed in the Instructions for Use.</item>
+                     <item>
+                        <caption>•</caption>You may have stomach-area (abdomen) bloating after your first dose of MoviPrep.<list listType="unordered">
+                           <item>
+                              <caption>o</caption>If you have severe stomach-area (abdomen) discomfort or bloating, stop drinking MoviPrep for a short time or wait a longer time between each dose of MoviPrep until your stomach-area symptoms improve. If your stomach-area discomfort or bloating continues, tell your healthcare provider.</item>
+                        </list>
+                     </item>
+                     <item>
+                        <caption>•</caption>If you take too much MoviPrep, call your healthcare provider.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">What are the possible side effects of MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">MoviPrep can cause serious side effects, including:</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Changes in certain blood tests.</content> Your healthcare provider may do blood tests after you take MoviPrep to check your blood for changes. Tell your healthcare provider if you have any symptoms of too much fluid loss, including:</item>
+                  </list>
+                  <table width="98.04%">
+                     <col width="34%"/>
+                     <col width="35%"/>
+                     <col width="30%"/>
+                     <tbody>
+                        <tr>
+                           <td styleCode="Toprule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption>o</caption>vomiting</item>
+                                 <item>
+                                    <caption>o</caption>seizures</item>
+                                 <item>
+                                    <caption>o</caption>kidney problems</item>
+                              </list>
+                           </td>
+                           <td styleCode="Toprule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption>o</caption>heart problems</item>
+                                 <item>
+                                    <caption>o</caption>dizziness</item>
+                                 <item>
+                                    <caption>o</caption>dry mouth</item>
+                              </list>
+                           </td>
+                           <td styleCode="Toprule " valign="top"/>
+                        </tr>
+                        <tr>
+                           <td colspan="3" styleCode="Botrule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption>o</caption>feel faint, weak or lightheaded especially when you stand up (orthostatic hypotension)</item>
+                              </list>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Ulcers of the bowel or bowel problems (ischemic colitis).</content> Tell your healthcare provider right away if you have severe stomach-area (abdomen) pain or rectal bleeding.</item>
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Serious allergic reactions.</content> Symptoms of a serious allergic reaction may include:</item>
+                  </list>
+                  <table width="98.04%">
+                     <col width="51%"/>
+                     <col width="16%"/>
+                     <col width="33%"/>
+                     <tbody>
+                        <tr>
+                           <td styleCode="Botrule Toprule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption>o</caption>skin rash</item>
+                                 <item>
+                                    <caption>o</caption>raised red patches on your skin (hives) </item>
+                                 <item>
+                                    <caption>o</caption>kidney problems</item>
+                                 <item>
+                                    <caption>o</caption>swelling of the face, lips, tongue and throat</item>
+                                 <item>
+                                    <caption>o</caption>itching</item>
+                              </list>
+                           </td>
+                           <td styleCode="Botrule Toprule " valign="top"/>
+                           <td styleCode="Botrule Toprule " valign="top"/>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <paragraph>
+                     <content styleCode="bold">The most common side effects of MoviPrep include:</content>
+                  </paragraph>
+                  <table width="98.04%">
+                     <col width="51%"/>
+                     <col width="42%"/>
+                     <col width="8%"/>
+                     <tbody>
+                        <tr>
+                           <td styleCode="Botrule Toprule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption>o</caption>anal discomfort</item>
+                                 <item>
+                                    <caption>o</caption>vomiting</item>
+                                 <item>
+                                    <caption>o</caption>chills</item>
+                                 <item>
+                                    <caption>o</caption>nausea</item>
+                                 <item>
+                                    <caption>o</caption>dizziness</item>
+                                 <item>
+                                    <caption>o</caption>stomach-area (abdomen pain or bloating)</item>
+                                 <item>
+                                    <caption>o</caption>discomfort</item>
+                              </list>
+                           </td>
+                           <td styleCode="Botrule Toprule " valign="top">
+                              <list listType="unordered">
+                                 <item>
+                                    <caption>o</caption>sleep problems</item>
+                                 <item>
+                                    <caption>o</caption>thirst</item>
+                                 <item>
+                                    <caption>o</caption>indigestion</item>
+                                 <item>
+                                    <caption>o</caption>hunger</item>
+                              </list>
+                           </td>
+                           <td styleCode="Botrule Toprule " valign="top"/>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <paragraph>These are not all the possible side effects of MoviPrep.</paragraph>
+                  <paragraph>Call your doctor for medical advice about side effects. You may report side effects to FDA at 1-800-FDA-1088.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">How should I store MoviPrep?</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>•</caption>Store MoviPrep that has not been mixed with water at room temperature, between 68°F to 77°F (20°C to 25°C).</item>
+                     <item>
+                        <caption>•</caption>Store MoviPrep that has been mixed with water in an upright position in the refrigerator.</item>
+                     <item>
+                        <caption>•</caption>MoviPrep should be taken within 24 hours after it has been mixed with water.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Keep MoviPrep and all medicines out of the reach of children.</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">General information about the safe and effective use of MoviPrep.</content>
+                  </paragraph>
+                  <paragraph>Medicines are sometimes prescribed for purposes other than those listed in a Medication Guide. Do not use MoviPrep for a condition for which it was not prescribed. Do not give MoviPrep to other people, even if they are going to have the same procedure you are. It may harm them.</paragraph>
+                  <paragraph>This Medication Guide summarizes the most important information about MoviPrep. If you would like more information, talk with your healthcare provider. You can ask your pharmacist or healthcare provider for information that is written for health professionals.</paragraph>
+                  <paragraph>For more information, call 1-800-321-4576 or go to <linkHtml href="http://www.MoviPrep.com">www.MoviPrep.com</linkHtml>.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">What are the ingredients in MoviPrep?</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Active ingredients:</content>
+                  </paragraph>
+                  <paragraph>Pouch A: polyethylene glycol (PEG) 3350, sodium sulfate, sodium chloride, potassium chloride.</paragraph>
+                  <paragraph>Pouch B: ascorbic acid and sodium ascorbate.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Inactive ingredients:</content>
+                  </paragraph>
+                  <paragraph>Pouch A: aspartame, acesulfame potassium, and lemon flavoring including citral, lime oil, maltodextrin, acacia gum, vitamin E, and other natural flavoring agents.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Distributed by:</content>
+                     <br/>Salix Pharmaceuticals, a division of<br/>Bausch Health US, LLC<br/>Bridgewater, NJ 08807 USA</paragraph>
+                  <paragraph>MoviPrep is a registered trademark of Velinor AG used under license.</paragraph>
+                  <paragraph>© 2025 Salix Pharmaceuticals, Inc. or its affiliates</paragraph>
+                  <paragraph>This Medication Guide has been approved by the U.S. Food and Drug Administration.<br/>Revised: October 2025	 <br/>9656606      70015787-02</paragraph>
+               </text>
+               <effectiveTime value="20251031"/>
+            </section>
+         </component>
+         <component>
+            <section ID="ID_91b6a629-f751-4b89-bbda-8e46bfc78b06">
+               <id root="997a6fb0-f52a-4055-af25-ef5d9bd86222"/>
+               <code code="59845-8" codeSystem="2.16.840.1.113883.6.1" displayName="INSTRUCTIONS FOR USE SECTION"/>
+               <title>INSTRUCTIONS FOR USE</title>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">MoviPrep<sup>® </sup>(polyethylene glycol 3350, sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and ascorbic acid for oral solution)</content>
+                  </paragraph>
+                  <paragraph>There are two different options for taking MoviPrep. Your healthcare provider will tell you to take the Two-Day Split-Dosing Regimen option <content styleCode="bold">or</content> the One-Day Evening Only Dosing Regimen option.</paragraph>
+                  <list listType="ordered">
+                     <item>
+                        <caption> </caption>
+                        <content styleCode="bold">
+                           <content styleCode="underline">Important Information on MoviPrep:</content>
+                        </content>
+                     </item>
+                     <item>
+                        <caption>•</caption>water</item>
+                     <item>
+                        <caption>•</caption>clear fruit juices without pulp including apple, white grape, or white cranberry</item>
+                     <item>
+                        <caption>•</caption>strained limeade or lemonade</item>
+                     <item>
+                        <caption>•</caption>coffee or tea (<content styleCode="bold">do not</content> use any dairy or non-dairy creamer)</item>
+                     <item>
+                        <caption>•</caption>clear broth</item>
+                     <item>
+                        <caption>•</caption>clear soda</item>
+                     <item>
+                        <caption>•</caption>gelatin (without added fruit or topping, no red or purple)</item>
+                     <item>
+                        <caption>•</caption>popsicles (without pieces of fruit or pulp, no red or purple)</item>
+                     <item>
+                        <caption>•</caption>You must drink all of the Dose 1 and Dose 2 of MoviPrep with either dosing regimen option. Make sure you finish Dose 2 at least 2 hours before your colonoscopy.</item>
+                     <item>
+                        <caption>•</caption>After completing Dose 2, it is important that you drink additional clear liquids (including water), but you must stop drinking all liquids at least 2 hours before your colonoscopy.</item>
+                     <item>
+                        <caption>•</caption>MoviPrep is lemon flavored containing citral, lime oil, maltodextrin, acacia gum, vitamin E, and other natural flavoring agents.</item>
+                     <item>
+                        <caption>•</caption>MoviPrep <content styleCode="bold">must</content> be mixed with water. <content styleCode="bold">Do not</content> add any other ingredients to MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>Do not mix MoviPrep with starch-based thickeners.</item>
+                     <item>
+                        <caption>•</caption>After you start taking MoviPrep, you can only drink clear liquids (no solid foods) until after your colonoscopy. Examples of clear liquids include:</item>
+                     <item>
+                        <caption>o</caption>water</item>
+                     <item>
+                        <caption>o</caption>clear fruit juices without pulp including apple, white grape, or white cranberry</item>
+                     <item>
+                        <caption>o</caption>strained limeade or lemonade</item>
+                     <item>
+                        <caption>o</caption>coffee or tea (<content styleCode="bold">do not</content> use any dairy or non-dairy creamer)</item>
+                     <item>
+                        <caption>o</caption>clear broth</item>
+                     <item>
+                        <caption>o</caption>clear soda</item>
+                     <item>
+                        <caption>o</caption>gelatin (without added fruit or topping, no red or purple)</item>
+                     <item>
+                        <caption>o</caption>popsicles (without pieces of fruit or pulp, no red or purple)</item>
+                     <item>
+                        <caption>•</caption>Drink plenty of clear liquids before, during, and after you take MoviPrep, up until 2 hours before your colonoscopy, to help prevent fluid loss (dehydration).</item>
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Do not</content> eat or drink anything within 2 hours before your colonoscopy.</item>
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Do not</content> eat or drink alcohol, milk, anything colored red or purple or containing pulp.</item>
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Do not</content> take other laxatives while taking MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Do not </content>take any medicines by mouth (oral) within 1 hour before or after starting each dose of MoviPrep.</item>
+                     <item>
+                        <caption>•</caption>
+                        <content styleCode="bold">Do not</content> eat any solid food while taking MoviPrep until after your colonoscopy.</item>
+                  </list>
+                  <paragraph>To take each dose of MoviPrep, you will need:</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption>o</caption>Mixing Container that comes with MoviPrep</item>
+                     <item>
+                        <caption>o</caption>One Pouch A</item>
+                     <item>
+                        <caption>o</caption>One Pouch B</item>
+                     <item>
+                        <caption>o</caption>Lukewarm water</item>
+                     <item>
+                        <caption>•</caption>For the Two-Day Split-Dosing Regimen:<list listType="unordered">
+                           <item>
+                              <caption>o</caption>On the day before the colonoscopy you can eat breakfast followed by a light lunch (no solid foods). For dinner you may have a clear soup with or without plain yogurt, or plain yogurt only.</item>
+                           <item>
+                              <caption>o</caption>You must finish eating at least 1 hour before you start taking MoviPrep.</item>
+                           <item>
+                              <caption>o</caption>You must take the first dose between 10 to 12 hours before the second dose. The second dose must be taken at least 3 ½ hours before the colonoscopy.</item>
+                           <item>
+                              <caption>o</caption>After you start taking MoviPrep you can only drink clear liquids.</item>
+                        </list>
+                     </item>
+                     <item>
+                        <caption>•</caption>For the One-Day Evening Only Dosing Regimen:<list listType="unordered">
+                           <item>
+                              <caption>o</caption>On the day before the colonoscopy you can eat breakfast followed by a light lunch. For dinner you may have a clear soup with or without plain yogurt, or plain yogurt only.</item>
+                           <item>
+                              <caption>o</caption>You must finish eating at least 1 hour before you start taking MoviPrep.</item>
+                           <item>
+                              <caption>o</caption>You must take the first dose 3 ½ hours before bedtime the evening before the colonoscopy.</item>
+                           <item>
+                              <caption>o</caption>After you start taking MoviPrep you can only drink clear liquids.</item>
+                           <item>
+                              <caption>o</caption>Take the second dose 1 ½ hours after starting Dose 1.</item>
+                        </list>
+                     </item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="underline">Two-Day Split-Dosing Regimen Dosing Instructions</content>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Dose 1 – Take this dose the evening before your colonoscopy (10 to 12 hours before Dose 2):</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 1:	Empty the contents of <content styleCode="bold">	one </content>	Pouch A and <content styleCode="bold">	one </content>	Pouch B into the Mixing Container that comes with MoviPrep.</item>
+                  </list>
+                  <renderMultiMedia ID="id776839732" referencedObject="ID_0ebc9d8b-7cfd-488e-a7a8-20dfb29ce880"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 2:	Add lukewarm water to the Fill Line on the Mixing Container. You will need at least 32 ounces.</item>
+                  </list>
+                  <renderMultiMedia ID="id136317389" referencedObject="F26446E5-0164-4030-A302-DD2E4001D11E"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 3:	Mix to completely dissolve the medicine from Pouch A and Pouch B into the lukewarm water. To mix the solution, stir the medicine in the Mixing Container with a spoon, or close the lid and shake.</item>
+                  </list>
+                  <renderMultiMedia ID="id-1646279866" referencedObject="ID_47d3feb6-fab3-4d40-a0c7-2babcae1c679"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 4:	Drink one 8 oz. (ounce) glass of the solution every 15 minutes. Be sure to drink all of the solution in the Mixing Container. It should take about 1 hour to drink all the liquid.</item>
+                  </list>
+                  <paragraph>If you feel like you have severe stomach pain or discomfort you can stop taking MoviPrep for a short period of time and then continue taking it or you can take smaller sips of MoviPrep so that you space out your dose longer than 1 hour. If you still have severe stomach pain, call your healthcare provider.</paragraph>
+                  <renderMultiMedia ID="id-419642561" referencedObject="ID_0dfe1f28-cb42-4716-a778-3732b94de202"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 5:	Refill the Mixing Container with 16 oz. (at least halfway to Fill Line and enough for two 8 oz. glasses) of a clear liquid and drink all of this liquid before you go to bed.</item>
+                  </list>
+                  <renderMultiMedia ID="id-796293720" referencedObject="ID_4a3dd531-bcd1-45dc-b537-7a0b7668e26c"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>
+                        <content styleCode="bold">Dose 2 – Take this dose the next morning on the day of your colonoscopy (start at least 3 ½ hours before your colonoscopy):</content>
+                     </item>
+                     <item>
+                        <caption> </caption>Step 1:	Repeat steps 1 through 4 from Dose 1 of the Split-Dose (2-Day) instructions.</item>
+                     <item>
+                        <caption> </caption>Step 2:	Fill the Mixing Container with 16 oz. (at least halfway to Fill Line and enough for two 8 oz. glasses) of a clear liquid and drink all of this liquid at least 2 hours before your colonoscopy.</item>
+                  </list>
+                  <renderMultiMedia ID="id-1683587817" referencedObject="ID_1099def1-e8a1-459e-83c0-5056ddad7704"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 3:	Drink only clear liquids up to 2 hours before your colonoscopy or as prescribed by your healthcare provider. Then stop drinking liquids until after your colonoscopy.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="underline">One-Day Evening Only Dosing Regimen Instructions </content>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Dose 1 (take at least 3 ½ hours before bedtime the evening before your colonoscopy):</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 1:	Empty the contents of <content styleCode="bold">	one </content>	Pouch A and <content styleCode="bold">	one </content>	Pouch B into the Mixing Container that comes with MoviPrep.</item>
+                  </list>
+                  <renderMultiMedia ID="id777296768" referencedObject="ID_9e074e75-ee3d-49e8-ae27-0c8aa13b8cbe"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 2:	Add lukewarm water to the Fill Line on the Mixing Container. You will need at least 32 ounces.</item>
+                  </list>
+                  <renderMultiMedia ID="id444115947" referencedObject="FE4FF251-E81D-4E24-9816-BD2AD24CE22E"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 3:	Mix to completely dissolve the medicine from Pouch A and Pouch B into the lukewarm water. To mix the solution, stir the medicine in the Mixing Container with a spoon, or close the lid and shake.</item>
+                  </list>
+                  <renderMultiMedia ID="id1462767661" referencedObject="ID_62e6ea87-15b5-45bd-8b21-55ec048ccb11"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 4:	Drink one 8 oz. (ounce) glass of the solution every 15 minutes. Be sure to drink all of the solution in the Mixing Container. It should take about 1 hour to drink all the liquid.</item>
+                  </list>
+                  <renderMultiMedia ID="id-1515146038" referencedObject="EEC75A5E-3FCE-4C7A-AE82-4F205ED35D14"/>
+                  <paragraph>If you feel like you have severe stomach pain or discomfort you can stop taking MoviPrep for a short period of time and then continue taking it or you can take smaller sips of MoviPrep so that you space out your dose longer than 1 hour. If you still have severe stomach pain, call your healthcare provider.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Dose 2 (take about 1 ½ hours after starting Dose 1):</content>
+                  </paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 1:	Repeat Steps 1 through 4 from Dose 1 of the Evening Only (1-Day) instructions.</item>
+                     <item>
+                        <caption> </caption>Step 2:	After you complete steps 1 through 4, fill the Mixing Container again to the Fill Line with clear liquid and drink all of this liquid before you go to bed.</item>
+                  </list>
+                  <renderMultiMedia ID="id-1014840150" referencedObject="ID_228143ee-d0c4-4198-8ca4-e8f93168d640"/>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Step 3:	Drink only clear liquids up to 2 hours before your colonoscopy or as prescribed by your healthcare provider. Then stop drinking liquids until after your colonoscopy.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Distributed by:</content>
+                     <br/>Salix Pharmaceuticals, a division of<br/>Bausch Health US, LLC<br/>Bridgewater, NJ 08807 USA</paragraph>
+                  <paragraph>MoviPrep is a registered trademark of Velinor AG used under license.</paragraph>
+                  <paragraph>© 2025 Salix Pharmaceuticals, Inc. or its affiliates</paragraph>
+                  <paragraph>This Instructions for Use has been approved by the U.S. Food and Drug Administration.</paragraph>
+                  <list listType="unordered">
+                     <item>
+                        <caption> </caption>Revised: October 2025	      <br/>9656606	70015787-02</item>
+                  </list>
+               </text>
+               <effectiveTime value="20251031"/>
+               <component>
+                  <observationMedia ID="ID_0ebc9d8b-7cfd-488e-a7a8-20dfb29ce880">
+                     <text>pic1</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-01.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="F26446E5-0164-4030-A302-DD2E4001D11E">
+                     <text>pic2</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-02.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_47d3feb6-fab3-4d40-a0c7-2babcae1c679">
+                     <text>pic3</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-03.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_0dfe1f28-cb42-4716-a778-3732b94de202">
+                     <text>pic4</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-04.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_4a3dd531-bcd1-45dc-b537-7a0b7668e26c">
+                     <text>pic5</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-05.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_1099def1-e8a1-459e-83c0-5056ddad7704">
+                     <text>pic6</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-06.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_9e074e75-ee3d-49e8-ae27-0c8aa13b8cbe">
+                     <text>pic7</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-07.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="FE4FF251-E81D-4E24-9816-BD2AD24CE22E">
+                     <text>pic8</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-08.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_62e6ea87-15b5-45bd-8b21-55ec048ccb11">
+                     <text>pic9</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-09.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="EEC75A5E-3FCE-4C7A-AE82-4F205ED35D14">
+                     <text>pic10</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-10.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia ID="ID_228143ee-d0c4-4198-8ca4-e8f93168d640">
+                     <text>pic11</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="image-11.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section ID="LINK_42301d79-4aaa-4ce5-8685-4794abfaddd3">
+               <id root="f8a2ceae-6d14-4c07-88c1-51a9e8835f94"/>
+               <code code="51945-4" codeSystem="2.16.840.1.113883.6.1" displayName="PACKAGE LABEL.PRINCIPAL DISPLAY PANEL"/>
+               <title>PACKAGE LABEL PRINCIPAL DISPLAY PANEL - MoviPrep Outer Carton</title>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">Rx only</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">NDC</content> 65649-201-75</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">MoviPrep</content>
+                     <sup>®</sup>
+                     <br/>(PEG-3350, Sodium Sulfate, Sodium Chloride, Potassium Chloride,<br/>Sodium Ascorbate and Ascorbic Acid for Oral Solution)<br/>100 g/7.5 g/2.691 g/1.015 g/5.9 g/4.7 g</paragraph>
+                  <paragraph>Phenylketonurics:<br/>contains phenylalanine – a maximum of 131 mg per course of treatment.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">PHARMACIST: Dispense the enclosed</content>
+                     <br/>
+                     <content styleCode="bold">Medication Guide to each patient.</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Keep out of reach of children.</content>
+                  </paragraph>
+                  <paragraph>This carton contains: <content styleCode="bold">One container to mix MoviPrep<sup>®</sup>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">2 Pouches Labeled </content>
+                     <br/>
+                     <content styleCode="bold">Pouch A:</content>
+                     <br/>PEG-3350   100 g<br/>Sodium sulfate   7.5g<br/>Sodium chloride   2.691 g<br/>Potassium chloride   1.015 g<br/>also contains aspartame<br/>
+                     <br/>
+                     <content styleCode="bold">2 Pouches Labeled </content>
+                     <br/>
+                     <content styleCode="bold">Pouch B:</content>
+                     <br/>Sodium ascorbate   5.9 g<br/>Ascorbic acid   4.7 g<br/>
+                     <br/>
+                     <content styleCode="bold">On mixing in 1 liter of water, one </content>
+                     <br/>
+                     <content styleCode="bold">Pouch A and one Pouch B provide:</content>
+                     <br/>PEG-3350   29.6 mmol/L<br/>Sodium   181.6 mmol/L<br/>Chloride   59.8 mmol/L<br/>Sulfate  52.8 mmol/L<br/>Potassium  14.2 mmol/L<br/>Ascorbate  29.8 mmol/L</paragraph>
+                  <paragraph>9656205<br/>70016298-02</paragraph>
+                  <renderMultiMedia ID="id379986012" referencedObject="ID_56685f4a-c702-43f9-b67e-be24b34a6130"/>
+               </text>
+               <effectiveTime value="20251031"/>
+               <component>
+                  <observationMedia ID="ID_56685f4a-c702-43f9-b67e-be24b34a6130">
+                     <text>Carton</text>
+                     <value mediaType="image/jpeg" xsi:type="ED">
+                        <reference value="carton.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+      </structuredBody>
+   </component>
+</document>

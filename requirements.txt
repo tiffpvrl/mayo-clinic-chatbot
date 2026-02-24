@@ -1,2 +1,20 @@
 fastapi==0.110.0
 uvicorn==0.29.0
+
+# Core dependencies
+requests>=2.31.0
+pandas>=2.0.0
+
+# PDF processing
+PyPDF2>=3.0.0
+
+# Text processing and chunking
+langchain>=0.1.0
+langchain-text-splitters>=0.0.1
+
+# Embeddings (choose one or both)
+sentence-transformers>=2.2.0
+# transformers>=4.30.0  # Uncomment if you want to use BioBERT or other HuggingFace models
+
+# Utilities
+pathlib2>=2.3.7; python_version < '3.4'  # pathlib is built-in for Python 3.4+

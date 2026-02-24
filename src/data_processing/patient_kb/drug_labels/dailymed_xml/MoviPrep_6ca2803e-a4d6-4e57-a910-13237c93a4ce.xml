@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="http://www.accessdata.fda.gov/spl/stylesheet/spl.xsl" type="text/xsl"?>
+<document xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 http://www.accessdata.fda.gov/spl/schema/spl.xsd">
+   <id root="ff3c9070-c458-4917-97a8-39c11edddd36"/>
+   <code code="34391-3" codeSystem="2.16.840.1.113883.6.1" displayName="HUMAN PRESCRIPTION DRUG LABEL"/>
+   <effectiveTime value="20091130"/>
+   <setId root="6ca2803e-a4d6-4e57-a910-13237c93a4ce"/>
+   <versionNumber value="1"/>
+   <author>
+      <time/>
+      <assignedEntity>
+         <representedOrganization>
+            <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+            <name>Physicians Total Care, Inc.</name>
+            <assignedEntity>
+               <assignedOrganization>
+                  <assignedEntity>
+                     <assignedOrganization>
+                        <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+                        <name>Physicians Total Care, Inc.</name>
+                     </assignedOrganization>
+                     <performance>
+                        <actDefinition>
+                           <code code="C73607" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="relabel"/>
+                        </actDefinition>
+                     </performance>
+                  </assignedEntity>
+               </assignedOrganization>
+            </assignedEntity>
+         </representedOrganization>
+      </assignedEntity>
+   </author>
+   <component>
+      <structuredBody>
+         <component>
+            <section>
+               <id root="f8d03ee1-d414-48f8-90fc-ba5c9054c343"/>
+               <code code="48780-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL listing data elements section"/>
+               <effectiveTime value="20091130"/>
+               <subject>
+                  <manufacturedProduct>
+                     <manufacturedProduct>
+                        <code code="54868-5890" codeSystem="2.16.840.1.113883.6.69"/>
+                        <name>MOVIPREP<suffix/>
+                        </name>
+                        <formCode code="C47916" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="KIT"/>
+                        <asEntityWithGeneric>
+                           <genericMedicine>
+                              <name>POLYETHYLENE GLYCOL 3350, SODIUM SULFATE, SODIUM CHLORIDE, POTASSIUM CHLORIDE,  SODIUM ASCORBATE and ASCORBIC ACID</name>
+                           </genericMedicine>
+                        </asEntityWithGeneric>
+                        <asEquivalentEntity classCode="EQUIV">
+                           <code code="C64637" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <definingMaterialKind>
+                              <code code="65649-201" codeSystem="2.16.840.1.113883.6.69"/>
+                           </definingMaterialKind>
+                        </asEquivalentEntity>
+                        <asContent>
+                           <quantity>
+                              <numerator value="1" unit="1">
+                                 <translation code="C48504" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="KIT"/>
+                              </numerator>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="54868-5890-0" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43186" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="CONTAINER"/>
+                           </containerPackagedProduct>
+                        </asContent>
+                        <part>
+                           <quantity>
+                              <numerator value="2" unit="L"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <partProduct>
+                              <code code="54868-5890" codeSystem="2.16.840.1.113883.6.69"/>
+                              <name>POUCH A<suffix/>
+                              </name>
+                              <formCode code="C42986" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="SOLUTION"/>
+                              <asEntityWithGeneric>
+                                 <genericMedicine>
+                                    <name>POLYETHYLENE GLYCOL 3350,SODIUM SULFATE,ANHYDROUS,SODIUM CHLORIDE,POTASSIUM CHLORIDE</name>
+                                 </genericMedicine>
+                              </asEntityWithGeneric>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator value="100" unit="g"/>
+                                    <denominator value="1" unit="L"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POLYETHYLENE GLYCOL 3350</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>POLYETHYLENE GLYCOL 3350</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator value="7.5" unit="g"/>
+                                    <denominator value="1" unit="L"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="0YPR65R21J" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM SULFATE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>SODIUM CATION</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator value="2.69" unit="g"/>
+                                    <denominator value="1" unit="L"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="451W47IQ8X" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CHLORIDE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>SODIUM CATION</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator value="1.015" unit="g"/>
+                                    <denominator value="1" unit="L"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="660YQ98I10" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POTASSIUM CHLORIDE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="295O53K152" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>POTASSIUM CATION</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="IACT">
+                                 <ingredientSubstance>
+                                    <code code="Z0H242BBR1" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>ASPARTAME</name>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="IACT">
+                                 <ingredientSubstance>
+                                    <code code="24RS0A988O" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>LEMON</name>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <asContent>
+                                 <quantity>
+                                    <numerator value="1" unit="L"/>
+                                    <denominator value="1"/>
+                                 </quantity>
+                                 <containerPackagedProduct>
+                                    <code/>
+                                    <formCode code="C43200" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="POUCH"/>
+                                 </containerPackagedProduct>
+                              </asContent>
+                           </partProduct>
+                           <subjectOf>
+                              <marketingAct>
+                                 <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                                 <statusCode code="active"/>
+                                 <effectiveTime>
+                                    <low value="20080530"/>
+                                 </effectiveTime>
+                              </marketingAct>
+                           </subjectOf>
+                           <subjectOf>
+                              <approval>
+                                 <id extension="NDA021881" root="2.16.840.1.113883.3.150"/>
+                                 <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                                 <author>
+                                    <territorialAuthority>
+                                       <territory>
+                                          <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                       </territory>
+                                    </territorialAuthority>
+                                 </author>
+                              </approval>
+                           </subjectOf>
+                           <consumedIn>
+                              <substanceAdministration>
+                                 <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                              </substanceAdministration>
+                           </consumedIn>
+                        </part>
+                        <part>
+                           <quantity>
+                              <numerator value="2" unit="L"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <partProduct>
+                              <code code="54868-5890" codeSystem="2.16.840.1.113883.6.69"/>
+                              <name>POUCH B<suffix/>
+                              </name>
+                              <formCode code="C42986" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="SOLUTION"/>
+                              <asEntityWithGeneric>
+                                 <genericMedicine>
+                                    <name>ASCORBIC ACID, SODIUM ASCORBATE</name>
+                                 </genericMedicine>
+                              </asEntityWithGeneric>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator value="4.7" unit="g"/>
+                                    <denominator value="1" unit="L"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="PQ6CK8PD0R" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>ASCORBIC ACID</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="PQ6CK8PD0R" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>ASCORBIC ACID</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="ACTIB">
+                                 <quantity>
+                                    <numerator value="5.9" unit="g"/>
+                                    <denominator value="1" unit="L"/>
+                                 </quantity>
+                                 <ingredientSubstance>
+                                    <code code="S033EH8359" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM ASCORBATE</name>
+                                    <activeMoiety>
+                                       <activeMoiety>
+                                          <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                          <name>SODIUM CATION</name>
+                                       </activeMoiety>
+                                    </activeMoiety>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <ingredient classCode="IACT">
+                                 <ingredientSubstance>
+                                    <code code="23OV73Q5G9" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>ACESULFAME POTASSIUM</name>
+                                 </ingredientSubstance>
+                              </ingredient>
+                              <asContent>
+                                 <quantity>
+                                    <numerator value="1" unit="L"/>
+                                    <denominator value="1"/>
+                                 </quantity>
+                                 <containerPackagedProduct>
+                                    <code/>
+                                    <formCode code="C43200" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="POUCH"/>
+                                 </containerPackagedProduct>
+                              </asContent>
+                           </partProduct>
+                           <subjectOf>
+                              <marketingAct>
+                                 <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                                 <statusCode code="active"/>
+                                 <effectiveTime>
+                                    <low value="20080530"/>
+                                 </effectiveTime>
+                              </marketingAct>
+                           </subjectOf>
+                           <subjectOf>
+                              <approval>
+                                 <id extension="NDA021881" root="2.16.840.1.113883.3.150"/>
+                                 <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                                 <author>
+                                    <territorialAuthority>
+                                       <territory>
+                                          <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                       </territory>
+                                    </territorialAuthority>
+                                 </author>
+                              </approval>
+                           </subjectOf>
+                           <consumedIn>
+                              <substanceAdministration>
+                                 <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                              </substanceAdministration>
+                           </consumedIn>
+                        </part>
+                     </manufacturedProduct>
+                     <subjectOf>
+                        <marketingAct>
+                           <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <statusCode code="active"/>
+                           <effectiveTime>
+                              <low value="20080530"/>
+                           </effectiveTime>
+                        </marketingAct>
+                     </subjectOf>
+                     <subjectOf>
+                        <approval>
+                           <id extension="NDA021881" root="2.16.840.1.113883.3.150"/>
+                           <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                           <author>
+                              <territorialAuthority>
+                                 <territory>
+                                    <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                 </territory>
+                              </territorialAuthority>
+                           </author>
+                        </approval>
+                     </subjectOf>
+                  </manufacturedProduct>
+               </subject>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="137e29ac-49cb-43e3-bff4-2661748978d6"/>
+               <code code="34067-9" codeSystem="2.16.840.1.113883.6.1" displayName="INDICATIONS &amp; USAGE SECTION"/>
+               <title>1 INDICATIONS AND USAGE</title>
+               <text>
+                  <paragraph>MoviPrep® is indicated for cleansing of the colon as a preparation for 
+colonoscopy in adults 18 years of age or older.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="54a37dcb-3d4e-4441-971d-b7f1791f206a"/>
+               <code code="34068-7" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE &amp; ADMINISTRATION SECTION"/>
+               <title>2 DOSAGE AND ADMINISTRATION</title>
+               <text>
+                  <paragraph>The MoviPrep dose for colon cleansing for adult patients is 2 
+liters (approximately 64 ounces) of MoviPrep solution (with 1 additional liter 
+of clear fluids) taken orally prior to the colonoscopy in one of the following 
+ways:</paragraph>
+                  <br/>
+                  <list listType="ordered" ID="idbf0dedf-1003-4d46-8941-999e8f30d9e3">
+                     <item>
+                        <content styleCode="bold">
+                           <content styleCode="emphasis">Split-dose MoviPrep 
+regimen:</content>
+                        </content>  The evening before the colonoscopy, take the first liter 
+of MoviPrep solution over one hour (one 8 ounce glass every 15 minutes) and then 
+drink 0.5 liters (approximately 16 ounces) of clear fluid.  Then, on the morning 
+of the colonoscopy, take the second liter of MoviPrep solution over one hour and 
+then drink 0.5 liters of clear liquid at least one hour prior to the start of 
+the colonoscopy; or 
+</item>
+                     <item>
+                        <content styleCode="bold">
+                           <content styleCode="emphasis">Evening only (Full-dose) MoviPrep 
+regimen:</content>
+                        </content>  Around 6 PM in the evening before the colonoscopy, take 
+the first liter of MoviPrep solution over one hour (one 8 ounce glass every 15 
+minutes) and then about 1.5 hours later take the second liter of MoviPrep 
+solution over one hour.  In addition, take 1 liter (approximately 32 ounces) of 
+additional clear liquid during the evening before the colonoscopy. 
+</item>
+                  </list>
+                  <br/>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">Preparation of the MoviPrep 
+solution:</content>
+                     </content>
+                  </paragraph>
+                  <paragraph>MoviPrep solution is prepared by emptying the contents of 1 pouch A and 1 
+pouch B into a suitable glass container (or the container provided) and adding 
+to the container 1 liter of lukewarm water.  Mix the solution to ensure that the 
+ingredients are completely dissolved.  If the patient prefers, the MoviPrep 
+solution can be refrigerated prior to drinking. The reconstituted solution 
+should be used within 24 hours.</paragraph>
+                  <br/>
+                  <paragraph>After consumption of the first liter of MoviPrep solution, the above mixing 
+procedure should be repeated with the second pouch A and pouch B to reconstitute 
+the second liter of the MoviPrep solution.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="88897de4-a937-447d-8523-fc0dfb0b25e8"/>
+               <code code="43678-2" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE FORMS &amp; STRENGTHS SECTION"/>
+               <title>3 DOSAGE FORMS AND STRENGTHS</title>
+               <text>
+                  <paragraph>MoviPrep is available in a carton that contains 4 separate pouches (2 of pouch A 
+and 2 of pouch B). Each pouch A contains 100 grams of polyethylene glycol (PEG) 
+3350, NF, 7.5 grams of sodium sulfate, USP, 2.691 grams of sodium chloride, USP, 
+and 1.015 grams of potassium chloride, USP, plus the following excipients: 
+aspartame, NF (sweetener), acesulfame potassium, NF (sweetener), and lemon 
+flavoring. Each pouch B contains 4.7 grams of ascorbic acid, USP and 5.9 grams 
+of sodium ascorbate, USP.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="b0f2a26a-647c-4399-ba0f-669e3a975ac9"/>
+               <code code="34070-3" codeSystem="2.16.840.1.113883.6.1" displayName="CONTRAINDICATIONS SECTION"/>
+               <title>4 CONTRAINDICATIONS</title>
+               <text>
+                  <paragraph>MoviPrep is contraindicated in patients who have had a severe hypersensitivity 
+reaction to any of its components.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="92d29d30-fb7f-4012-b4fe-d71a16a02f24"/>
+               <code code="43685-7" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS AND PRECAUTIONS SECTION"/>
+               <title>5 WARNINGS AND PRECAUTIONS</title>
+               <text>
+                  <paragraph>MoviPrep should be used with caution in patients with severe 
+ulcerative colitis, ileus, gastrointestinal obstruction or perforation, gastric 
+retention, toxic colitis, or toxic megacolon</paragraph>
+                  <br/>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">General</content>
+                     </content>
+                  </paragraph>
+                  <paragraph>Patients with impaired gag reflex and patients prone to regurgitation or 
+aspiration should be observed during the administration of MoviPrep.  If a 
+patient experiences severe bloating, abdominal distention, or abdominal pain, 
+administration should be slowed or temporarily discontinued until the symptoms 
+abate. If gastrointestinal obstruction or perforation is suspected, appropriate 
+tests should be performed to rule out these conditions before administration of 
+MoviPrep®.  </paragraph>
+                  <br/>
+                  <paragraph>Phenylketonurics: MoviPrep contains phenylalanine – a maximum of 2.33 mg of 
+phenylalanine per treatment.</paragraph>
+                  <br/>
+                  <paragraph>No additional ingredients (e.g., flavorings) should be added to the MoviPrep 
+solution.</paragraph>
+                  <br/>
+                  <paragraph>Since MoviPrep contains sodium ascorbate and ascorbic acid, MoviPrep should 
+be used with caution in patients with glucose-6-phosphate dehydrogenase (G-6-PD) 
+deficiency especially G-6-PD deficiency patients with an active infection, with 
+a history of hemolysis, or taking concomitant medications known to precipitate 
+hemolytic reactions.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>5.1 Seizures<paragraph>There have been rare reports of generalized tonic-clonic seizures 
+associated with use of polyethylene glycol colon preparation products in 
+patients with no prior history of seizures.  The seizure cases were associated 
+with electrolyte abnormalities (e.g., hyponatremia, hypokalemia).  The 
+neurologic abnormalities resolved with correction of fluid and electrolyte 
+abnormalities.  Therefore, MoviPrep should be used with caution in patients 
+using concomitant medications that increase the risk of electrolyte 
+abnormalities [such as diuretics or angiotensin converting enzyme 
+(ACE)-inhibitors] or in patients with known or suspected hyponatremia.  Consider 
+performing baseline and post-colonoscopy laboratory tests (sodium, potassium, 
+calcium, creatinine, and BUN) in these patients.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="ebad6de2-bbb4-4a30-9b28-8143a764239a"/>
+               <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+               <title>6 ADVERSE REACTIONS</title>
+               <text>
+                  <linkHtml href=""/>6.1 Clinical Studies Experience<paragraph>In the MoviPrep trials, abdominal distension, anal discomfort, 
+thirst, nausea, and abdominal pain were some of the most common adverse 
+reactions to MoviPrep administration.  Since diarrhea was considered as a part 
+of the efficacy of MoviPrep, diarrhea was not defined as an adverse reaction in 
+the clinical studies.  Tables 1 and 2 display the most common drug-related 
+adverse reactions of MoviPrep and its comparator in the controlled MoviPrep 
+trials.</paragraph>
+                  <table width="80%" ID="i558ed33d-555f-4fa7-8601-88d8007f204a">
+                     <caption>Table 1: The Most Common Drug-Related Adverse Reactions*   (≥ 2%) in the Study of MoviPrep vs. 4 liter Polyethylene Glycol plus Electrolytes Solution</caption>
+                     <tbody>
+                        <tr>
+                           <td>
+                              <br/>
+                           </td>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">MoviPrep®</content>
+                                 </content>
+                              </paragraph>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">(split dose)</content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">N=180</content>
+                              </content>
+                           </td>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">
+                                       <content styleCode="bold">
+                                          <content styleCode="emphasis">4L PEG + E</content>
+                                       </content>
+                                    </content>
+                                 </content>†<content styleCode="bold">
+                                    <content styleCode="emphasis"> <content styleCode="bold">
+                                          <content styleCode="emphasis"> </content>
+                                       </content>
+                                    </content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">N=179 </content>
+                              </content>    <br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <br/>
+                           </td>
+                           <td>n (% = n/N)<br/>
+                           </td>
+                           <td>n (% = n/N)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Malaise<br/>
+                           </td>
+                           <td>35 (19.4)<br/>
+                           </td>
+                           <td>32 (17.9)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Nausea<br/>
+                           </td>
+                           <td>26 (14.4)<br/>
+                           </td>
+                           <td>36 (20.1)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Abdominal pain<br/>
+                           </td>
+                           <td>24 (13.3)<br/>
+                           </td>
+                           <td>27 (15.1)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Vomiting<br/>
+                           </td>
+                           <td>14 (7.8)<br/>
+                           </td>
+                           <td>23 (12.8)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Upper abdominal pain<br/>
+                           </td>
+                           <td>10 (5.6)<br/>
+                           </td>
+                           <td>11 (6.1)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Dyspepsia<br/>
+                           </td>
+                           <td>5 (2.8)<br/>
+                           </td>
+                           <td>2 (1.1)<br/>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>*     Drug-related adverse reactions were adverse events that were possibly, probably, 
+or definitely related to the study drug.<br/>†     4L PEG + E is 4 liter Polyethylene Glycol plus Electrolytes Solution <br/>
+                  <br/>
+                  <table width="100%" ID="ice579cc7-df5d-4383-8648-1918cfbfd8d9">
+                     <caption>Table 2: The Most Common Drug-Related Adverse Reactions*    (≥ 5%) in the Study of MoviPrep vs. 90 mL Oral Sodium Phosphate Solution</caption>
+                     <tbody>
+                        <tr>
+                           <td>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">MoviPrep®</content>
+                              </content>
+                              <br/>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">(evening-only)</content>
+                              </content>
+                              <br/>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">(full dose)</content>
+                              </content>
+                              <br/>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">N=169</content>
+                              </content>
+                           </td>
+                           <td>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">90 mL OSPS</content>
+                              </content>†<content styleCode="bold">
+                                 <content styleCode="emphasis"/>
+                              </content>
+                              <br/>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">N=171</content>
+                              </content>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <br/>
+                           </td>
+                           <td>n (% = n/N)<br/>
+                           </td>
+                           <td>n (% = n/N)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Abdominal distension<br/>
+                           </td>
+                           <td>101 (59.8)<br/>
+                           </td>
+                           <td>70 (40.9)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Anal discomfort<br/>
+                           </td>
+                           <td>87 (51.5)<br/>
+                           </td>
+                           <td>89 (52.0)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Thirst<br/>
+                           </td>
+                           <td>80 (47.3)<br/>
+                           </td>
+                           <td>112 (65.5)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Nausea<br/>
+                           </td>
+                           <td>80 (47.3)<br/>
+                           </td>
+                           <td>80 (46.8)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Abdominal paint<br/>
+                           </td>
+                           <td>66 (39.1)<br/>
+                           </td>
+                           <td>55 (32.2)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Sleep disorder<br/>
+                           </td>
+                           <td>59 (34.9)<br/>
+                           </td>
+                           <td>49 (28.7)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Rigors<br/>
+                           </td>
+                           <td>57 (33.7)<br/>
+                           </td>
+                           <td>51 (29.8)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Hunger<br/>
+                           </td>
+                           <td>51 (30.2)<br/>
+                           </td>
+                           <td>121 (70.8)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Malaise<br/>
+                           </td>
+                           <td>45 (26.6)<br/>
+                           </td>
+                           <td>90 (52.6)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Vomiting<br/>
+                           </td>
+                           <td>12 (7.1)<br/>
+                           </td>
+                           <td>14 (8.2)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Dizziness<br/>
+                           </td>
+                           <td>11 (6.5)<br/>
+                           </td>
+                           <td>31 (18.1)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Headache<br/>
+                           </td>
+                           <td>3 (1.8)<br/>
+                           </td>
+                           <td>9 (5.3)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Hypokalemia<br/>
+                           </td>
+                           <td>0 (0)<br/>
+                           </td>
+                           <td>10 (5.8)<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Hyperphosphatemia<br/>
+                           </td>
+                           <td>0 (0)<br/>
+                           </td>
+                           <td>10 (5.8)<br/>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <content styleCode="bold">
+                     <content styleCode="emphasis"/>
+                  </content>
+                  <br/>*     Drug-related adverse reactions were adverse events that were possibly, probably, 
+or definitely related to the study drug. In addition to the recording of 
+spontaneous adverse events, patients were also specifically asked about the 
+occurrence of the following symptoms: shivering, anal irritations, abdominal 
+bloating or fullness, sleep loss, nausea, vomiting, weakness, hunger sensation, 
+abdominal cramps or pain, thirst sensation, and dizziness.<br/>†     OSPS is Oral Sodium Phosphate Solution<br/>
+                  <br/>
+                  <paragraph>Isolated cases of urticaria, rhinorrhea, dermatitis, and anaphylactic 
+reaction have been reported with PEG-based products and may represent allergic 
+reactions.</paragraph>
+                  <paragraph>Published literature contains isolated reports of serious adverse events 
+following the administration of PEG-based products in patients over 60 years of 
+age. These adverse events included upper gastrointestinal bleeding from a 
+Mallory-Weiss tear, esophageal perforation, asystole, and acute pulmonary edema 
+after aspirating the PEG-based preparation.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>6.2 Postmarketing Experience<paragraph>In addition to adverse events reported from clinical trials, the 
+following adverse events have been identified during post-approval use of 
+MoviPrep. Because they are reported voluntarily from a population of unknown 
+size, estimates of frequency cannot be made. These events have been chosen for 
+inclusion due to either their seriousness, frequency of reporting or causal 
+connection to MoviPrep, or a combination of these factors. </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">General:</content>
+                     </content> Hypersensitivity 
+reactions including anaphylaxis, rash, urticaria, lip and facial swelling, 
+dyspnea, chest tightness and throat tightness.</paragraph>
+                  <br/>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="57151e91-118f-4547-9a90-7bbb0aee1265"/>
+               <code code="34073-7" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG INTERACTIONS SECTION"/>
+               <title>7  DRUG INTERACTIONS</title>
+               <text>
+                  <paragraph>Oral medication administered within 1 hour of the start of administration of 
+MoviPrep may be flushed from the gastrointestinal tract and the medication may 
+not be absorbed.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="95a49e3b-6200-46cb-9843-fc6b5f1c01b8"/>
+               <code code="43684-0" codeSystem="2.16.840.1.113883.6.1" displayName="USE IN SPECIFIC POPULATIONS SECTION"/>
+               <title>8  USE IN SPECIFIC POPULATIONS</title>
+               <text>
+                  <linkHtml href=""/>8.1 Pregnancy: Teratogenic Effects<paragraph>Pregnancy Category C. Animal reproduction studies have not been 
+performed with MoviPrep.  It is also not known if MoviPrep can cause fetal harm 
+when administered to a pregnant woman or can affect reproductive capacity. 
+MoviPrep should be given to a pregnant woman only if clearly needed.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>8.3 Nursing Mothers<paragraph>Because many drugs are excreted in human milk, caution should be 
+exercised when MoviPrep is administered to a nursing woman.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>8.4 Pediatric Use<paragraph>The safety and effectiveness of MoviPrep in pediatric patients 
+has not been established.<br/>
+                  </paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>8.5 Geriatric Use<paragraph>Of the 413 patients in clinical studies receiving MoviPrep, 91 
+(22%) patients were aged 65 or older, while 25 (6%) patients were over 75 years 
+of age.  No overall differences in safety or effectiveness were observed between 
+geriatric patients and younger patients, and other reported clinical experience 
+has not identified differences in responses between geriatric patients and 
+younger patients, but greater sensitivity of some older individuals cannot be 
+ruled out.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="4f106790-dda4-42ac-94eb-43a924e058fd"/>
+               <code code="34088-5" codeSystem="2.16.840.1.113883.6.1" displayName="OVERDOSAGE SECTION"/>
+               <title>10  OVERDOSAGE</title>
+               <text>
+                  <paragraph>There have been no reported cases of overdose with MoviPrep.  Purposeful or 
+gross accidental ingestion of more than the recommended dose of MoviPrep might 
+be expected to lead to severe electrolyte disturbances, including hyponatremia 
+and/or hypokalemia, as well as dehydration and hypovolemia, with signs and 
+symptoms of these disturbances. The patient who has taken an overdose should be 
+monitored carefully, and treated symptomatically for complications until stable.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="faa339dd-d866-4c16-87cb-37559f84a305"/>
+               <code code="34089-3" codeSystem="2.16.840.1.113883.6.1" displayName="DESCRIPTION SECTION"/>
+               <title>11 DESCRIPTION</title>
+               <text>
+                  <paragraph>MoviPrep® consists of 4 separate pouches (2 of pouch A and 2 of pouch B) 
+containing white to yellow powder for reconstitution.  Each pouch A contains 100 
+grams of polyethylene glycol (PEG) 3350, NF, 7.5 grams of sodium sulfate, USP, 
+2.691 grams of sodium chloride, USP, and 1.015 grams of potassium chloride, USP, 
+plus the following excipients: aspartame, NF (sweetener), acesulfame potassium, 
+NF (sweetener), and lemon flavoring. Each pouch B contains 4.7 grams of ascorbic 
+acid, USP and 5.9 grams of sodium ascorbate, USP.  When 1 pouch A and 1 pouch B 
+are dissolved together in water to a volume of 1 liter, MoviPrep (PEG-3350, 
+sodium sulfate, sodium chloride, potassium chloride, sodium ascorbate, and 
+ascorbic acid) is an oral solution having a lemon taste.<br/> <br/>The entire, 
+reconstituted, 2-liter MoviPrep colon preparation contains 200 grams of 
+PEG-3350, 15 grams of sodium sulfate, 5.38 grams of sodium chloride, 2.03 grams 
+of potassium chloride, 9.4 grams of ascorbic acid, and 11.8 grams of sodium 
+ascorbate plus the following excipients: aspartame (sweetener), acesulfame 
+potassium (sweetener), and lemon flavoring.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="522339ed-5f70-43cf-8af3-f72b9529100e"/>
+               <code code="34090-1" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL PHARMACOLOGY SECTION"/>
+               <title>12  CLINICAL PHARMACOLOGY</title>
+               <text>
+                  <paragraph>MoviPrep produces a watery stool leading to cleansing of the 
+colon. The osmotic activity of polyethylene glycol 3350, sodium sulfate, sodium 
+chloride, potassium chloride, sodium ascorbate, and ascorbic acid, when taken 
+with 1 liter of additional clear fluid, usually results in no net absorption or 
+excretion of ions or water. </paragraph>
+                  <br/>
+                  <paragraph>The pharmacokinetics of MoviPrep have not been studied in patients with renal 
+or hepatic insufficiency.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="8832224c-f982-4cd1-91ac-56405b812a86"/>
+               <code code="43680-8" codeSystem="2.16.840.1.113883.6.1" displayName="NONCLINICAL TOXICOLOGY SECTION"/>
+               <title>13  NONCLINICAL TOXICOLOGY</title>
+               <text>
+                  <linkHtml href=""/>13.1 Carcinogenesis, Mutagenesis, Impairment of 
+Fertility<paragraph>Long-term studies in animals to evaluate the carcinogenic 
+potential have not been performed with MoviPrep®.  Studies to evaluate potential 
+for impairment of fertility or mutagenic potential have not been performed with 
+MoviPrep®.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="257111bc-9542-47dc-ae47-3c9adc4c3478"/>
+               <code code="34092-7" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL STUDIES SECTION"/>
+               <title>14  CLINICAL STUDIES</title>
+               <text>
+                  <paragraph>The colon cleansing efficacy and safety of MoviPrep was evaluated 
+in two randomized, actively-controlled, multi-center, investigator-blinded, 
+phase 3 trials in patients scheduled to have an elective colonoscopy. </paragraph>
+                  <br/>
+                  <paragraph>In the first study, patients were randomized to one of the following two 
+colon preparation treatments:  1) 2 liters of MoviPrep with 1 additional liter 
+of clear fluid split into two doses (during the evening before and the morning 
+of the colonoscopy) and 2) 4 liters of polyethylene glycol plus electrolytes 
+solution (4L PEG + E) split into two doses (during the evening before and the 
+morning of the colonoscopy).  Patients were allowed to have a morning breakfast, 
+a light lunch, clear soup and/or plain yogurt for dinner.  Dinner had to be 
+completed at least one hour prior to initiation of the colon preparation 
+administration.  </paragraph>
+                  <br/>
+                  <paragraph>The primary efficacy endpoint was the proportion of patients with effective 
+colon cleansing as judged by blinded gastroenterologists on the basis of 
+videotapes recorded during the colonoscopy. <br/>The blinded gastroenterologists 
+graded the colon cleansing twice (during introduction and withdrawal of the 
+colonoscope) and the poorer of the two assessments was used in the primary 
+efficacy analysis.  </paragraph>
+                  <br/>
+                  <paragraph>The efficacy analysis included 308 adult patients who had an elective 
+colonoscopy.  Patients ranged in age from 18 to 88 years old (mean age about 59 
+years old) with 52% female and 48% male patients.  Table 3 displays the results.</paragraph>
+                  <table width="100%" ID="i5b00a400-f423-4441-8be1-520ff67a1f5e">
+                     <caption>Table 3: Effectiveness of Overall Colon Cleansing in the Study of MoviPrep vs 4 Liter Polyethylene Glycol plus Electrolytes Solution</caption>
+                     <tbody>
+                        <tr>
+                           <td>
+                              <br/>
+                           </td>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">Responders</content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">A</content>
+                              </content>*<content styleCode="bold">
+                                 <content styleCode="emphasis">   or B</content>
+                              </content>†<content styleCode="bold">
+                                 <content styleCode="emphasis"> </content>
+                              </content>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">  (%)</content>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">C</content>
+                              </content>‡<content styleCode="bold">
+                                 <content styleCode="emphasis">   (%)</content>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">D</content>
+                              </content>§<content styleCode="bold">
+                                 <content styleCode="emphasis">   (%)</content>
+                              </content>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">MoviPrep®</content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">    (N=153)</content>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>88.9<br/>
+                           </td>
+                           <td>9.8<br/>
+                           </td>
+                           <td>1.3<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">
+                                       <content styleCode="bold">
+                                          <content styleCode="emphasis">4L PEG + E</content>
+                                       </content>
+                                    </content>
+                                 </content>¶<content styleCode="bold">
+                                    <content styleCode="emphasis"> <content styleCode="bold">
+                                          <content styleCode="emphasis"> </content>
+                                       </content>
+                                    </content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">    (N=155)</content>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>94.8<br/>
+                           </td>
+                           <td>4.5<br/>
+                           </td>
+                           <td>0.6<br/>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <br/>*     A: colon empty and clean or presence of clear liquid, but easily removed by 
+suction <br/>†     B: brown liquid or semisolid remaining amounts of stool, fully removable by 
+suction or displaceable, thus allowing a complete visualization of the gut 
+mucosa <br/>‡     C: semisolid amounts of stool, only partially removable with a risk of 
+incomplete visualization of the gut mucosa <br/>
+                  <content styleCode="bold">
+                     <content styleCode="emphasis"/>
+                  </content>§     D: semisolid or solid amounts of stool; consequently colonoscopy incomplete or 
+needed to be terminated. 4 L PEG+E's responder rate was not significantly higher 
+than MoviPrep's responder rate.<br/>¶     4L PEG + E is 4 Liter Polyethylene Glycol plus Electrolytes Solution<br/>
+                  <br/>
+                  <paragraph>In the second study, patients were randomized to one of the following two 
+colon preparation treatments:  1) 2 liters of MoviPrep with 1 additional liter 
+of clear fluid in the evening prior to the colonoscopy and 2) 90 mL of oral 
+sodium phosphate solution (90 mL OSPS) with at least 2 liters of additional 
+clear fluid during the day and evening prior to the colonoscopy.  Patients 
+randomized to MoviPrep therapy were allowed to have a morning breakfast; a light 
+lunch; and clear soup and/or plain yogurt for dinner.  Dinner had to be 
+completed at least one hour prior to initiation of the colon preparation 
+administration.<br/> <br/>The primary efficacy endpoint was the proportion of 
+patients with effective colon cleansing as judged by the colonoscopist and one 
+blinded gastroenterologist (on the basis of videotapes recorded during the 
+colonoscopy).  In case of a discrepancy between the colonoscopist and the 
+blinded gastroenterologist, a second blinded gastroenterologist made the final 
+efficacy determination.</paragraph>The efficacy analysis included 280 adult patients who had an elective 
+colonoscopy.  Patients ranged in age from 21 to 76 years old (mean age about 53 
+years old) with 47% female and 53% male patients.  Table 4 displays the results.<br/>
+                  <table width="100%" ID="ie127cd5c-de17-4aee-885a-a5c288b2575d">
+                     <caption>Table 4: Effectiveness of Overall Colon Cleansing in the Study of MoviPrep vs 90mL Oral Sodium Phosphate Solution </caption>
+                     <tbody>
+                        <tr>
+                           <td>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis"/>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">Responders</content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">A</content>
+                              </content>*<content styleCode="bold">
+                                 <content styleCode="emphasis"> or B</content>
+                              </content>†<content styleCode="bold">
+                                 <content styleCode="emphasis"> (%)</content>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">C</content>
+                              </content>‡<content styleCode="bold">
+                                 <content styleCode="emphasis"> (%)</content>
+                              </content>
+                           </td>
+                           <td>D§ (%)</td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">MoviPrep®</content>
+                                 </content>
+                              </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">(N=137)</content>
+                              </content>
+                           </td>
+                           <td>73.0<br/>
+                           </td>
+                           <td>23.4<br/>
+                           </td>
+                           <td>3.6</td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <paragraph>
+                                 <content styleCode="bold">
+                                    <content styleCode="emphasis">90 mL OSPS</content>
+                                 </content>¶ </paragraph>
+                              <content styleCode="bold">
+                                 <content styleCode="emphasis">(N=143)</content>
+                              </content>
+                              <br/>
+                           </td>
+                           <td>64.4<br/>
+                           </td>
+                           <td>29.4<br/>
+                           </td>
+                           <td>6.3<br/>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <br/>
+                  <br/>*     A: empty and clean or clear liquid (transparent, yellow, or green) <br/>†     B: brown liquid or semisolid remaining small amounts of stool, fully removable 
+by suction or displaceable allowing a complete visualization of the underlying 
+mucosa <br/>‡     C: semi solid only partially removable/displaceable stools; risk of incomplete 
+examination of the underlying mucosa <br/>§     D: heavy and hard stool making the segment examination uninterpretable and, 
+consequently, the colonoscopy needed to be terminated <br/>¶     <br/>OSPS is Oral Sodium Phosphate Solution <br/>MoviPrep's responder rate was not significantly higher than OSPS's responder 
+rate.<br/>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="92fa19f5-2568-40b4-a5bd-438d3a0bc63c"/>
+               <code code="34069-5" codeSystem="2.16.840.1.113883.6.1" displayName="HOW SUPPLIED SECTION"/>
+               <title>16  HOW SUPPLIED/STORAGE AND HANDLING</title>
+               <text>
+                  <paragraph>MoviPrep® is supplied in powdered form.  MoviPrep is administered 
+as an oral solution after reconstitution. </paragraph>
+                  <paragraph>NDC 54868-5890-0, MoviPrep, single use carton. <br/>
+                     <br/>
+                  </paragraph>
+                  <paragraph>Each carton contains a disposable container for reconstitution of MoviPrep® 
+and an inner carton containing 4 pouches (2 of pouch A and 2 of pouch 
+B).</paragraph>
+                  <br/>
+                  <br/>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">Rx only</content>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">STORAGE</content>
+                     </content>
+                     <br/>
+                     <br/>Store 
+carton/container at 25°C (77°F); excursions permitted to 15-30°C (59-86°F). When 
+reconstituted, store upright and keep solution refrigerated. Use within 24 
+hours.</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="530d5fee-58a9-42dc-ba3e-ea723ee89de4"/>
+               <code code="34076-0" codeSystem="2.16.840.1.113883.6.1" displayName="INFORMATION FOR PATIENTS SECTION"/>
+               <title>17  PATIENT COUNSELING INFORMATION</title>
+               <text>
+                  <paragraph>Important Precautions Regarding MOVIPREP</paragraph>
+                  <paragraph>MoviPrep produces a watery stool which cleanses the colon before 
+colonoscopy.  It is recommended that patients receiving MoviPrep be advised to 
+adequately hydrate before, during, and after the use of MoviPrep. Patients may 
+have clear soup and/or plain yogurt for dinner, finishing the evening meal at 
+least one hour prior to the start of MoviPrep treatment.  No solid food should 
+be taken from the start of MoviPrep treatment until after the 
+colonoscopy.</paragraph>
+                  <br/>
+                  <paragraph>What Patients Should Know About Adverse Reactions</paragraph>
+                  <paragraph>The first bowel movement may occur approximately 1 hour after the start of 
+MoviPrep administration. Abdominal bloating and distention may occur before the 
+first bowel movement. If severe abdominal discomfort or distention occurs, stop 
+drinking temporarily or drink each portion at longer intervals until these 
+symptoms disappear.</paragraph>
+                  <br/>
+                  <br/>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">
+                           <content styleCode="bold">
+                              <content styleCode="emphasis">Manufactured by:</content>
+                           </content>
+                           <br/>
+                        </content>
+                     </content>Norgine 
+B.V.<br/>Hogehilweg 7<br/>1101 CA Amsterdam Zuidoost<br/>Netherlands </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">
+                           <content styleCode="bold">
+                              <content styleCode="emphasis">For:</content>
+                           </content>
+                           <br/>
+                        </content>
+                     </content>Salix Pharmaceuticals, 
+Inc.<br/>Morrisville, NC 27560</paragraph>
+                  <paragraph>© 2006 Salix Pharmaceuticals, Inc.<br/>VENART xxx-x/June 09</paragraph>
+                  <paragraph>Product protected by U.S. Patent No. 7169381 and other pending applications</paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="edbc089a-955a-4665-b9ba-1b0c0cba747d"/>
+               <code code="51945-4" codeSystem="2.16.840.1.113883.6.1" displayName="PACKAGE LABEL.PRINCIPAL DISPLAY PANEL"/>
+               <title>PRINCIPAL DISPLAY PANEL</title>
+               <text>
+                  <paragraph/>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">
+                           <content styleCode="bold">
+                              <content styleCode="emphasis">MoviPrep®</content>
+                           </content>
+                           <br/>
+                        </content>
+                     </content>(PEG-3350, Sodium 
+Sulfate, Sodium Chloride, Potassium Chloride, Sodium Ascorbate and Ascorbic Acid 
+for Oral Solution) </paragraph>
+                  <paragraph>Phenylketonurics:<br/>contains phenylalanine – a maximum of 2.33 mg per course 
+of treatment.</paragraph>
+                  <paragraph>This carton contains<br/>One container for reconstitution of <content styleCode="bold">
+                        <content styleCode="emphasis">MoviPrep®</content>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <renderMultiMedia referencedObject="MM1"/>
+                  </paragraph>
+               </text>
+               <effectiveTime value="20091130"/>
+               <component>
+                  <observationMedia classCode="OBS" moodCode="EVN" ID="MM1">
+                     <text>image of package label</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="package label.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+      </structuredBody>
+   </component>
+</document>

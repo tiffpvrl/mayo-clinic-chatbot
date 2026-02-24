@@ -1,0 +1,39 @@
+{
+  "drug_name": "Clenpiq",
+  "set_id": "e95fff66-4ec0-4001-a727-33e66a5ec7d5",
+  "source": "DailyMed",
+  "sections": {
+    "indications_and_usage": {
+      "title": "1 INDICATIONS AND USAGE",
+      "content": "CLENPIQ is indicated for cleansing of the colon as a preparation for colonoscopy in adults and pediatric patients 9 years of age and older."
+    },
+    "dosage_and_administration": {
+      "title": "2 DOSAGE AND ADMINISTRATION",
+      "content": "Administration: CLENPIQ is ready to drink. It does not need to be diluted prior to administration. One bottle of CLENPIQ is equivalent to one dose.  ( 2.1 ) Two doses of CLENPIQ are required for a complete preparation for colonoscopy as a Split-Dose regimen.  ( 2.1 ) Consume five or more 8-ounce cups of clear liquids after the first dose and four or more 8-ounce cups of clear liquids after the second dose. ( 2.2 ) Consume a variety of clear liquids after each dose of CLENPIQ.  Ensure inclusion of balanced electrolyte solution along with other clear liquids. ( 2.1 , 5.1 , 5.5 ) Administer oral medications at least 1 hour before starting CLENPIQ. ( 2.1 , 7.2 ) If taking tetracycline or fluoroquinolone antibiotics, iron, digoxin, chlorpromazine, or penicillamine, take these medications at least 2 hours before and not less than 6 hours after administration of CLENPIQ. ( 2.1 , 7.3 ) For complete information on preparation before colonoscopy and administration of the dosage regimen, see full prescribing information. ( 2.1 , 2.2 ) Split-Dose Dosage Regimen ( 2.2 ) First dose: administer during evening before the colonoscopy Second dose: administer the next day, during the morning prior to the colonoscopy."
+    },
+    "special_populations": {
+      "title": "special_populations",
+      "content": "Manufactured by: ASM Aerosol-Service AG Industriestrasse 11, CH - 4313 Möhlin Switzerland Manufactured for: Ferring Pharmaceuticals Inc. Parsippany, N.J. 07054 Rev. 10/2024"
+    },
+    "contraindications": {
+      "title": "4 CONTRAINDICATIONS",
+      "content": "CLENPIQ is contraindicated in the following conditions: Patients with severe renal impairment (creatinine clearance less than 30 mL/minute), which may result in accumulation of magnesium [see Warnings and Precautions (5.3) ]. Gastrointestinal obstruction or ileus [see Warnings and Precautions (5.6) ]. Bowel perforation [see Warnings and Precautions (5.6) ]. Toxic colitis or toxic megacolon. Gastric retention. Hypersensitivity to any of the ingredients in CLENPIQ [see Adverse Reactions (6.2) ]."
+    },
+    "warnings": {
+      "title": "5 WARNINGS AND PRECAUTIONS",
+      "content": "Risk of fluid and electrolyte abnormalities, arrhythmia, seizures, and renal impairment : Encourage adequate hydration, assess concurrent medications, and consider laboratory assessments prior to and after use. ( 5.1 , 5.2 , 5.3 , 5.4 , 7.1 ) Use in patients with renal impairment or taking concomitant medications that affect renal function : Use caution, ensure adequate hydration, and consider testing. ( 4 , 5.3 , 7.1 ) Syncope : Resulted in serious outcomes including falls, head injuries, and fractures; encourage adequate hydration. ( 5.5 ) Mucosal ulcerations : Consider potential for mucosal ulcerations when interpreting colonoscopy findings in patients with known or suspected inflammatory bowel disease. ( 5.6 ) Suspected GI obstruction or perforation : Rule out diagnosis before administration. ( 4 , 5.7 ) Patients at risk for aspiration : Observe during administration. ( 5.8 )"
+    },
+    "adverse_reactions": {
+      "title": "6 ADVERSE REACTIONS",
+      "content": "The following serious or otherwise important adverse reactions for bowel preparations are described elsewhere in the labeling: Serious Fluid and Electrolyte Abnormalities [see Warnings and Precautions (5.1) ] Seizures [see Warnings and Precautions (5.2) ] Use in Patients with Renal Impairment [see Warnings and Precautions (5.3) ] Cardiac Arrhythmias [see Warnings and Precautions (5.4) ] Syncope [see Warnings and Precautions (5.5) ] Colonic Mucosal Ulceration, Ischemic Colitis and Ulcerative Colitis [see Warnings and Precautions (5.6) ] Use in Patients with Significant Gastrointestinal Disease [see Warnings and Precautions (5.7) ] Aspiration [see Warnings and Precautions (5.8) ]"
+    },
+    "drug_interactions": {
+      "title": "7 DRUG INTERACTIONS",
+      "content": "Drugs that increase risks due to fluid and electrolyte changes. ( 7.1 )"
+    },
+    "patient_counseling_information": {
+      "title": "17 PATIENT COUNSELING INFORMATION",
+      "content": "Advise the patient to read the FDA-approved patient labeling (Medication Guide and Instructions for Use). Instruct patients: CLENPIQ is ready to drink. It is a clear solution with possible presence of visible particles and it does not need to be diluted prior to administration. One bottle of CLENPIQ is equivalent to one dose. Two doses of CLENPIQ are required for a complete preparation for colonoscopy as a Split-Dose regimen. See Instructions for Use . Follow the directions in the Instructions for Use , for the Split-Dose regimen, as prescribed. Consume five or more 8-ounce cups of clear liquids after the first dose and four or more 8-ounce cups of clear liquids after the second dose [see Dosage and Administration (2.2) ] . Consume a variety of clear liquids after each dose of CLENPIQ. Ensure inclusion of balanced electrolyte solution, along with other clear liquids [see Dosage and Administration (2.1) , Warnings and Precautions (5.1 , 5.5) ] . Consume only clear liquids (no solid food) on the day before colonoscopy and until after the colonoscopy. Do not eat solid food or dairy and do not drink anything colored red or purple. Do not drink alcohol. Do not take other laxatives while taking CLENPIQ. Administer oral medications at least one hour before starting each dose of CLENPIQ. If taking tetracycline or fluoroquinolone antibiotics, iron, digoxin, chlorpromazine, or penicillamine, take these medications at least 2 hours before and not less than 6 hours after administration of CLENPIQ. Delay the second dose of CLENPIQ, if severe bloating, distention, or abdominal pain occurs following the first dose until the symptoms resolve. Tell their healthcare provider if they have a history of fainting [see Warnings and Precautions (5.5) ] . Contact their healthcare provider if they develop significant vomiting or signs of dehydration during or after taking CLENPIQ or if they experience confusion, delirium, dizziness, lightheadedness, fainting, loss of consciousness, or seizures [see Warnings and Precautions (5.1 , 5.2 , 5.4 , 5.5) ] ."
+    }
+  }
+}

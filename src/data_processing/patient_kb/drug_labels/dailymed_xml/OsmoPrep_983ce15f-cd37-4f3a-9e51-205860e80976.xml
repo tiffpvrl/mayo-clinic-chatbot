@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="http://www.accessdata.fda.gov/spl/stylesheet/spl.xsl" type="text/xsl"?>
+<document xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 http://www.accessdata.fda.gov/spl/schema/spl.xsd">
+   <id root="f849b89b-f428-48c3-a779-463e444ec8ce"/>
+   <code code="34391-3" codeSystem="2.16.840.1.113883.6.1" displayName="HUMAN PRESCRIPTION DRUG LABEL"/>
+   <effectiveTime value="20100604"/>
+   <setId root="983ce15f-cd37-4f3a-9e51-205860e80976"/>
+   <versionNumber value="3"/>
+   <author>
+      <time/>
+      <assignedEntity>
+         <representedOrganization>
+            <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+            <name>Physicians Total Care, Inc.</name>
+            <assignedEntity>
+               <assignedOrganization>
+                  <assignedEntity>
+                     <assignedOrganization>
+                        <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+                        <name>Physicians Total Care, Inc.</name>
+                     </assignedOrganization>
+                     <performance>
+                        <actDefinition>
+                           <code code="C73607" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="relabel"/>
+                        </actDefinition>
+                     </performance>
+                     <performance>
+                        <actDefinition>
+                           <code code="C73606" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="repack"/>
+                        </actDefinition>
+                     </performance>
+                  </assignedEntity>
+               </assignedOrganization>
+            </assignedEntity>
+         </representedOrganization>
+      </assignedEntity>
+   </author>
+   <component>
+      <structuredBody>
+         <component>
+            <section>
+               <id root="d122a094-7e3e-498f-80e5-a457a0b75734"/>
+               <code code="48780-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL listing data elements section"/>
+               <effectiveTime value="20100820"/>
+               <subject>
+                  <manufacturedProduct>
+                     <manufacturedProduct>
+                        <code code="54868-5889" codeSystem="2.16.840.1.113883.6.69"/>
+                        <name>OsmoPrep<suffix/>
+                        </name>
+                        <formCode code="C42998" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="TABLET"/>
+                        <asEntityWithGeneric>
+                           <genericMedicine>
+                              <name>SODIUM PHOSPHATE, MONOBASIC, MONOHYDRATE, SODIUM PHOSPHATE, DIBASIC ANHYDROUS</name>
+                           </genericMedicine>
+                        </asEntityWithGeneric>
+                        <asEquivalentEntity classCode="EQUIV">
+                           <code code="C64637" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <definingMaterialKind>
+                              <code code="65649-701" codeSystem="2.16.840.1.113883.6.69"/>
+                           </definingMaterialKind>
+                        </asEquivalentEntity>
+                        <ingredient classCode="ACTIM">
+                           <quantity>
+                              <numerator value="1.102" unit="g"/>
+                              <denominator value="1" unit="1"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="593YOG76RN" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM PHOSPHATE, MONOBASIC, MONOHYDRATE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="Q662QK8M3B" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>POLYETHYLENE GLYCOL 8000</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIM">
+                           <quantity>
+                              <numerator value="0.398" unit="g"/>
+                              <denominator value="1" unit="1"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="22ADO53M6F" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM PHOSPHATE, DIBASIC ANHYDROUS</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="70097M6I30" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>MAGNESIUM STEARATE</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <asContent>
+                           <quantity>
+                              <numerator value="32" unit="1">
+                                 <translation code="C48542" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="TABLET"/>
+                              </numerator>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="54868-5889-0" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43173" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="BOTTLE, PLASTIC"/>
+                           </containerPackagedProduct>
+                        </asContent>
+                        <asContent>
+                           <quantity>
+                              <numerator value="4" unit="1">
+                                 <translation code="C48542" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="TABLET"/>
+                              </numerator>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="54868-5889-1" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43173" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="BOTTLE, PLASTIC"/>
+                           </containerPackagedProduct>
+                        </asContent>
+                     </manufacturedProduct>
+                     <subjectOf>
+                        <marketingAct>
+                           <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <statusCode code="active"/>
+                           <effectiveTime>
+                              <low value="20080530"/>
+                           </effectiveTime>
+                        </marketingAct>
+                     </subjectOf>
+                     <subjectOf>
+                        <approval>
+                           <id extension="NDA021892" root="2.16.840.1.113883.3.150"/>
+                           <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                           <author>
+                              <territorialAuthority>
+                                 <territory>
+                                    <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                 </territory>
+                              </territorialAuthority>
+                           </author>
+                        </approval>
+                     </subjectOf>
+                     <subjectOf>
+                        <characteristic classCode="OBS">
+                           <code code="SPLCOLOR" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                           <value code="C48325" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="white" xsi:type="CE">
+                              <originalText/>
+                           </value>
+                        </characteristic>
+                     </subjectOf>
+                     <subjectOf>
+                        <characteristic classCode="OBS">
+                           <code code="SPLSCORE" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                           <value value="2" xsi:type="INT"/>
+                        </characteristic>
+                     </subjectOf>
+                     <subjectOf>
+                        <characteristic classCode="OBS">
+                           <code code="SPLSHAPE" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                           <value code="C48345" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="OVAL" xsi:type="CE">
+                              <originalText/>
+                           </value>
+                        </characteristic>
+                     </subjectOf>
+                     <subjectOf>
+                        <characteristic classCode="OBS">
+                           <code code="SPLIMPRINT" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                           <value xsi:type="ST">SLX;102</value>
+                        </characteristic>
+                     </subjectOf>
+                     <subjectOf>
+                        <characteristic classCode="OBS">
+                           <code code="SPLSIZE" codeSystem="2.16.840.1.113883.1.11.19255"/>
+                           <value unit="mm" value="18" xsi:type="PQ"/>
+                        </characteristic>
+                     </subjectOf>
+                     <consumedIn>
+                        <substanceAdministration>
+                           <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                        </substanceAdministration>
+                     </consumedIn>
+                  </manufacturedProduct>
+               </subject>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="f9561c5c-d6fd-4e27-b07d-e26b4fe3efc6"/>
+               <code code="34066-1" codeSystem="2.16.840.1.113883.6.1" displayName="BOXED WARNING SECTION"/>
+               <text>
+                  <linkHtml href=""/>
+                  <content styleCode="underline">WARNINGS</content>
+                  <paragraph>There have been rare, but serious reports of acute phosphate 
+nephropathy in patients who received oral sodium phosphate products for colon 
+cleansing prior to colonoscopy. Some cases have resulted in permanent impairment 
+of renal function and some patients required long-term dialysis. While some 
+cases have occurred in patients without identifiable risk factors, patients at 
+increased risk of acute phosphate nephropathy may include those with increased 
+age, hypovolemia, increased bowel transit time (such as bowel obstruction), 
+active colitis, or baseline kidney disease, and those using medicines that 
+affect renal perfusion or function (such as diuretics, angiotensin converting 
+enzyme [ACE] inhibitors, angiotensin receptor blockers [ARBs], and possibly 
+nonsteriodal anti-inflammatory drugs [NSAIDs]).<br/>
+                     <content styleCode="italics">See 
+</content>
+                     <content styleCode="bold">
+                        <linkHtml href="#d180fb29-7b1f-257f-ffb5-8bede3e82cb3">WARNINGS</linkHtml>
+                     </content>.<br/>It is 
+important to use the dose and dosing regimen as recommended (pm/am split 
+dose).<br/>
+                     <content styleCode="italics">See </content>
+                     <content styleCode="bold">
+                        <linkHtml href="#e471a662-8773-bd8d-8af8-06e0b569b807">DOSAGE and 
+ADMINISTRATION</linkHtml>
+                     </content>.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="f4f1f101-9301-4cf0-b250-4d59523b6954"/>
+               <code code="34089-3" codeSystem="2.16.840.1.113883.6.1" displayName="DESCRIPTION SECTION"/>
+               <title>DESCRIPTION</title>
+               <text>
+                  <paragraph>OsmoPrep<sup>®</sup> (sodium phosphate monobasic 
+monohydrate, USP, and sodium phosphate dibasic anhydrous, USP) is a purgative 
+used to clean the colon prior to colonoscopy. OsmoPrep is manufactured with a 
+highly soluble tablet binder and does not contain microcrystalline cellulose 
+(MCC). OsmoPrep Tablets are oval, white to off-white compressed tablets, 
+debossed with “SLX” on one side of the bisect and “102” on the other side of the 
+bisect. Each OsmoPrep tablet contains 1.102 grams of sodium phosphate monobasic 
+monohydrate, USP and 0.398 grams of sodium phosphate dibasic anhydrous, USP for 
+a total of 1.5 grams of sodium phosphate per tablet. Inert ingredients include 
+polyethylene glycol 8000, NF; and magnesium stearate, NF. OsmoPrep is 
+gluten-free.</paragraph>
+                  <paragraph>The structural and molecular formulae and molecular weights of the active 
+ingredients are shown below:</paragraph>
+                  <list listType="unordered" ID="i48df2d13-a47a-4ded-88e4-73d6b454c8b0">
+                     <item>Sodium phosphate monobasic monohydrate, USP<br/>Molecular Formula: NaH<sub>2</sub>PO<sub>4</sub> • H<sub>2</sub>O<br/>Molecular Weight: 137.99 <renderMultiMedia referencedObject="MM1"/>
+                     </item>
+                     <item>Sodium phosphate dibasic anhydrous, USP<br/>Molecular Formula: Na<sub>2</sub>HPO<sub>4</sub>
+                        <br/>Molecular Weight: 141.96 <renderMultiMedia referencedObject="MM2"/>
+                     </item>
+                  </list>OsmoPrep Tablets are for oral administration only.</text>
+               <effectiveTime value="20100604"/>
+               <component>
+                  <observationMedia classCode="OBS" moodCode="EVN" ID="MM1">
+                     <text>image of chem structure 1</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="chemical structure 1.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+               <component>
+                  <observationMedia classCode="OBS" moodCode="EVN" ID="MM2">
+                     <text>image of chem structure 2</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="chemical structure 2.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="e0eaad76-5e51-4305-803b-bc12861b396e"/>
+               <code code="34090-1" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL PHARMACOLOGY SECTION"/>
+               <title>CLINICAL PHARMACOLOGY</title>
+               <text>
+                  <paragraph>OsmoPrep Tablets, a dosing regimen containing 48 grams of sodium 
+phosphate (32 tablets), induces diarrhea, which effectively cleanses the entire 
+colon. Each administration has a purgative effect for approximately 1 to 3 
+hours. The primary mode of action is thought to be through the osmotic effect of 
+sodium, causing large amounts of water to be drawn into the colon, promoting 
+evacuation.</paragraph>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>Pharmacokinetics<paragraph>Pharmacokinetic studies with OsmoPrep have not been conducted. 
+However, the following pharmacokinetic study was conducted with Visicol® tablets 
+which contain the same active ingredients (sodium phosphate) as OsmoPrep. In 
+addition, Visicol is administered at a dose that is 25% greater than the 
+OsmoPrep dose.</paragraph>
+                  <paragraph>An open-label pharmacokinetic study of Visicol in healthy volunteers was 
+performed to determine the concentration-time profile of serum inorganic 
+phosphorus levels after Visicol administration. All subjects received the 
+approved Visicol dosing regimen (60 grams of sodium phosphate with a total 
+liquid volume of 3.6 quarts) for colon cleansing. A 30 gram dose (20 tablets 
+given as 3 tablets every 15 minutes with 8 ounces of clear liquids) was given 
+beginning at 6 PM in the evening. The 30 gram dose (20 tablets given as 3 
+tablets every 15 minutes with 8 ounces of clear liquids) was repeated the 
+following morning beginning at 6 AM.</paragraph>
+                  <paragraph>Twenty-three healthy subjects (mean age 57 years old; 57% male and 43% 
+female; and 65% Hispanic, 30% Caucasian, and 4% African-American) participated 
+in this pharmacokinetic study. The serum phosphorus level rose from a mean (± 
+standard deviation) baseline of 4.0 (± 0.7) mg/dL to 7.7 (± 1.6 mg/dL), at a 
+median of 3 hours after the administration of the first 30-gram dose of sodium 
+phosphate tablets (see <linkHtml href="#section-">  Figure 1</linkHtml>). The serum phosphorus level 
+rose to a mean of 8.4 (± 1.9) mg/dL, at a median of 4 hours after the 
+administration of the second 30-gram dose of sodium phosphate tablets. The serum 
+phosphorus level remained above baseline for a median of 24 hours after the 
+administration of the initial dose of sodium phosphate tablets (range 16 to 48 
+hours).</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Figure 1. Mean (± standard deviation) serum phosphorus 
+concentrations</content>
+                  </paragraph>
+                  <renderMultiMedia referencedObject="MM3"/>
+                  <paragraph>The upper (4.5 mg/dL) and lower (2.6 mg/dL) reference limits for serum 
+phosphate are represented by solid bars.</paragraph>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>Special Populations<linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>
+                  <paragraph>
+                     <content styleCode="bold">Renal Insufficiency:</content> The effect of renal 
+dysfunction on the pharmacokinetics of OsmoPrep Tablets has not been studied. 
+Since the inorganic form of phosphate in the circulating plasma is excreted 
+almost entirely by the kidneys, patients with renal disease may have difficulty 
+excreting a large phosphate load. Thus, OsmoPrep Tablets should be used with 
+caution in patients with impaired renal function (see <linkHtml href="#section-"> WARNINGS</linkHtml>).</paragraph>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>
+                  <paragraph>
+                     <content styleCode="bold">Hepatic Insufficiency:</content> OsmoPrep Tablets 
+have not been investigated in patients with hepatic failure.</paragraph>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>
+                  <paragraph>
+                     <content styleCode="bold">Geriatric:</content> In a single pharmacokinetic 
+study of sodium phosphate tablets, which included 6 elderly volunteers, plasma 
+half-life increased two-fold in subjects greater than 70 years of age compared to 
+subjects less than 50 years of age (3 subjects and 5 subjects, respectively).</paragraph>
+                  <linkHtml href="#section-"/>
+                  <linkHtml href="#section-"/>
+                  <paragraph>
+                     <content styleCode="bold">Gender:</content> No difference in serum phosphate 
+AUC values were observed in the single pharmacokinetic study conducted with 
+sodium phosphate tablets in 13 male and 10 female healthy volunteers. </paragraph>
+                  <br/>
+               </text>
+               <effectiveTime value="20100604"/>
+               <component>
+                  <observationMedia classCode="OBS" moodCode="EVN" ID="MM3">
+                     <text>image of figure 1</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="figure 1.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="4d890f5c-1d0e-4135-b8b8-012bbac67d27"/>
+               <code code="34092-7" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL STUDIES SECTION"/>
+               <title>CLINICAL STUDIES</title>
+               <text>
+                  <paragraph>The colon cleansing efficacy and safety of OsmoPrep was evaluated 
+in 2 randomized, investigator-blinded, actively controlled, multicenter, U.S. 
+trials in patients scheduled to have an elective colonoscopy. The trials 
+consisted of a dose ranging and a confirmatory phase 3 study.</paragraph>
+                  <paragraph>In the phase 3 trial, patients were randomized into one of the following 
+three sodium phosphate treatment groups: 1) Visicol containing 60 grams of 
+sodium phosphate given in split doses (30 grams in the evening before the 
+colonoscopy and 30 grams on the next day) with at least 3.6 quarts of clear 
+liquids; 2) OsmoPrep containing 60 grams of sodium phosphate given in split 
+doses (30 grams in the evening before the colonoscopy and 30 grams on the next 
+day) with 2.5 quarts of clear liquids; and 3) OsmoPrep containing 48 grams of 
+sodium phosphate (30 grams in the evening before the colonoscopy and 18 grams on 
+the next day) with 2 quarts of clear liquids. Patients were instructed to eat a 
+light breakfast before noon on the day prior to the colonoscopy and then were 
+told to drink only clear liquids after noon on the day prior to the 
+colonoscopy.</paragraph>
+                  <paragraph>The primary efficacy endpoint was the overall colon cleansing response rate 
+in the 4-point Colonic Contents Scale. Response was defined as a rating of 
+“excellent” or “good” on the 4-point scale as determined by the blinded 
+colonoscopist. This phase 3 study was planned to assess the non-inferiority of 
+the two OsmoPrep groups compared to the Visicol group.</paragraph>
+                  <paragraph>The efficacy analysis included 704 adult patients who had an elective 
+colonoscopy. Patients ranged in age from 21 to 89 years old (mean age 56 years 
+old) with 55% female and 45% male patients. Race was distributed as follows: 87% 
+Caucasian, 10% African American, and 3% other race. The OsmoPrep 60 gram and 48 
+gram treatment groups demonstrated non-inferiority compared to Visicol. See 
+Table 1 for the results.</paragraph>
+                  <table width="100%" ID="i194ffd24-3044-4397-894f-c65a4d73c31f">
+                     <caption>Table 1: Phase 3 Study – Overall Colon Content Cleansing Response Rates1</caption>
+                     <tbody>
+                        <tr>
+                           <td>
+                              <content styleCode="bold">Treatment Arm<br/>(grams of sodium<br/>phosphate)<br/>
+                              </content>
+                           </td>
+                           <td>
+                              <content styleCode="bold">No. of tablets taken at<br/>6 PM on the day prior<br/>to colonoscopy<br/>
+                              </content>
+                           </td>
+                           <td>
+                              <content styleCode="bold">No. of tablets<br/>taken the next<br/>day<sup>2</sup>
+                                 <br/>
+                              </content>
+                           </td>
+                           <td>
+                              <content styleCode="bold">Excellent</content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">Good</content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">Fair</content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">Inadequate</content>
+                              <br/>
+                           </td>
+                           <td>
+                              <content styleCode="bold">Overall Response<br/>Rate (Excellent or Good)<br/>
+                              </content>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>OsmoPrep<br/>32 tabs (48 g)<br/>n = 236<br/>
+                           </td>
+                           <td>20<br/>
+                           </td>
+                           <td>12<br/>
+                           </td>
+                           <td>76%<br/>
+                           </td>
+                           <td>19%<br/>
+                           </td>
+                           <td>3%<br/>
+                           </td>
+                           <td>2%<br/>
+                           </td>
+                           <td>95%<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>OsmoPrep<br/>40 tabs (60 g)<br/>n = 233<br/>
+                           </td>
+                           <td>20<br/>
+                           </td>
+                           <td>20<br/>
+                           </td>
+                           <td>73%<br/>
+                           </td>
+                           <td>24%<br/>
+                           </td>
+                           <td>2%<br/>
+                           </td>
+                           <td>1%<br/>
+                           </td>
+                           <td>97%<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>Visicol<br/>40 tabs (60 g)<br/>n = 235<br/>
+                           </td>
+                           <td>20<br/>
+                           </td>
+                           <td>20<br/>
+                           </td>
+                           <td>51%<br/>
+                           </td>
+                           <td>43%<br/>
+                           </td>
+                           <td>6%<br/>
+                           </td>
+                           <td>0%<br/>
+                           </td>
+                           <td>94%<br/>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <sup>1</sup>  Colon-cleansing efficacy was based on response rate to treatment. A patient was 
+considered to be a responder if overall colon cleansing was rated as “excellent” 
+or “good” on a 4-point scale based on the amount of retained “colonic contents.” 
+Excellent was defined as greater than 90% of mucosa seen, mostly liquid stool, minimal 
+suctioning needed for adequate visualization. Good was defined as greater than 90% of 
+mucosa seen, mostly liquid stool, significant suctioning needed for adequate 
+visualization. Fair was defined as greater than 90% of mucosa seen, mixture of liquid and 
+semisolid stool, could be suctioned and/or washed. Inadequate was defined as 
+less than 90% of mucosa seen, mixture of semisolid and solid stool which could not be 
+suctioned or washed.<br/>
+                  <sup>2</sup>  On the day of the colonoscopy, study medication was taken 3 to 5 hours before the 
+start of the colonoscopy.<br/>
+                  <br/>the day of the colonoscopy, study medication was taken 3 to 5 hours before the 
+start of the colonoscopy.<br/>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="3c73d3eb-8239-4a0d-8c23-4e3674c7b774"/>
+               <code code="34067-9" codeSystem="2.16.840.1.113883.6.1" displayName="INDICATIONS &amp; USAGE SECTION"/>
+               <title>INDICATIONS AND USAGE</title>
+               <text>
+                  <paragraph>OsmoPrep Tablets are indicated for cleansing of the colon as a 
+preparation for colonoscopy in adults 18 years of age or older.</paragraph>
+                  <br/>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="ed6953c4-6af4-429c-a46f-86c4b2db6e3d"/>
+               <code code="34070-3" codeSystem="2.16.840.1.113883.6.1" displayName="CONTRAINDICATIONS SECTION"/>
+               <title>CONTRAINDICATIONS</title>
+               <text>
+                  <paragraph>OsmoPrep Tablets are contraindicated in patients with 
+biopsy-proven acute phosphate nephropathy. </paragraph>
+                  <paragraph>OsmoPrep Tablets are contraindicated in patients with a known allergy or 
+hypersensitivity to sodium phosphate salts or any of its ingredients.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="5a0b52fb-64be-40ab-ac17-9903dbac1e13"/>
+               <code code="34071-1" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS SECTION"/>
+               <title>WARNINGS</title>
+               <text>
+                  <paragraph>Administration of sodium phosphate products prior to colonoscopy 
+for colon cleansing has resulted in fatalities due to significant fluid shifts, 
+severe electrolyte abnormalities, and cardiac arrhythmias. These fatalities have 
+been observed in patients with renal insufficiency, in patients with bowel 
+perforation, and in patients who misused or overdosed sodium phosphate products. 
+It is recommended that patients receiving OsmoPrep be advised to adequately 
+hydrate before, during, and after the use of OsmoPrep.</paragraph>
+                  <paragraph>Considerable caution should be advised before OsmoPrep Tablets are used in 
+patients with the following illnesses: severe renal insufficiency (creatinine 
+clearance less than 30 mL/minute), congestive heart failure, ascites, unstable 
+angina, gastric retention, ileus, acute bowel obstruction, pseudo-obstruction of 
+the bowel, severe chronic constipation, bowel perforation, acute colitis, toxic 
+megacolon, gastric bypass or stapling surgery, or hypomotility syndrome.</paragraph>
+                  <paragraph>Consider performing baseline and post-colonoscopy labs (phosphate, calcium, 
+potassium, sodium, creatinine, and BUN) in patients who may be at increased risk 
+for serious adverse events, including those with history of renal insufficiency, 
+history of-or at greater risk of-acute phosphate nephropathy, known or suspected 
+electrolyte disorders, seizures, arrhythmias, cardiomyopathy, prolonged QT, 
+recent history of a MI and those with known or suspected hyperphosphatemia, 
+hypocalcemia, hypokalemia, and hypernatremia. Also if patients develop vomiting 
+and/or signs of dehydration then measure post-colonoscopy labs (phosphate, 
+calcium, potassium, sodium, creatinine, and BUN).</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Renal Disease, Acute Phosphate Nephropathy, and 
+Electrolyte Disorders<paragraph>There have been rare, but serious, reports of renal failure, 
+acute phosphate nephropathy, and nephrocalcinosis in patients who received oral 
+sodium phosphate products (including oral sodium phosphate solutions and 
+tablets) for colon cleansing prior to colonoscopy. These cases often resulted in 
+permanent impairment of renal function and several patients required long-term 
+dialysis. The time to onset is typically within days; however, in some cases, 
+the diagnosis of these events has been delayed up to several months after the 
+ingestion of these products. Patients at increased risk of acute phosphate 
+nephropathy may include patients with the following: hypovolemia, baseline 
+kidney disease, increased age, and patients using medicines that affect renal 
+perfusion or function [such as diuretics, angiotensin converting enzyme 
+(ACE)inhibitors, angiotensin receptor blockers, and possibly nonsteroidal 
+anti-inflammatory drugs (NSAIDs).</paragraph>
+                  <paragraph>Use OsmoPrep with caution in patients with impaired renal function, patients 
+with a history of acute phosphate nephropathy, known or suspected electrolyte 
+disturbances (such as dehydration), or people taking concomitant medications 
+that may affect electrolyte levels (such as diuretics). Patients with 
+electrolyte abnormalities such as hypernatremia, hyperphosphatemia, hypokalemia, 
+or hypocalcemia should have their electrolytes corrected before treatment with 
+OsmoPrep Tablets.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Seizures<paragraph>There have been rare reports of generalized tonic-clonic seizures 
+and/or loss of consciousness associated with use of sodium phosphate products in 
+patients with no prior history of seizures. The seizure cases were associated 
+with electrolyte abnormalities (e.g., hyponatremia, hypokalemia, hypocalcemia, 
+and hypomagnesemia) and low serum osmolality. The neurologic abnormalities 
+resolved with correction of fluid and electrolyte abnormalities. OsmoPrep should 
+be used with caution in patients with a history of seizures and in patients at 
+higher risk of seizure [patients using concomitant medications that lower the 
+seizure threshold (such as tricyclic antidepressants), patients withdrawing from 
+alcohol or benzodiazepines, or patients with known or suspected 
+hyponatremia].</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Cardiac Arrhythmias<paragraph>There have been rare, but serious, reports of arrhythmias 
+associated with the use of sodium phosphate products. OsmoPrep should be used 
+with caution in patients with higher risk of arrhythmias (patients with a 
+history of cardiomyopathy, patients with prolonged QT, patients with a history 
+of uncontrolled arrhythmias, and patients with a recent history of a myocardial 
+infarction). Pre-dose and post-colonoscopy ECGs should be considered in patients 
+with high risk of serious, cardiac arrhythmias.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="e5e3d424-457d-49a3-beee-131b30589d89"/>
+               <code code="42232-9" codeSystem="2.16.840.1.113883.6.1" displayName="PRECAUTIONS SECTION"/>
+               <title>PRECAUTIONS</title>
+               <text>
+                  <linkHtml href=""/>General<paragraph>Patients should be instructed to drink 8 ounces of clear liquids 
+with each 4-tablet dose of OsmoPrep Tablets. Patients should take a total of 2 
+quarts of clear liquids with OsmoPrep. Inadequate fluid intake, as with any 
+effective purgative, may lead to excessive fluid loss, hypovolemia, and 
+dehydration. Dehydration from purgation may be exacerbated by inadequate oral 
+fluid intake, vomiting, and/or use of diuretics.</paragraph>
+                  <paragraph>Patients should be instructed not to administer additional laxative or 
+purgative agents, particularly additional sodium phosphate-based purgative or 
+enema products.</paragraph>
+                  <paragraph>Prolongation of the QT interval has been observed in some patients who were 
+dosed with sodium phosphate colon preparations. QT prolongation with sodium 
+phosphate tablets has been associated with electrolyte imbalances, such as 
+hypokalemia and hypocalcemia. OsmoPrep Tablets should be used with caution in 
+patients who are taking medications known to prolong the QT interval, since 
+serious complications may occur. Pre-dose and post-colonoscopy ECGs should be 
+considered in patients with known prolonged QT.</paragraph>
+                  <paragraph>Administration of OsmoPrep Tablets may induce colonic mucosal aphthous 
+ulcerations, since this endoscopic finding was observed with other sodium 
+phosphate cathartic preparations. In the OsmoPrep clinical program, aphthous 
+ulcers were observed in 3% of patients who took the 48 gram OsmoPrep dosing 
+regimen. This colonoscopic finding should be considered in patients with known 
+or suspected inflammatory bowel disease.</paragraph>
+                  <paragraph>Because published data suggest that sodium phosphate absorption may be 
+enhanced in patients experiencing an acute exacerbation of chronic inflammatory 
+bowel disease, OsmoPrep Tablets should be used with caution in such 
+patients.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Drug Interactions<paragraph>Medications administered in close proximity to OsmoPrep Tablets 
+may not be absorbed from the gastrointestinal tract due to the rapid intestinal 
+peristalsis and watery diarrhea induced by the purgative agent.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Carcinogenesis, Mutagenesis, Impairment of 
+Fertility<paragraph>Long-term studies in animals have not been performed to evaluate 
+the carcinogenic potential of OsmoPrep. Studies to evaluate the effect of 
+OsmoPrep on fertility or its mutagenic potential have not been performed.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">Pregnancy. Teratogenic Effects: 
+Pregnancy Category C</content>
+                  <paragraph>Animal reproduction studies have not been conducted with 
+OsmoPrep. It is not known whether OsmoPrep can cause fetal harm when 
+administered to a pregnant woman, or can affect reproduction capacity. OsmoPrep 
+Tablets should be given to a pregnant woman only if clearly needed.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Pediatric Use<paragraph>The safety and efficacy of OsmoPrep Tablets have not been 
+demonstrated in patients less than 18 years of age.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>Geriatric Use<paragraph>In controlled colon preparation trials of OsmoPrep, 228 (24%) of 
+931 patients were 65 years of age or older. In addition, 49 (5%) of the 931 
+patients were 75 years of age or older.</paragraph>
+                  <paragraph>Of the 228 geriatric patients in the trials, 134 patients (59%) received at 
+least 48 grams of OsmoPrep. Of the 49 patients 75 years old or older in the 
+trials, 27 (55%) patients received at least 48 grams of OsmoPrep.  No overall 
+differences in safety or effectiveness were observed between geriatric patients 
+and younger patients. However, the mean phosphate levels in geriatric patients 
+were greater than the phosphate levels in younger patients after OsmoPrep 
+administration. The mean colonoscopy-day phosphate levels in patients 18-64, 
+65-74, and ≥ 75 years old who received 48 grams of OsmoPrep in the phase 3 study 
+were 7.0, 7.3, and 8.0 mg/dL, respectively. In addition, in all three sodium 
+phosphate treatment groups, the mean phosphate levels in patients 18-64, 65-74, 
+and ≥ 75 years old in the phase 3 study were 7.4, 7.9, and 8.0 mg/dL, 
+respectively, after sodium phosphate administration. Greater sensitivity of some 
+older individuals cannot be ruled out; therefore, OsmoPrep Tablets should be 
+used with caution in geriatric patients.</paragraph>
+                  <paragraph>Sodium phosphate is known to be substantially excreted by the kidney, and the 
+risk of adverse reactions with sodium phosphate may be greater in patients with 
+impaired renal function. Since geriatric patients are more likely to have 
+impaired renal function, consider performing baseline and post-colonoscopy labs 
+(phosphate, calcium, potassium, sodium, creatinine, and BUN) in these patients 
+(see <linkHtml href="#d180fb29-7b1f-257f-ffb5-8bede3e82cb3">WARNINGS</linkHtml>). It is 
+recommended that patients receiving OsmoPrep be advised to adequately hydrate 
+before, during, and after the use of OsmoPrep.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="ee3d3c4a-de11-4e1d-8da5-1b1411c48dab"/>
+               <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+               <title>ADVERSE REACTIONS</title>
+               <text>
+                  <paragraph>Abdominal bloating, abdominal pain, nausea, and vomiting were the 
+most common adverse events reported with the use of OsmoPrep Tablets. Dizziness 
+and headache were reported less frequently. Since diarrhea was considered as a 
+part of the efficacy of OsmoPrep, diarrhea was not defined as an adverse event 
+in the clinical studies. Table 2 shows the most common adverse events associated 
+with the use of 48 grams of OsmoPrep, 60 grams of OsmoPrep, and 60 grams of 
+Visicol in the colon preparation trials (n=931). </paragraph>
+                  <table ID="idcf225b4-0a74-4b08-8e5c-b39af4ee4c4d">
+                     <thead>
+                        <tr>
+                           <td>
+                              <content styleCode="bold">Table 2: Frequency 
+of Adverse Events of Any Severity<br/>Occurring in Greater Than 3% of Patients in 
+the OsmoPrep<br/>Trials</content>
+                           </td>
+                        </tr>
+                        <tr>
+                           <th> </th>
+                           <th>OsmoPrep <br/>32 tabs (48 g)<br/>N=272</th>
+                           <th>OsmoPrep<br/>40 tabs (60 g)<br/>N=265</th>
+                           <th>Visicol<br/>40 tabs (60 g)<br/>N=268</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Bloating</td>
+                           <td>31%</td>
+                           <td>39%</td>
+                           <td>41%</td>
+                        </tr>
+                        <tr>
+                           <td>Nausea</td>
+                           <td>26%</td>
+                           <td>37%</td>
+                           <td>30%</td>
+                        </tr>
+                        <tr>
+                           <td>Abdominal Pain</td>
+                           <td>23%</td>
+                           <td>24%</td>
+                           <td>25%</td>
+                        </tr>
+                        <tr>
+                           <td>Vomiting</td>
+                           <td>4%</td>
+                           <td>10%</td>
+                           <td>9%</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <paragraph>
+                     <content styleCode="bold">Postmarketing Experience</content>
+                  </paragraph>
+                  <paragraph>In addition to adverse events reported from clinical trials, the following 
+adverse events have been identified during post-approval use of OsmoPrep. 
+Because they are reported voluntarily from a population of unknown size, 
+estimates of frequency cannot be made. These events have been chosen for 
+inclusion due to either their seriousness, frequency of reporting or causal 
+connection to OsmoPrep, or a combination of these factors.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">General: </content>Hypersensitivity reactions including 
+anaphylaxis, rash, pruritus, urticaria, throat tightness, bronchospasm, dyspnea, 
+pharyngeal edema, dysphagia, paresthesia and swelling of the lips and tongue, 
+and facial swelling. </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Cardiovascular:</content> Arrhythmias</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Nervous system: </content>Seizures</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Renal: </content>Renal impairment, increased blood urea 
+nitrogen (BUN), increased creatinine, acute renal failure, acute phosphate 
+nephropathy, nephrocalcinosis, and renal tubular necrosis.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="efc93787-1edf-4afc-af53-04055beb3532"/>
+               <code code="42227-9" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG ABUSE AND DEPENDENCE SECTION"/>
+               <title>DRUG ABUSE AND DEPENDENCE</title>
+               <text>
+                  <paragraph>Laxatives and purgatives (including OsmoPrep) have the potential for abuse by 
+bulimia nervosa patients who frequently have binge eating and vomiting.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="22078b90-2143-4441-bac4-e27c308b1996"/>
+               <code code="34088-5" codeSystem="2.16.840.1.113883.6.1" displayName="OVERDOSAGE SECTION"/>
+               <title>OVERDOSAGE</title>
+               <text>
+                  <paragraph>There have been no reported cases of overdosage with OsmoPrep Tablets. 
+Purposeful or accidental ingestion of more than the recommended dosage of 
+OsmoPrep Tablets might be expected to lead to severe electrolyte disturbances, 
+including hyperphosphatemia, hypocalcemia, hypernatremia, or hypokalemia, as 
+well as dehydration and hypovolemia, with attendant signs and symptoms of these 
+disturbances. Certain severe electrolyte disturbances resulting from overdose 
+may lead to cardiac arrhythmias, seizure, renal failure, and death. The patient 
+who has taken an overdosage should be monitored carefully, and treated 
+symptomatically for complications until stable.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="fd68c5d7-e662-4d63-9527-3d16982b87f8"/>
+               <code code="34068-7" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE &amp; ADMINISTRATION SECTION"/>
+               <title>DOSAGE AND ADMINISTRATION</title>
+               <text>
+                  <paragraph>The recommended dose of OsmoPrep Tablets for colon cleansing for 
+adult patients is 32 tablets (48 grams of sodium phosphate) taken orally with a 
+total of 2 quarts of clear liquids in the following manner:</paragraph> <content styleCode="bold">The evening before the colonoscopy procedure: </content>Take 4 
+OsmoPrep Tablets with 8 ounces of clear liquids every 15 minutes for a total of 
+20 tablets. <br/>
+                  <br/> <content styleCode="bold">On the day of the colonoscopy procedure: </content>Starting 
+3-5 hours before the procedure, take 4 OsmoPrep Tablets with 8 ounces of clear 
+liquids every 15 minutes for a total of 12 tablets.<paragraph>Patients should be advised of the importance of taking the recommended fluid 
+regimen. It is recommended that patients receiving OsmoPrep be advised to 
+adequately hydrate before, during, and after the use of OsmoPrep.</paragraph>
+                  <paragraph>Patients should not use OsmoPrep for colon cleansing within seven days of 
+previous administration. No additional enema or laxative is required, and 
+patients should be advised NOT to take additional agents, particularly those 
+containing sodium phosphate.</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="1e065555-a8ea-45ac-82ec-c0443f309d84"/>
+               <code code="34069-5" codeSystem="2.16.840.1.113883.6.1" displayName="HOW SUPPLIED SECTION"/>
+               <title>HOW SUPPLIED</title>
+               <text>
+                  <paragraph>OsmoPrep Tablets are supplied in child-resistant bottles 
+containing 32 tablets. Each tablet contains 1.102 g sodium phosphate monobasic 
+monohydrate, USP and 0.398 g sodium phosphate dibasic anhydrous, USP for a total 
+of 1.5 g of sodium phosphate per tablet.</paragraph>
+                  <table width="30%" ID="i00cfa7ab-a020-4283-87eb-f3f4c4f2f491">
+                     <tbody>
+                        <tr>
+                           <td>NDC 54868-5889-1<br/>
+                           </td>
+                           <td>Bottles of 04<br/>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>NDC 54868-5889-0<br/>
+                           </td>
+                           <td>Bottles of 32<br/>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <paragraph/>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <br/>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Rx only.</content>
+                  </paragraph>
+                  <paragraph>Store at 25°C (77°F); excursions permitted to 15-30°C (59-86°F) [See USP 
+Controlled Room Temperature]. Discard any unused portion.</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <br/>
+                     </content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Manufactured by:</content>
+                     <br/>WellSpring Pharmaceutical Canada 
+Corp. <br/>Oakville, Ontario Canada L6H 1M5<br/>
+                     <content styleCode="bold">for:</content>
+                     <br/>Salix Pharmaceuticals, Inc. <br/>Morrisville, NC 27560 <br/>Made in Canada</paragraph>
+                  <paragraph>VENART-30-4/Mar. 2009</paragraph>
+                  <paragraph>Product protected by US Patent No. 5,616,346 and other pending applications.</paragraph>
+                  <br/>
+                  <br/>
+                  <paragraph>
+                     <content styleCode="bold">Relabeling and Repackaging by:</content>
+                     <br/>Physicians Total Care, Inc.<br/>Tulsa, OK     74146<br/>
+                  </paragraph>
+               </text>
+               <effectiveTime value="20100820"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="253a2e63-a024-480b-bc41-cd5725e47317"/>
+               <code code="42231-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL MEDGUIDE SECTION"/>
+               <text>
+                  <linkHtml href=""/>Medication Guide<paragraph>
+                     <content styleCode="bold">OsmoPrep</content>
+                     <sup>®</sup>
+                     <content styleCode="bold"> (AhZ-MŌ-prěp)</content> (sodium phosphate monobasic monohydrate, USP 
+and sodium phosphate dibasic anhydrous, USP) Tablets </paragraph>
+                  <paragraph>Read the Medication Guide that comes with OsmoPrep before you take it and 
+each time you take it. This Medication Guide does not take the place of talking 
+with your doctor about your medical condition or your treatment. If you have any 
+questions about OsmoPrep, ask your doctor or pharmacist.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">What is the most important 
+information I should know about OsmoPrep?</content>
+                  <paragraph>OsmoPrep can cause serious side effects, including:</paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Serious kidney problems.</content> Rare, but serious kidney 
+problems can happen in people who take medicines made with sodium phosphate, 
+including OsmoPrep, to clean your colon before colonoscopy. These kidney 
+problems can sometimes lead to kidney failure or the need for dialysis for a 
+long time. These problems often happen within a few days, but sometimes may 
+happen several months after taking OsmoPrep.  </paragraph>
+                  <paragraph>Conditions that can make you more at risk for having serious kidney problems 
+with OsmoPrep include if you: </paragraph>
+                  <list listType="unordered" ID="ief9a3dfe-f6bc-48de-8a60-1b256704aeba">
+                     <item>lose too much body fluid (dehydration)</item>
+                     <item>have slow moving bowels </item>
+                     <item>have bowels blocked with stool (constipation)</item>
+                     <item>have severe stomach pain or bloating</item>
+                     <item>have any disease that causes bowel irritation (colitis)</item>
+                     <item>have kidney disease</item>
+                     <item>have heart failure</item>
+                     <item>take water pills or non-steroidal anti-inflammatory drugs (NSAIDS)</item>
+                  </list>
+                  <paragraph>Your age may also affect your risk for having kidney problems with 
+OsmoPrep.</paragraph>
+                  <paragraph>Before you start taking OsmoPrep tell your doctor if you:</paragraph>
+                  <list listType="unordered" ID="ic0b30fd7-d654-47c3-821b-da29197ec604">
+                     <item>have kidney problems.</item>
+                     <item>take any medicines for blood pressure, heart disease, or kidney 
+disease.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Severe fluid loss.</content> People who take medicines that 
+contain sodium phosphate can have severe loss of body fluid, with severe changes 
+in body salts in the blood, and abnormal heart rhythms. These problems can lead 
+to death.</paragraph>
+                  <paragraph>Tell your doctor if you have any of these symptoms of loss of too much body 
+fluid (dehydration) while taking OsmoPrep:</paragraph>
+                  <list listType="unordered" ID="i74f9546d-43e0-4e0d-8aa7-1dbf0f4345a7">
+                     <item>vomiting</item>
+                     <item>dizziness </item>
+                     <item>urinating less often than normal</item>
+                     <item>headache</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">See “What are the possible side effects of OsmoPrep?” for 
+more information about side effects.</content>
+                  </paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">What is OsmoPrep?</content>
+                  <br/>
+                  <paragraph>OsmoPrep is a prescription medicine used in adults 18 years and 
+older, to clean your colon before a colonoscopy. OsmoPrep cleans your colon by 
+causing you to have diarrhea.  Cleaning your colon helps your doctor see the 
+inside of your colon more clearly during the colonoscopy.</paragraph>
+                  <paragraph>It is not known if OsmoPrep is safe and works in children under age 18.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">Who should not take OsmoPrep?</content>
+                  <br/>Do not take OsmoPrep if:
+<list listType="unordered" ID="id4e8b531-cd66-4ebf-8304-0d50e329f56e">
+                     <item>you have had a kidney biopsy that shows you have kidney problems because of 
+too much phosphate </item>
+                     <item>you are allergic to sodium phosphate salts or any of the ingredients in 
+OsmoPrep. See the end of this Medication Guide for a list of ingredients in 
+OsmoPrep.</item>
+                  </list>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">What should I tell my doctor before 
+taking OsmoPrep?</content>
+                  <br/>Before taking OsmoPrep, tell your doctor about 
+all of your medical conditions, including if you have: 
+<list listType="unordered" ID="i3a22ddd5-af1c-4319-8842-32d26ae12ddf">
+                     <item>any of the medical conditions listed in the section “What is the most 
+important information I should know about OsmoPrep?"</item>
+                     <item>irritation of the bowel (colitis). OsmoPrep can cause symptoms of irritable 
+bowel disease to flare-up.</item>
+                     <item>damage to your bowels</item>
+                     <item>problems with abnormal heart beat </item>
+                     <item>had a recent heart attack or have other heart problems</item>
+                     <item>symptoms of too much body fluid loss (dehydration) including vomiting, 
+dizziness, urinating less often than normal, or headache)</item>
+                     <item>had stomach surgery</item>
+                     <item>a history of seizures</item>
+                     <item>if you drink alcohol</item>
+                     <item>are on a low salt diet</item>
+                     <item>are pregnant. It is not known if OsmoPrep will harm your unborn 
+baby.</item>
+                  </list>
+                  <paragraph>Tell your doctor about all the medicines you take, including 
+prescription and non-prescription medicines, vitamins, and herbal supplements. 
+Any medicine that you take close to the time that you take OsmoPrep may not work 
+as well. Especially tell your doctor if you take:</paragraph>
+                  <list listType="unordered" ID="idf6c01d0-2f21-4386-806e-c720867a38d8">
+                     <item>water pills (diuretics) </item>
+                     <item>medicines for blood pressure or heart problems</item>
+                     <item>medicines for kidney damage </item>
+                     <item>medicines for pain, such as aspirin or a non-steroidal anti-inflammatory 
+drug (NSAID)</item>
+                     <item>a medicine for seizures</item>
+                     <item>a laxative for constipation in the last 7 days. You should not take another 
+medicine that contains sodium phosphate while you take OsmoPrep.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">Ask your doctor if you are not sure if your medicine is 
+listed above.</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">Know the medicines you take. Keep a list of your medicines 
+to show your doctor or pharmacist when you get a new prescription.</content>
+                  </paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">How should I take OsmoPrep?</content>
+                  <list listType="unordered" ID="iad036efd-93a6-4e76-8192-0e9b83f1401e">
+                     <item>Take OsmoPrep exactly as prescribed by your doctor.</item>
+                     <item>
+                        <content styleCode="bold">It is important for you to drink clear liquids before, 
+during, and after taking OsmoPrep. This may help prevent kidney damage.</content> 
+Examples of <content styleCode="bold">clear liquids</content> are water, flavored water, 
+lemonade (no pulp), ginger ale or apple juice. Do not drink any liquids colored 
+purple or red. </item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">You must read, understand, and follow these 
+instructions to take OsmoPrep the right way:</content>
+                  </paragraph>
+                  <paragraph>
+                     <content styleCode="bold">On the evening before your colonoscopy</content> you will take 
+a total of 20 OsmoPrep tablets, as follows:    </paragraph>
+                  <list listType="ordered" ID="i8aca3332-0731-420f-834b-c5d3a492d038">
+                     <item>Take 4 OsmoPrep tablets with 8 ounces of <content styleCode="bold">clear 
+liquids.</content>
+                     </item>
+                     <item>
+                        <content styleCode="bold">Wait 15 minutes.</content>
+                     </item>
+                     <item>Take 4 more OsmoPrep tablets with 8 ounces of <content styleCode="bold">clear 
+liquids.</content>
+                     </item>
+                     <item>Repeat steps 2 and 3 above, three more times. Make sure you wait 15 minutes 
+after each time.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">On the day of your colonoscopy</content> you will take a total 
+of 12 OsmoPrep tablets, starting about 3 to 5 hours before your colonoscopy, as 
+follows:  </paragraph>
+                  <list listType="ordered" ID="i3de9d064-b509-4461-89e0-9d9a6c60e6e5">
+                     <item>Take 4 OsmoPrep tablets with 8 ounces of <content styleCode="bold">clear 
+liquids.</content>
+                     </item>
+                     <item>
+                        <content styleCode="bold">Wait 15 minutes.</content>
+                     </item>
+                     <item>Take 4 more OsmoPrep tablets with 8 ounces of <content styleCode="bold">clear 
+liquids.</content>
+                     </item>
+                     <item>Repeat steps 2 and 3 one more time.</item>
+                  </list>
+                  <paragraph>Tell your doctor if you have any of these symptoms while taking OsmoPrep: 
+</paragraph>
+                  <list listType="unordered" ID="i1bed018e-e60d-4bd6-81ca-c82585d994f3">
+                     <item>vomiting, dizziness, or if you urinate less often than normal. These may be 
+signs that you have lost too much fluid while taking OsmoPrep.</item>
+                     <item>trouble drinking clear fluids</item>
+                     <item>severe stomach cramping, bloating, nausea, or headache.</item>
+                  </list>
+                  <paragraph>
+                     <content styleCode="bold">If you take too much OsmoPrep, call your doctor or get 
+medical help right away.</content>
+                  </paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">What should I avoid while taking 
+OsmoPrep?</content>
+                  <list listType="unordered" ID="i697c8f2d-ec74-478d-831f-947a2ec12eaf">
+                     <item>You should not take other laxatives or enemas made with sodium phosphate, 
+while taking OsmoPrep. </item>
+                     <item>You should not use OsmoPrep if you have already used it in the last 7 
+days.</item>
+                  </list>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">What are the possible side effects 
+of OsmoPrep?</content>
+                  <paragraph>OsmoPrep can cause serious side effects, including:</paragraph> 
+<list listType="unordered" ID="i0f3232c4-3b3d-4886-8c5c-1c1b54d20b05">
+                     <item>See “What is the most important information I should know about OsmoPrep?” 
+</item>
+                     <item>Seizures or fainting (black-outs). People who take a medicine that contains 
+sodium phosphate, such as OsmoPrep, can have seizures or faint (become 
+unconscious) even if they have not had seizures before. Tell your doctor right 
+away if you have a seizure or faint while taking OsmoPrep</item>
+                     <item>Abnormal heart beat (arrhythmias)</item>
+                     <item>changes in your blood levels of calcium, phosphate, potassium, 
+sodium</item>
+                  </list>
+                  <paragraph>The most common side effects of OsmoPrep are: </paragraph>
+                  <list listType="unordered" ID="i6b338c98-1c42-491b-846a-ff7ec373d65e">
+                     <item>bloating</item>
+                     <item>stomach area (abdominal) pain</item>
+                     <item>nausea</item>
+                     <item>vomiting</item>
+                  </list>
+                  <paragraph>These are not all the possible side effects of OsmoPrep. For more 
+information, ask your doctor or pharmacist.</paragraph>
+                  <paragraph>Call your doctor for medical advice about side effects. You may report side 
+effects to FDA at 1-800-FDA-1088.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">How do I store OsmoPrep?</content>
+                  <list listType="unordered" ID="i6a8727bf-164c-466f-8bf5-315905dc7089">
+                     <item>Store OsmoPrep at room temperature, between 59° F to 86° F (15° C to 30° 
+C).</item>
+                     <item>Throw away any OsmoPrep that is not needed.</item>
+                     <item>
+                        <content styleCode="bold">Keep OsmoPrep and all medicines out of the reach of 
+children.</content>
+                     </item>
+                  </list>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">General information about 
+OsmoPrep</content>
+                  <paragraph>Medicines are sometimes prescribed for purposes other than those 
+listed in a Medication Guide. Do not use OsmoPrep for a condition for which it 
+was not prescribed. Do not give OsmoPrep to other people, even if they have the 
+same symptoms that you have. It may harm them.</paragraph>
+                  <paragraph>This Medication Guide summarizes the most important information about 
+OsmoPrep. If you would like more information about OsmoPrep, talk with your 
+doctor or pharmacist. You can ask your doctor or pharmacist for information that 
+is written for healthcare professionals. For more information, call 
+1-866-669-7597 (toll-free) or go to <content styleCode="underline">
+                        <content styleCode="emphasis">www.Salix.com</content>
+                     </content>.</paragraph>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <linkHtml href=""/>
+                  <content styleCode="bold">What are the ingredients in 
+OsmoPrep?</content>
+                  <paragraph>Active ingredients: sodium phosphate monobasic monohydrate and 
+sodium phosphate dibasic anhydrous</paragraph>
+                  <paragraph>Inactive ingredients: polyethylene glycol 8000 and magnesium stearate </paragraph>
+                  <paragraph>This Medication Guide has been approved by the U.S. Food and Drug 
+Administration.</paragraph>
+                  <paragraph>Revised March 2009</paragraph>
+                  <paragraph>Salix Pharmaceuticals, Inc.<br/>Morrisville, NC  27560, USA </paragraph>
+                  <paragraph>This Medication Guide has been approved by the U.S. Food and Drug 
+Administration. </paragraph>
+                  <paragraph>VENART-30-4/Mar 2009</paragraph>
+               </text>
+               <effectiveTime value="20100604"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="a407e4f5-7b0e-49f4-9799-1b14e3eb4b02"/>
+               <code code="51945-4" codeSystem="2.16.840.1.113883.6.1" displayName="PACKAGE LABEL.PRINCIPAL DISPLAY PANEL"/>
+               <title>PRINCIPAL DISPLAY PANEL</title>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">
+                        <content styleCode="emphasis">OsmoPrep<sup>®</sup>
+                        </content>
+                     </content>
+                     <br/>(sodium phosphate monobasic monohydrate, 
+USP <br/>and sodium phosphate dibasic anhydrous, USP) Tablets </paragraph>
+                  <renderMultiMedia referencedObject="MM4"/>
+               </text>
+               <effectiveTime value="20100604"/>
+               <component>
+                  <observationMedia classCode="OBS" moodCode="EVN" ID="MM4">
+                     <text>image of package label</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="package label.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+      </structuredBody>
+   </component>
+</document>

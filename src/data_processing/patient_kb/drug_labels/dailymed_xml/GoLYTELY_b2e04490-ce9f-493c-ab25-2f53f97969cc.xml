@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://www.accessdata.fda.gov/spl/stylesheet/spl.xsl"?>
+<document xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 http://www.accessdata.fda.gov/spl/schema/spl.xsd">
+   <id root="a0734292-7217-425b-98a3-acb7e8f2d429"/>
+   <code code="34391-3" codeSystem="2.16.840.1.113883.6.1" displayName="HUMAN PRESCRIPTION DRUG LABEL"/>
+   <title>BRAINTREE LABORATORIES<br/>GoLYTELY
+</title>
+   <effectiveTime value="20110802"/>
+   <setId root="b2e04490-ce9f-493c-ab25-2f53f97969cc"/>
+   <versionNumber value="1"/>
+   <author>
+      <time/>
+      <assignedEntity>
+         <representedOrganization>
+            <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+            <name>Physicians Total Care, Inc.</name>
+            <assignedEntity>
+               <assignedOrganization>
+                  <assignedEntity>
+                     <assignedOrganization>
+                        <id extension="194123980" root="1.3.6.1.4.1.519.1"/>
+                        <name>Physicians Total Care, Inc.</name>
+                     </assignedOrganization>
+                     <performance>
+                        <actDefinition>
+                           <code code="C73607" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="relabel"/>
+                        </actDefinition>
+                     </performance>
+                     <performance>
+                        <actDefinition>
+                           <code code="C73606" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="repack"/>
+                        </actDefinition>
+                     </performance>
+                  </assignedEntity>
+               </assignedOrganization>
+            </assignedEntity>
+         </representedOrganization>
+      </assignedEntity>
+   </author>
+   <component>
+      <structuredBody>
+         <component>
+            <section ID="dcl-dpl">
+               <id root="2593385e-3609-4160-a980-729eb37d82e6"/>
+               <code code="48780-1" codeSystem="2.16.840.1.113883.6.1" displayName="SPL LISTING DATA ELEMENTS SECTION"/>
+               <effectiveTime value="20110802"/>
+               <subject>
+                  <manufacturedProduct>
+                     <manufacturedProduct>
+                        <code code="54868-0054" codeSystem="2.16.840.1.113883.6.69"/>
+                        <name>GoLYTELY<suffix/>
+                        </name>
+                        <formCode code="C42973" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="POWDER, FOR SOLUTION"/>
+                        <asEntityWithGeneric>
+                           <genericMedicine>
+                              <name>PEG-3350 and electrolytes</name>
+                           </genericMedicine>
+                        </asEntityWithGeneric>
+                        <asEquivalentEntity classCode="EQUIV">
+                           <code code="C64637" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <definingMaterialKind>
+                              <code code="52268-100" codeSystem="2.16.840.1.113883.6.69"/>
+                           </definingMaterialKind>
+                        </asEquivalentEntity>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="236" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>POLYETHYLENE GLYCOL 3350</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="G2M7P15E5P" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POLYETHYLENE GLYCOL 3350</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="22.74" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="36KCS0R750" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM SULFATE ANHYDROUS</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="6.74" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="8MDF5V39QO" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM BICARBONATE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="5.86" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="451W47IQ8X" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>SODIUM CHLORIDE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="LYR4M0NH37" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>SODIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="ACTIB">
+                           <quantity>
+                              <numerator value="2.97" unit="g"/>
+                              <denominator value="2" unit="L"/>
+                           </quantity>
+                           <ingredientSubstance>
+                              <code code="660YQ98I10" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>POTASSIUM CHLORIDE</name>
+                              <activeMoiety>
+                                 <activeMoiety>
+                                    <code code="295O53K152" codeSystem="2.16.840.1.113883.4.9"/>
+                                    <name>POTASSIUM CATION</name>
+                                 </activeMoiety>
+                              </activeMoiety>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <ingredient classCode="IACT">
+                           <ingredientSubstance>
+                              <code code="059QF0KO0R" codeSystem="2.16.840.1.113883.4.9"/>
+                              <name>WATER</name>
+                           </ingredientSubstance>
+                        </ingredient>
+                        <asContent>
+                           <quantity>
+                              <numerator value="4" unit="L"/>
+                              <denominator value="1"/>
+                           </quantity>
+                           <containerPackagedProduct>
+                              <code code="54868-0054-0" codeSystem="2.16.840.1.113883.6.69"/>
+                              <formCode code="C43196" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="JUG"/>
+                           </containerPackagedProduct>
+                        </asContent>
+                     </manufacturedProduct>
+                     <subjectOf>
+                        <marketingAct>
+                           <code code="C53292" codeSystem="2.16.840.1.113883.3.26.1.1"/>
+                           <statusCode code="active"/>
+                           <effectiveTime>
+                              <low value="20070904"/>
+                           </effectiveTime>
+                        </marketingAct>
+                     </subjectOf>
+                     <subjectOf>
+                        <approval>
+                           <id extension="NDA019011" root="2.16.840.1.113883.3.150"/>
+                           <code code="C73594" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NDA"/>
+                           <author>
+                              <territorialAuthority>
+                                 <territory>
+                                    <code code="USA" codeSystem="2.16.840.1.113883.5.28"/>
+                                 </territory>
+                              </territorialAuthority>
+                           </author>
+                        </approval>
+                     </subjectOf>
+                     <consumedIn>
+                        <substanceAdministration>
+                           <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="ORAL"/>
+                        </substanceAdministration>
+                     </consumedIn>
+                     <consumedIn>
+                        <substanceAdministration>
+                           <routeCode code="C38285" codeSystem="2.16.840.1.113883.3.26.1.1" displayName="NASOGASTRIC"/>
+                        </substanceAdministration>
+                     </consumedIn>
+                  </manufacturedProduct>
+               </subject>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="69d7ce59-d3ee-44b1-807c-c6bb6aaa556e"/>
+               <code code="34089-3" codeSystem="2.16.840.1.113883.6.1" displayName="DESCRIPTION SECTION"/>
+               <title>DESCRIPTION</title>
+               <text>
+                  <paragraph>A white powder in a 4 liter jug for reconstitution, containing 236 g polyethylene glycol 3350, 22.74 g sodium sulfate (anhydrous), 6.74 g sodium bicarbonate, 5.86 g sodium chloride and 2.97 g potassium chloride. When dissolved in water to a volume of 4 liters, GoLYTELY for Oral Solution is an isosmotic solution having a mildly salty taste. GoLYTELY for Oral Solution is administered orally or via nasogastric tube as a gastrointestinal lavage.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="f012dce2-d1c4-45e5-9db3-e9d87fd50339"/>
+               <code code="34090-1" codeSystem="2.16.840.1.113883.6.1" displayName="CLINICAL PHARMACOLOGY SECTION"/>
+               <title>CLINICAL PHARMACOLOGY</title>
+               <text>
+                  <paragraph>GoLYTELY for Oral Solution induces a diarrhea which rapidly cleanses the bowel, usually within four hours. The osmotic activity of polyethylene glycol 3350 and the electrolyte concentration result in virtually no net absorption or excretion of ions or water. Accordingly, large volumes may be administered without significant changes in fluid or electrolyte balance.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="992fca0d-866c-4b3f-953b-979c4bcc347e"/>
+               <code code="34067-9" codeSystem="2.16.840.1.113883.6.1" displayName="INDICATIONS &amp; USAGE SECTION"/>
+               <title>INDICATIONS AND USAGE</title>
+               <text>
+                  <paragraph>GoLYTELY for Oral Solution is indicated for bowel cleansing prior to colonoscopy and barium enema X-ray examination.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="2c832571-5f4d-4595-8e77-cb2d7ce4357b"/>
+               <code code="34070-3" codeSystem="2.16.840.1.113883.6.1" displayName="CONTRAINDICATIONS SECTION"/>
+               <title>CONTRAINDICATIONS</title>
+               <text>
+                  <paragraph>GoLYTELY for Oral Solution is contraindicated in patients known to be hypersensitive to any of the components. GoLYTELY for Oral Solution is contraindicated in patients with gastrointestinal obstruction, gastric retention, bowel perforation, toxic colitis, toxic megacolon or ileus.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="351e2df8-c3a9-4f17-afb8-e1362661ed8b"/>
+               <code code="34071-1" codeSystem="2.16.840.1.113883.6.1" displayName="WARNINGS SECTION"/>
+               <title>WARNINGS</title>
+               <text>
+                  <paragraph>No additional ingredients, e.g. flavorings, should be added to the solution. GoLYTELY for Oral Solution should be used with caution in patients with severe ulcerative colitis.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="7579897e-d6d3-48aa-be9d-ee997e5cd1fa"/>
+               <code code="42232-9" codeSystem="2.16.840.1.113883.6.1" displayName="PRECAUTIONS SECTION"/>
+               <title>PRECAUTIONS:
+</title>
+               <effectiveTime value="20110802"/>
+               <component>
+                  <section>
+                     <id root="2cc8f0a8-62f2-458e-902f-59735d42542f"/>
+                     <code code="34072-9" codeSystem="2.16.840.1.113883.6.1" displayName="GENERAL PRECAUTIONS SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">General:</content> Patients with impaired gag reflex, unconscious, or semiconscious patients, and patients prone to regurgitation or aspiration should be observed during the administration of GoLYTELY for Oral Solution, especially if it is administered via nasogastric tube. If a patient experiences severe bloating, distention or abdominal pain, administration should be slowed or temporarily discontinued until the symptoms abate. If gastrointestinal obstruction or perforation is suspected, appropriate studies should be performed to rule out these conditions before administration of GoLYTELY for Oral Solution.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20110802"/>
+                  </section>
+               </component>
+               <component>
+                  <section>
+                     <id root="a44bd0f5-a2c6-476b-9912-fa07917bf5c9"/>
+                     <code code="34076-0" codeSystem="2.16.840.1.113883.6.1" displayName="INFORMATION FOR PATIENTS SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Information for patients:</content> GoLYTELY for Oral Solution produces a watery stool which cleanses the bowel before examination. Prepare the solution according to the instructions on the bottle. It is more palatable if chilled. For best results, no solid food should be consumed during the 3 to 4 hour period before drinking the solution, but in no case should solid foods be eaten within 2 hours of taking GoLYTELY for Oral Solution.
+</paragraph>
+                        <paragraph>Drink 240 mL (8 oz.) every 10 minutes. Rapid drinking of each portion is better than drinking small amounts continuously. The first bowel movement should occur approximately one hour after the start of GoLYTELY for Oral Solution administration. You may experience some abdominal bloating and distention before the bowels start to move. If severe discomfort or distention occur, stop drinking temporarily or drink each portion at longer intervals until these symptoms disappear. Continue drinking until the watery stool is clear and free of solid matter. This usually requires at least 3 liters and it is best to drink all of the solution. Any unused portion should be discarded.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20110802"/>
+                  </section>
+               </component>
+               <component>
+                  <section>
+                     <id root="b0006df3-7e8c-479d-9e32-d555cd99ceb5"/>
+                     <code code="34073-7" codeSystem="2.16.840.1.113883.6.1" displayName="DRUG INTERACTIONS SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Drug Interactions:</content> Oral medication administered within one hour of the start of administration of GoLYTELY for Oral Solution may be flushed from the gastrointestinal tract and not absorbed.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20110802"/>
+                  </section>
+               </component>
+               <component>
+                  <section>
+                     <id root="94a71ef6-856d-43af-8a13-539fc95eddb6"/>
+                     <code code="34083-6" codeSystem="2.16.840.1.113883.6.1" displayName="CARCINOGENESIS &amp; MUTAGENESIS &amp; IMPAIRMENT OF FERTILITY SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Carcinogenesis, Mutagenesis, Impairment of Fertility:</content> Carcinogenic and reproductive studies with animals have not been performed.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20110802"/>
+                  </section>
+               </component>
+               <component>
+                  <section>
+                     <id root="73aea2cd-2051-43c6-9eef-e60671a15682"/>
+                     <code code="42228-7" codeSystem="2.16.840.1.113883.6.1" displayName="PREGNANCY SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Pregnancy:</content> Category C. Animal reproduction studies have not been conducted with GoLYTELY for Oral Solution. It is also not known whether GoLYTELY for Oral Solution can cause fetal harm when administered to a pregnant woman or can affect reproductive capacity. GoLYTELY for Oral Solution should be given to a pregnant woman only if clearly needed. <content styleCode="bold">Pediatric Use:</content> Safety and effectiveness in children have not been established.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20110802"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="00f5c739-3f0e-4f0e-a815-30657fcc0f9d"/>
+               <code code="34084-4" codeSystem="2.16.840.1.113883.6.1" displayName="ADVERSE REACTIONS SECTION"/>
+               <title>ADVERSE REACTIONS:
+</title>
+               <text>
+                  <paragraph>Nausea, abdominal fullness and bloating are the most common adverse reactions (occurring in up to 50% of patients) to administration of GoLYTELY for Oral Solution. Abdominal cramps, vomiting and anal irritation occur less frequently. These adverse reactions are transient and subside rapidly. Isolated cases of urticaria, rhinorrhea, dermatitis and (rarely) anaphylactic reaction have been reported which may represent allergic reactions.
+</paragraph>
+                  <paragraph>Published literature contains isolated reports of serious adverse reactions following the administration of PEG-ELS products in patients over 60 years of age. These adverse events include upper GI bleeding from Mallory-Weiss Tear, esophageal perforation, asystole, sudden dyspnea with pulmonary edema, and “butterfly-like” infiltrates on chest X-ray after vomiting and aspirating PEG.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="a94938df-b06b-4882-9045-18781f6d1433"/>
+               <code code="34068-7" codeSystem="2.16.840.1.113883.6.1" displayName="DOSAGE &amp; ADMINISTRATION SECTION"/>
+               <title>DOSAGE AND ADMINISTRATION:
+</title>
+               <text>
+                  <paragraph>The recommended dose for adults is 4 liters of GoLYTELY for Oral Solution solution prior to gastrointestinal examination, as ingestion of this dose produces a satisfactory preparation in over 95% of patients. Ideally, the patient should fast for approximately three or four hours prior to GoLYTELY for Oral Solution administration, but in no case should solid food be given for at least two hours before the solution is given.
+</paragraph>
+                  <paragraph>GoLYTELY for Oral Solution is usually administered orally, but may be given via nasogastric tube to patients who are unwilling or unable to drink the solution. <content styleCode="bold">Oral administration</content> is at a rate of 240 mL (8 oz.) every 10 minutes, until 4 liters are consumed or the rectal effluent is clear. Rapid drinking of each portion is preferred to drinking small amounts continuously. <content styleCode="bold">Nasogastric tube administration</content> is at the rate of 20-30 mL per minute (1.2-1.8 liters per hour). The first bowel movement should occur approximately one hour after the start of GoLYTELY for Oral Solution administration.
+</paragraph>
+                  <paragraph>Various regimens have been used. One method is to schedule patients for examination in midmorning or later, allowing the patients three hours for drinking and an additional one hour period for complete bowel evacuation. Another method is to administer GoLYTELY for Oral Solution on the evening before the examination, particularly if the patient is to have a barium enema.
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+               <component>
+                  <section>
+                     <id root="fdbc3235-308f-46c5-b725-4965886b2bb4"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Preparation of the solution:</content> GoLYTELY for Oral Solution solution is prepared by filling the container to the 4 liter mark with water and shaking vigorously several times to ensure that the ingredients are dissolved. Dissolution is facilitated by using lukewarm water. The solution is more palatable if chilled before administration. The reconstituted solution should be refrigerated and used within 48 hours. Discard any unused portion.
+</paragraph>
+                     </text>
+                     <effectiveTime value="20110802"/>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="d1642046-2d6c-4a4d-93f7-6cfd97db5955"/>
+               <code code="34069-5" codeSystem="2.16.840.1.113883.6.1" displayName="HOW SUPPLIED SECTION"/>
+               <title>HOW SUPPLIED</title>
+               <text>
+                  <paragraph>In powdered form, for oral administration as a solution following reconstitution.
+</paragraph>
+                  <paragraph>GoLYTELY for Oral Solution is available in a disposable jug in powdered form containing:
+</paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+               <component>
+                  <section>
+                     <id root="3c48c7c6-0ad9-4726-b83e-0f78af29bc9d"/>
+                     <code code="42229-5" codeSystem="2.16.840.1.113883.6.1" displayName="SPL UNCLASSIFIED SECTION"/>
+                     <text>
+                        <paragraph>
+                           <content styleCode="bold">Disposable Jug:</content> polyethylene glycol 3350 236 g, sodium 
+sulfate (anhydrous) 22.74 g, sodium bicarbonate 6.74 g, sodium chloride 5.86 g, 
+potassium chloride 2.97 g.    When made up to 4 liters volume with water, the 
+solution contains PEG-3350 17.6 mmol/L, sodium 125 mmol/L, sulfate 40 mmol/L, 
+chloride 35 mmol/L, bicarbonate 20 mmol/L and potassium 10 mmol/L  (NDC 54868-0054-0). </paragraph>
+                     </text>
+                  </section>
+               </component>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="8540deb3-6d87-40ba-bb3f-86a3d95e1a12"/>
+               <code code="44425-7" codeSystem="2.16.840.1.113883.6.1" displayName="STORAGE AND HANDLING SECTION"/>
+               <title>STORAGE
+</title>
+               <text>
+                  <paragraph>Store in sealed container at 59°-86°F. When reconstituted, keep solution refrigerated. Use within 48 hours. Discard unused portion.
+</paragraph>
+                  <table ID="ib6e957da-20ca-4260-8985-e671c8cd16ac" width="100%">
+                     <col align="left" width="75%"/>
+                     <col align="left" width="24%"/>
+                     <tbody>
+                        <tr>
+                           <td>GoLYTELY for Oral Solution
+</td>
+                           <td>NDC 54868-0054-0
+</td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <br/>
+                              <br/>Distributed by Braintree Laboratories, Inc., Braintree, MA  02185<br/>
+                              <br/>
+                              <br/>
+                              <content styleCode="bold">Relabeling of "Additional Barcode Label" by</content>:  Physicians Total Care, Inc.,   Tulsa, OK   74146<br/>
+                           </td>
+                           <td> A 11/00
+</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </text>
+               <effectiveTime value="20110802"/>
+            </section>
+         </component>
+         <component>
+            <section>
+               <id root="6abf31c4-5e2b-4b77-a63f-050c98eb7482"/>
+               <code code="51945-4" codeSystem="2.16.840.1.113883.6.1" displayName="PACKAGE LABEL.PRINCIPAL DISPLAY PANEL"/>
+               <text>
+                  <paragraph>
+                     <content styleCode="bold">PACKAGE LABEL – PRINCIPAL DISPLAY PANEL</content>
+                  </paragraph>
+                  <paragraph>GoLYTELY for Oral Solution
+</paragraph>
+                  <paragraph>Rx Only <br/>
+                  </paragraph>
+                  <paragraph>NDC 54868-0054-0</paragraph>
+                  <paragraph>
+                     <renderMultiMedia referencedObject="mm01"/>
+                  </paragraph>
+               </text>
+               <effectiveTime value="20110802"/>
+               <component>
+                  <observationMedia ID="mm01">
+                     <text>PACKAGE LABEL – PRINCIPAL DISPLAY PANEL</text>
+                     <value xsi:type="ED" mediaType="image/jpeg">
+                        <reference value="package label.jpg"/>
+                     </value>
+                  </observationMedia>
+               </component>
+            </section>
+         </component>
+      </structuredBody>
+   </component>
+</document>

@@ -1,0 +1,39 @@
+{
+  "drug_name": "GoLYTELY",
+  "set_id": "b2e04490-ce9f-493c-ab25-2f53f97969cc",
+  "source": "DailyMed",
+  "sections": {
+    "indications_and_usage": {
+      "title": "INDICATIONS AND USAGE",
+      "content": "GoLYTELY for Oral Solution is indicated for bowel cleansing prior to colonoscopy and barium enema X-ray examination."
+    },
+    "contraindications": {
+      "title": "CONTRAINDICATIONS",
+      "content": "GoLYTELY for Oral Solution is contraindicated in patients known to be hypersensitive to any of the components. GoLYTELY for Oral Solution is contraindicated in patients with gastrointestinal obstruction, gastric retention, bowel perforation, toxic colitis, toxic megacolon or ileus."
+    },
+    "warnings_and_precautions": {
+      "title": "WARNINGS",
+      "content": "No additional ingredients, e.g. flavorings, should be added to the solution. GoLYTELY for Oral Solution should be used with caution in patients with severe ulcerative colitis."
+    },
+    "patient_counseling_information": {
+      "title": "patient_counseling_information",
+      "content": "Information for patients: GoLYTELY for Oral Solution produces a watery stool which cleanses the bowel before examination. Prepare the solution according to the instructions on the bottle. It is more palatable if chilled. For best results, no solid food should be consumed during the 3 to 4 hour period before drinking the solution, but in no case should solid foods be eaten within 2 hours of taking GoLYTELY for Oral Solution. Drink 240 mL (8 oz.) every 10 minutes. Rapid drinking of each portion is better than drinking small amounts continuously. The first bowel movement should occur approximately one hour after the start of GoLYTELY for Oral Solution administration. You may experience some abdominal bloating and distention before the bowels start to move. If severe discomfort or distention occur, stop drinking temporarily or drink each portion at longer intervals until these symptoms disappear. Continue drinking until the watery stool is clear and free of solid matter. This usually requires at least 3 liters and it is best to drink all of the solution. Any unused portion should be discarded."
+    },
+    "drug_interactions": {
+      "title": "drug_interactions",
+      "content": "Drug Interactions: Oral medication administered within one hour of the start of administration of GoLYTELY for Oral Solution may be flushed from the gastrointestinal tract and not absorbed."
+    },
+    "adverse_reactions": {
+      "title": "ADVERSE REACTIONS:\n",
+      "content": "Nausea, abdominal fullness and bloating are the most common adverse reactions (occurring in up to 50% of patients) to administration of GoLYTELY for Oral Solution. Abdominal cramps, vomiting and anal irritation occur less frequently. These adverse reactions are transient and subside rapidly. Isolated cases of urticaria, rhinorrhea, dermatitis and (rarely) anaphylactic reaction have been reported which may represent allergic reactions. Published literature contains isolated reports of serious adverse reactions following the administration of PEG-ELS products in patients over 60 years of age. These adverse events include upper GI bleeding from Mallory-Weiss Tear, esophageal perforation, asystole, sudden dyspnea with pulmonary edema, and “butterfly-like” infiltrates on chest X-ray after vomiting and aspirating PEG."
+    },
+    "dosage_and_administration": {
+      "title": "DOSAGE AND ADMINISTRATION:\n",
+      "content": "The recommended dose for adults is 4 liters of GoLYTELY for Oral Solution solution prior to gastrointestinal examination, as ingestion of this dose produces a satisfactory preparation in over 95% of patients. Ideally, the patient should fast for approximately three or four hours prior to GoLYTELY for Oral Solution administration, but in no case should solid food be given for at least two hours before the solution is given. GoLYTELY for Oral Solution is usually administered orally, but may be given via nasogastric tube to patients who are unwilling or unable to drink the solution. Oral administration is at a rate of 240 mL (8 oz.) every 10 minutes, until 4 liters are consumed or the rectal effluent is clear. Rapid drinking of each portion is preferred to drinking small amounts continuously. Nasogastric tube administration is at the rate of 20-30 mL per minute (1.2-1.8 liters per hour). The first bowel movement should occur approximately one hour after the start of GoLYTELY for Oral Solution administration. Various regimens have been used. One method is to schedule patients for examination in midmorning or later, allowing the patients three hours for drinking and an additional one hour period for complete bowel evacuation. Another method is to administer GoLYTELY for Oral Solution on the evening before the examination, particularly if the patient is to have a barium enema."
+    },
+    "special_populations": {
+      "title": "special_populations",
+      "content": "Disposable Jug: polyethylene glycol 3350 236 g, sodium \nsulfate (anhydrous) 22.74 g, sodium bicarbonate 6.74 g, sodium chloride 5.86 g, \npotassium chloride 2.97 g.    When made up to 4 liters volume with water, the \nsolution contains PEG-3350 17.6 mmol/L, sodium 125 mmol/L, sulfate 40 mmol/L, \nchloride 35 mmol/L, bicarbonate 20 mmol/L and potassium 10 mmol/L  (NDC 54868-0054-0)."
+    }
+  }
+}
