@@ -750,16 +750,16 @@ def process_patient_kb(
         except Exception as e:
             print(f"Warning: Failed to process {consolidated}: {e}")
 
-    # Individual drug label JSONs
-    for subdir in ["dailymed_json", "openfda_json"]:
-        d = kb_dir / "drug_labels" / subdir
-        if d.exists():
-            for f in d.glob("*.json"):
-                try:
-                    chunks = process_document(f, kb_dir)
-                    all_chunks.extend(chunks)
-                except Exception as e:
-                    print(f"Warning: Failed to process {f}: {e}")
+    # Individual drug label JSONs #! already included in the onsolidated_drug_labels.json
+    # for subdir in ["dailymed_json", "openfda_json"]:
+    #     d = kb_dir / "drug_labels" / subdir
+    #     if d.exists():
+    #         for f in d.glob("*.json"):
+    #             try:
+    #                 chunks = process_document(f, kb_dir)
+    #                 all_chunks.extend(chunks)
+    #             except Exception as e:
+    #                 print(f"Warning: Failed to process {f}: {e}")
 
     # Save if requested
     if output_path:
