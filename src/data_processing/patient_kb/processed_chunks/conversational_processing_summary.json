@@ -1,0 +1,29 @@
+{
+  "total_chunks": 49560,
+  "turn_level_chunks": 39560,
+  "conversation_level_chunks": 10000,
+  "total_conversations": 10000,
+  "total_turns": 39560,
+  "query_category_distribution": {
+    "general": {
+      "count": 10552,
+      "pct": 26.7
+    },
+    "timing": {
+      "count": 10316,
+      "pct": 26.1
+    },
+    "dietary": {
+      "count": 7753,
+      "pct": 19.6
+    },
+    "medication": {
+      "count": 7109,
+      "pct": 18.0
+    },
+    "logistics": {
+      "count": 3830,
+      "pct": 9.7
+    }
+  }
+}
