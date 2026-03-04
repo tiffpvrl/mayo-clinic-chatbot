@@ -16,8 +16,6 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Iterator
 from enum import Enum
-import pandas as pd
-
 # Optional: use PyPDF2 or pypdf for PDF extraction
 try:
     from PyPDF2 import PdfReader
@@ -790,155 +788,7 @@ def process_patient_kb(
 
 
 # ---------------------------------------------------------------------------
-# Conversational Dialogue Chunking
-# ---------------------------------------------------------------------------
-
-
-def process_conversational_dialogues(
-    input_file: Path | str,
-    output_path: Path | str | None = None,
-) -> list[dict]:
-    """
-    Process conversational dialogues from an Excel file into RAG-ready chunks.
-
-    Creates two chunk types:
-    - turn_level: one Q&A pair per chunk (tone/phrasing examples)
-    - conversation_level: full multi-turn conversation per chunk (flow examples)
-
-    Output format matches existing clinical_processed_chunks.json structure.
-    """
-    input_file = Path(input_file)
-    print("=" * 80)
-    print("PROCESSING CONVERSATIONAL DIALOGUES FOR RAG")
-    print("=" * 80)
-
-    df = pd.read_excel(input_file)
-    print(f"Loaded {len(df):,} dialogue turns across {df['conversation_id'].nunique():,} conversations")
-
-    all_chunks: list[dict] = []
-
-    # ------------------------------------------------------------------
-    # PART 1: Turn-level chunks (one Q&A pair each)
-    # ------------------------------------------------------------------
-    print("Creating turn-level chunks...")
-    for _, row in df.iterrows():
-        timestamp_val = row["timestamp"]
-        timestamp_str = timestamp_val.isoformat() if pd.notna(timestamp_val) else None
-
-        chunk = {
-            "id": f"dialogue_turn_{row['conversation_id']}_{int(row['turn_number']):02d}",
-            "content": (
-                f"Patient Question: {row['patient_message']}\n\n"
-                f"Chatbot Response: {row['chatbot_response']}"
-            ),
-            "metadata": {
-                "source_file": str(input_file),
-                "document_type": DocumentType.CONVERSATIONAL_EXAMPLE.value,
-                "chunk_type": "turn_level",
-                "conversation_id": int(row["conversation_id"]),
-                "turn_number": int(row["turn_number"]),
-                "query_category": row["query_category"],
-                "prep_type": row["prep_type"],
-                "appointment_time": row["appointment_time"],
-                "days_relative_to_procedure": int(row["days_relative_to_procedure"]),
-                "timestamp": timestamp_str,
-                "patient_message": row["patient_message"],
-                "chatbot_response": row["chatbot_response"],
-                "is_follow_up": int(row["turn_number"]) > 1,
-                "tags": [
-                    row["query_category"],
-                    "conversational_tone",
-                    f"turn_{int(row['turn_number'])}",
-                ],
-            },
-        }
-        all_chunks.append(chunk)
-
-    turn_count = len(all_chunks)
-    print(f"  Created {turn_count:,} turn-level chunks")
-
-    # ------------------------------------------------------------------
-    # PART 2: Conversation-level chunks (full multi-turn)
-    # ------------------------------------------------------------------
-    print("Creating conversation-level chunks...")
-    conv_chunks: list[dict] = []
-
-    for conv_id, group in df.groupby("conversation_id"):
-        turns_text = []
-        for _, row in group.iterrows():
-            turns_text.append(
-                f"Turn {int(row['turn_number'])}:\n"
-                f"Patient: {row['patient_message']}\n"
-                f"Chatbot: {row['chatbot_response']}"
-            )
-
-        topics = group["query_category"].tolist()
-        unique_topics = list(dict.fromkeys(topics))  # preserve order, deduplicate
-
-        chunk = {
-            "id": f"dialogue_conversation_{conv_id}",
-            "content": "\n\n".join(turns_text),
-            "metadata": {
-                "source_file": str(input_file),
-                "document_type": DocumentType.CONVERSATIONAL_EXAMPLE.value,
-                "chunk_type": "conversation_level",
-                "conversation_id": int(conv_id),
-                "num_turns": len(group),
-                "query_categories": topics,
-                "conversation_flow": " -> ".join(topics),
-                "prep_type": group.iloc[0]["prep_type"],
-                "appointment_time": group.iloc[0]["appointment_time"],
-                "demonstrates_multi_turn": len(group) > 1,
-                "tags": (
-                    ["multi_turn_example", "conversation_flow", f"{len(group)}_turns"]
-                    + unique_topics
-                ),
-            },
-        }
-        conv_chunks.append(chunk)
-
-    all_chunks.extend(conv_chunks)
-    print(f"  Created {len(conv_chunks):,} conversation-level chunks")
-
-    # ------------------------------------------------------------------
-    # PART 3: Save output
-    # ------------------------------------------------------------------
-    if output_path:
-        output_path = Path(output_path)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, "w", encoding="utf-8") as f:
-            json.dump(all_chunks, f, indent=2, ensure_ascii=False)
-        print(f"Saved {len(all_chunks):,} conversational chunks to: {output_path}")
-
-        summary_path = output_path.parent / "conversational_processing_summary.json"
-        categories = df["query_category"].value_counts()
-        summary = {
-            "total_chunks": len(all_chunks),
-            "turn_level_chunks": turn_count,
-            "conversation_level_chunks": len(conv_chunks),
-            "total_conversations": int(df["conversation_id"].nunique()),
-            "total_turns": len(df),
-            "query_category_distribution": {
-                cat: {"count": int(cnt), "pct": round(cnt / len(df) * 100, 1)}
-                for cat, cnt in categories.items()
-            },
-        }
-        with open(summary_path, "w", encoding="utf-8") as f:
-            json.dump(summary, f, indent=2, ensure_ascii=False)
-        print(f"Summary saved to: {summary_path}")
-
-    print()
-    print("=" * 80)
-    print("CONVERSATIONAL CHUNKING SUMMARY")
-    print("=" * 80)
-    print(f"Turn-level chunks:         {turn_count:,}")
-    print(f"Conversation-level chunks: {len(conv_chunks):,}")
-    print(f"Total:                     {len(all_chunks):,}")
-
-    return all_chunks
-
-# ---------------------------------------------------------------------------
-# CLI
+# CLI - for testing only; production indexing runs via retrieval/index_kb.py
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -955,28 +805,11 @@ if __name__ == "__main__":
     chunks = process_patient_kb(kb_dir=kb, output_path=out)
     print(f"Processed {len(chunks)} chunks from patient knowledge base")
     print(f"Saved to {out}")
-    print("\nSample chunk:")
     if chunks:
         c = chunks[0]
+        print(f"\nSample chunk:")
         print(f"  ID: {c.id}")
         print(f"  Type: {c.metadata.document_type.value}")
         print(f"  Section: {c.metadata.section_title}")
         print(f"  Tags: {c.metadata.tags}")
         print(f"  Content preview: {c.content[:200]}...")
-
-    # --- Conversational chunking ---
-    conv_input = Path("src/data_processing/patient_kb/conversations/mayo_clinic_chatbot_dialogues.xlsx")
-    conv_out = Path("src/data_processing/patient_kb/processed_chunks/conversational_chunks.json")
-
-    if conv_input.exists():
-        chunks = process_conversational_dialogues(input_file=conv_input, output_path=conv_out)
-        print(f"Processed {len(chunks)} chunks from patient conversation examples")
-        print(f"Saved to {conv_out}")
-        print("\nSample chunk:")
-        if chunks:
-            c = chunks[0]
-            print(f"  Id: {c["id"]}")
-            print(f"  Document Type: {c["metadata"]["document_type"]}")
-            print(f"  Chunk Type: {c["metadata"]["chunk_type"]}")
-            print(f"  Tags: {c["metadata"]["tags"]}")
-            print(f"  Content preview: {c["content"][:200]}...")
