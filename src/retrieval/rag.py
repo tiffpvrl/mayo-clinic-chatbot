@@ -7,8 +7,10 @@ for a given user query.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from embedder import Embedding
-from chromadb_store import collection
+#from embedder import Embedding
+from src.retrieval.embedder import Embedding
+#from chromadb_store import collection
+from src.retrieval.chromadb_store import collection
 from config import EMBEDDING_MODEL, TOP_K
 
 embedder = Embedding(model_type=EMBEDDING_MODEL)
