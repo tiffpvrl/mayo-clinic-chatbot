@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+from src.retrieval.rag import retrieve_for_query
+import os
+import vertexai
+from vertexai.generative_models import GenerativeModel
 
 app = FastAPI()
 
@@ -72,10 +76,20 @@ def ui():
 
 @app.post("/chat")
 def chat(req: ChatRequest):
-    # Placeholder response for now (we’ll wire RAG/Vertex later)
+    hits, context = retrieve_for_query(req.query)
+
+    evidence = []
+    for h in hits:
+        evidence.append({
+            "source_id": h["id"],                 # chunk id
+            "distance": h["distance"],            # similarity score (lower = closer)
+            "metadata": h["metadata"],            # doc_type, section, etc.
+            "snippet": h["document"][:400]        # first 400 chars of the chunk
+        })
+
     return {
         "judgement": 1,
-        "evidence": [],
-        "argumentation": "Stub response. RAG not connected yet.",
-        "query": f"You asked: {req.query}"
+        "evidence": evidence,
+        "argumentation": context,   # (for now) just show the retrieved context
+        "query": req.query
     }
