@@ -4,10 +4,9 @@
 # Options: "openai" | "pubmed_bert" | "mini_llm"
 EMBEDDING_MODEL = "mini_lm"
 
-# LLM
-# Options: # todo
-LLM_PROVIDER = "openai"
-LLM_MODEL = "gpt-4o"           
+# LLM settings
+LLM_PROVIDER = "vertex"
+LLM_MODEL = "gemini-2.0-flash"
 
 # Vector DB = chromadb for simplicity
 CHROMA_PATH = "src/retrieval/vector_storage/chroma_db"
