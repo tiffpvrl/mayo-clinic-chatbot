@@ -1,3 +1,10 @@
+"""
+FastAPI entrypoint for the MayoChat prototype.
+
+Handles the web UI and /chat API endpoint, receives patient_id + query,
+runs the RAG pipeline, and returns the generated answer.
+"""
+
 import vertexai
 
 from fastapi import FastAPI
@@ -16,6 +23,7 @@ vertexai.init(
 app = FastAPI()
 
 class ChatRequest(BaseModel):
+    patient_id: str
     query: str
 
 @app.get("/", response_class=HTMLResponse)
@@ -29,7 +37,7 @@ def ui():
   <title>MayoChat (Prototype)</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 40px; max-width: 720px; }
-    input { width: 100%; padding: 12px; font-size: 16px; }
+    input { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 10px; }
     button { margin-top: 10px; padding: 10px 14px; font-size: 16px; cursor: pointer; }
     .box { margin-top: 18px; padding: 14px; border: 1px solid #ddd; border-radius: 10px; }
     .muted { color: #666; font-size: 14px; }
@@ -38,8 +46,9 @@ def ui():
 </head>
 <body>
   <h1>MayoChat Prototype</h1>
-  <p class="muted">Type a question and press Enter.</p>
+  <p class="muted">Enter a patient ID and a question.</p>
 
+  <input id="patientId" placeholder="Enter patient ID..." />
   <input id="q" placeholder="Ask a bowel prep question..." />
   <button id="ask" type="button">Ask</button>
 
@@ -54,13 +63,21 @@ def ui():
   </div>
 
   <script>
+    const patientInput = document.getElementById("patientId");
     const input = document.getElementById("q");
     const out = document.getElementById("out");
     const debugBox = document.getElementById("debug");
     const btn = document.getElementById("ask");
 
     async function ask() {
+      const patientId = patientInput.value.trim();
       const query = input.value.trim();
+
+      if (!patientId) {
+        out.textContent = "Please enter a patient ID.";
+        return;
+      }
+
       if (!query) {
         out.textContent = "Please enter a question.";
         return;
@@ -73,7 +90,10 @@ def ui():
         const res = await fetch("/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query: query })
+          body: JSON.stringify({
+            patient_id: patientId,
+            query: query
+          })
         });
 
         const text = await res.text();
@@ -86,9 +106,8 @@ def ui():
           return;
         }
 
-        out.textContent = data.answer || "No answer returned.";
-
-        debugBox.textContent = JSON.stringify(data.debug, null, 2);
+        out.textContent = data.answer || data.error || "No answer returned.";
+        debugBox.textContent = JSON.stringify(data.debug || data, null, 2);
 
       } catch (e) {
         out.textContent = "Error: " + e;
@@ -102,6 +121,12 @@ def ui():
         ask();
       }
     });
+
+    patientInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        ask();
+      }
+    });
   </script>
 </body>
 </html>
@@ -110,7 +135,11 @@ def ui():
 @app.post("/chat")
 def chat(req: ChatRequest):
     try:
-        hits, context = retrieve_for_query(req.query)
+        patient_record, hits, context = retrieve_for_query(req.query, req.patient_id)
+
+        if patient_record is None:
+          return {"error": "Patient ID not found."}
+
         answer = generate_response(req.query, context)
 
         sources = [
