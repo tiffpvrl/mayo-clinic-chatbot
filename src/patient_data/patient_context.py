@@ -11,7 +11,7 @@ from typing import Dict, Any, List
 COMORBIDITY_LABELS = {
     "diabetes": "Diabetes",
     "on_diabetes_medication": "Diabetes medication use",
-    "obesity_bmi_ge_30": "Obesity (BMI ≥ 30)",
+    "obesity_bmi_ge_30": "Obesity (BMI >= 30)",
     "chronic_constipation": "Chronic constipation",
     "cirrhosis": "Cirrhosis",
     "prior_abdominal_pelvic_surgery": "Prior abdominal/pelvic surgery",
@@ -60,32 +60,41 @@ def summarize_comorbidities(patient: Dict[str, Any]) -> List[str]:
         if is_positive(patient.get(column)):
             conditions.append(label)
 
+    constipation_severity = patient.get("constipation_severity")
+    if constipation_severity:
+        conditions.append(f"Constipation severity: {constipation_severity}")
+
     ckd_stage = patient.get("ckd_stage")
     if ckd_stage not in (None, "", 0, "0"):
         conditions.append(f"CKD stage {ckd_stage}")
-
-    constipation_severity = patient.get("constipation_severity")
-    if constipation_severity not in (None, "", 0, "0"):
-        conditions.append(f"Constipation severity: {constipation_severity}")
 
     sci_type = patient.get("sci_type")
     if sci_type not in (None, "") and is_positive(patient.get("spinal_cord_injury")):
         conditions.append(f"SCI type: {sci_type}")
 
     opioid_type = patient.get("opioid_type")
-    if opioid_type not in (None, "") and (
-        is_positive(patient.get("opioid_use_regular"))
-        or is_positive(patient.get("medication_class_opioid"))
-    ):
-        conditions.append(f"Opioid type: {opioid_type}")
+    opioid_drug = patient.get("opioid_specific_drugs")
+    if is_positive(patient.get("opioid_use_regular")) or is_positive(patient.get("medication_class_opioid")):
+        info = " ".join(filter(None, [opioid_type, opioid_drug]))
+        conditions.append(f"Chronic opioid use {info}".strip())
 
     glp1_drugs = patient.get("glp1_agonist_specific_drugs")
-    if glp1_drugs not in (None, "") and is_positive(patient.get("medication_class_glp1_agonist")):
-        conditions.append(f"GLP-1 drug(s): {glp1_drugs}")
+    glp1_indication = patient.get("glp1_indication")
+    if glp1_drugs and is_positive(patient.get("medication_class_glp1_agonist")):
+        if glp1_indication:
+            conditions.append(f"GLP-1 agonist ({glp1_indication}): {glp1_drugs}")
+        else:
+            conditions.append(f"GLP-1 agonist: {glp1_drugs}")
 
     laxative_subclass = patient.get("laxative_subclass")
-    if laxative_subclass not in (None, "") and is_positive(patient.get("medication_class_laxative")):
-        conditions.append(f"Laxative subclass: {laxative_subclass}")
+    laxative_drugs = patient.get("laxative_specific_drugs")
+    if is_positive(patient.get("medication_class_laxative")):
+        if laxative_subclass and laxative_drugs:
+            conditions.append(f"Laxative use ({laxative_subclass}): {laxative_drugs}")
+        elif laxative_subclass:
+            conditions.append(f"Laxative use ({laxative_subclass})")
+        elif laxative_drugs:
+            conditions.append(f"Laxative use: {laxative_drugs}")
 
     return conditions
 
@@ -96,6 +105,7 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
 
     comorbidities = summarize_comorbidities(patient)
     comorbidity_block = "\n".join(f"- {c}" for c in comorbidities) if comorbidities else "None reported"
+    current_medications = patient.get("current_medications") or "None listed"
 
     return f"""
 PATIENT PROFILE
@@ -110,4 +120,7 @@ High risk flag: {patient.get("high_risk_flag")}
 
 COMORBIDITIES
 {comorbidity_block}
+
+CURRENT MEDICATIONS
+{current_medications}
 """.strip()
