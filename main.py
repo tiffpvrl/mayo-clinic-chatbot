@@ -1,10 +1,17 @@
+import vertexai
+
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+
 from src.retrieval.rag import retrieve_for_query
-import os
-import vertexai
-from vertexai.generative_models import GenerativeModel
+from src.llm.generate_response import generate_response
+
+# Initialize Vertex AI
+vertexai.init(
+    project="industrial-net-487818-h9",
+    location="global"
+)
 
 app = FastAPI()
 
@@ -33,41 +40,67 @@ def ui():
   <h1>MayoChat Prototype</h1>
   <p class="muted">Type a question and press Enter.</p>
 
-  <input id="q" placeholder="Ask a bowel prep question…" />
-  <button id="ask">Ask</button>
+  <input id="q" placeholder="Ask a bowel prep question..." />
+  <button id="ask" type="button">Ask</button>
 
   <div class="box">
-    <div class="muted">Response</div>
-    <pre id="out">—</pre>
+    <div class="muted">Answer</div>
+    <pre id="out">-</pre>
+  </div>
+
+  <div class="box">
+    <div class="muted">Debug JSON</div>
+    <pre id="debug">-</pre>
   </div>
 
   <script>
     const input = document.getElementById("q");
     const out = document.getElementById("out");
+    const debugBox = document.getElementById("debug");
     const btn = document.getElementById("ask");
 
     async function ask() {
       const query = input.value.trim();
-      if (!query) return;
-      out.textContent = "Thinking…";
+      if (!query) {
+        out.textContent = "Please enter a question.";
+        return;
+      }
+
+      out.textContent = "Thinking...";
+      debugBox.textContent = "-";
 
       try {
         const res = await fetch("/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query })
+          body: JSON.stringify({ query: query })
         });
 
-        const data = await res.json();
-        out.textContent = JSON.stringify(data, null, 2);
+        const text = await res.text();
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (err) {
+          out.textContent = "Backend error: " + text;
+          return;
+        }
+
+        out.textContent = data.answer || "No answer returned.";
+
+        debugBox.textContent = JSON.stringify(data.debug, null, 2);
+
       } catch (e) {
         out.textContent = "Error: " + e;
       }
     }
 
-    btn.addEventListener("click", ask);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") ask();
+    btn.onclick = ask;
+
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        ask();
+      }
     });
   </script>
 </body>
@@ -76,20 +109,32 @@ def ui():
 
 @app.post("/chat")
 def chat(req: ChatRequest):
-    hits, context = retrieve_for_query(req.query)
+    try:
+        hits, context = retrieve_for_query(req.query)
+        answer = generate_response(req.query, context)
 
-    evidence = []
-    for h in hits:
-        evidence.append({
-            "source_id": h["id"],                 # chunk id
-            "distance": h["distance"],            # similarity score (lower = closer)
-            "metadata": h["metadata"],            # doc_type, section, etc.
-            "snippet": h["document"][:400]        # first 400 chars of the chunk
-        })
+        sources = [
+            {
+                "id": h.get("id"),
+                "metadata": h.get("metadata", {}),
+                "snippet": (h.get("document") or "")[:300]
+            }
+            for h in hits
+        ]
 
-    return {
-        "judgement": 1,
-        "evidence": evidence,
-        "argumentation": context,   # (for now) just show the retrieved context
-        "query": req.query
-    }
+        return {
+            "query": req.query,
+            "answer": answer,
+            "debug": {
+                "num_chunks": len(hits),
+                "sources": sources,
+                "context_preview": context[:500]
+            }
+        }
+
+    except Exception as e:
+        return {
+            "query": req.query,
+            "answer": "Something went wrong.",
+            "debug": {"error": str(e)}
+        }
