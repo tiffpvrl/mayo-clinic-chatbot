@@ -7,11 +7,11 @@ for a given user query.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-#from embedder import Embedding
 from src.retrieval.embedder import Embedding
-#from chromadb_store import collection
 from src.retrieval.chromadb_store import collection
-from config import EMBEDDING_MODEL, TOP_K
+from src.config import EMBEDDING_MODEL, TOP_K
+from src.patient_data.bigquery_client import get_patient_record
+from src.patient_data.patient_context import build_patient_context
 
 embedder = Embedding(model_type=EMBEDDING_MODEL)
 
@@ -84,8 +84,6 @@ def extract_filters(query: str) -> dict | None:
 
 
 # ── 2. Retrieval ───────────────────────────────────────────────────────────────
-# todo: we want to integrate EHR stuff
-# todo: format EHR stuff 
 
 
 def retrieve(query: str, top_k: int = TOP_K) -> list[dict]:
@@ -140,11 +138,13 @@ def format_context(hits: list[dict]) -> str:
 
 # ── 4. Full RAG call (retrieval only — generation wired in orchestration) ──────
 
-def retrieve_for_query(query: str) -> tuple[list[dict], str]:
+def retrieve_for_query(query: str, patient_id: str) -> tuple[dict | None, list[dict], str]:
     """
-    Public entry point.  Returns (hits, formatted_context).
+    Public entry point.  Returns (patient_record, hits, combined_context).
 
-    The caller (orchestration layer) passes `formatted_context` to the LLM.
+    - patient_record: structured patient data from BigQuery
+    - hits: retrieved KB chunks from Chroma
+    - combined_context: patient context + KB context for the LLM
 
     TODO: add re-ranking step here once you have more chunks —
           e.g. cross-encoder on (query, document) pairs to reorder hits
@@ -152,6 +152,23 @@ def retrieve_for_query(query: str) -> tuple[list[dict], str]:
     TODO: add query rewriting — expand abbreviations like "UC" → "ulcerative
           colitis" before embedding to improve recall.
     """
+
+    patient_record = get_patient_record(patient_id)
+    patient_context = (
+        build_patient_context(patient_record)
+        if patient_record
+        else "No patient-specific data found."
+    )
+
     hits = retrieve(query)
-    context = format_context(hits)
-    return hits, context
+    kb_context = format_context(hits)
+
+    combined_context = f"""
+PATIENT-SPECIFIC CONTEXT
+{patient_context}
+
+KNOWLEDGE-BASE CONTEXT
+{kb_context}
+""".strip()
+
+    return patient_record, hits, combined_context
