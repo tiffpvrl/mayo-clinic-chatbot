@@ -6,6 +6,7 @@ readable context block that is included in the LLM prompt.
 """
 
 from typing import Dict, Any, List
+from datetime import datetime
 
 
 COMORBIDITY_LABELS = {
@@ -17,7 +18,6 @@ COMORBIDITY_LABELS = {
     "prior_abdominal_pelvic_surgery": "Prior abdominal/pelvic surgery",
     "dementia": "Dementia",
     "history_of_stroke": "History of stroke",
-    "opioid_use_regular": "Regular opioid use",
     "tricyclic_antidepressant_use": "Tricyclic antidepressant use",
     "anticholinergic_use": "Anticholinergic use",
     "hypertension": "Hypertension",
@@ -35,9 +35,6 @@ COMORBIDITY_LABELS = {
     "spinal_cord_injury": "Spinal cord injury",
     "neurogenic_bowel": "Neurogenic bowel",
     "prior_colorectal_surgery": "Prior colorectal surgery",
-    "medication_class_opioid": "Opioid medication",
-    "medication_class_glp1_agonist": "GLP-1 agonist medication",
-    "medication_class_laxative": "Laxative medication",
 }
 
 
@@ -52,6 +49,17 @@ def is_positive(value: Any) -> bool:
         return value.strip().lower() in {"1", "true", "yes", "y"}
     return False
 
+def format_value(value: Any, default: str = "Unknown") -> str:
+    if value is None:
+        return default
+
+    if isinstance(value, str) and value.strip() == "":
+        return default
+
+    if isinstance(value, datetime):
+        return value.isoformat(timespec="minutes")
+
+    return str(value)
 
 def summarize_comorbidities(patient: Dict[str, Any]) -> List[str]:
     conditions = []
@@ -66,7 +74,7 @@ def summarize_comorbidities(patient: Dict[str, Any]) -> List[str]:
 
     ckd_stage = patient.get("ckd_stage")
     if ckd_stage not in (None, "", 0, "0"):
-        conditions.append(f"CKD stage {ckd_stage}")
+        conditions.append(f"CKD stage: {ckd_stage}")
 
     sci_type = patient.get("sci_type")
     if sci_type not in (None, "") and is_positive(patient.get("spinal_cord_injury")):
@@ -75,7 +83,12 @@ def summarize_comorbidities(patient: Dict[str, Any]) -> List[str]:
     opioid_type = patient.get("opioid_type")
     opioid_drug = patient.get("opioid_specific_drugs")
     if is_positive(patient.get("opioid_use_regular")) or is_positive(patient.get("medication_class_opioid")):
-        info = " ".join(filter(None, [opioid_type, opioid_drug]))
+        info = " ".join(
+            filter(None, [
+                str(opioid_type) if opioid_type else None,
+                str(opioid_drug) if opioid_drug else None
+            ])
+        )
         conditions.append(f"Chronic opioid use {info}".strip())
 
     glp1_drugs = patient.get("glp1_agonist_specific_drugs")
@@ -98,29 +111,115 @@ def summarize_comorbidities(patient: Dict[str, Any]) -> List[str]:
 
     return conditions
 
-
 def build_patient_context(patient: Dict[str, Any]) -> str:
     if not patient:
         return "No patient-specific data found."
 
     comorbidities = summarize_comorbidities(patient)
-    comorbidity_block = "\n".join(f"- {c}" for c in comorbidities) if comorbidities else "None reported"
-    current_medications = patient.get("current_medications") or "None listed"
+    comorbidity_block = "\n".join(f"- {item}" for item in comorbidities) if comorbidities else "- None reported"
+
+    current_medications = format_value(patient.get("current_medications"), "None listed")
+
+    encounter_lines = [
+        f"- Procedure ID: {format_value(patient.get('procedure_id'))}",
+        f"- Colonoscopy indication: {format_value(patient.get('colonoscopy_indication'))}",
+        f"- Chief complaint: {format_value(patient.get('chief_complaint'))}",
+        f"- Referral source: {format_value(patient.get('referral_source'))}",
+        f"- Primary ICD-10 code: {format_value(patient.get('primary_icd10_code'))}",
+        f"- Bowel prep start: {format_value(patient.get('bowel_prep_start_datetime'))}",
+        f"- Bowel prep end: {format_value(patient.get('bowel_prep_end_datetime'))}",
+        f"- Colonoscopy datetime: {format_value(patient.get('colonoscopy_datetime'))}",
+    ]
+
+    prep_lines = [
+        f"- Risk tier: {format_value(patient.get('risk_tier'))}",
+        f"- Regimen type: {format_value(patient.get('regimen_type'))}",
+        f"- Prep agent: {format_value(patient.get('prep_agent'))}",
+        f"- Diet protocol: {format_value(patient.get('diet_protocol'))}",
+        f"- Estimated compliance (%): {format_value(patient.get('estimated_compliance_pct'))}",
+        f"- Number of bowel movements: {format_value(patient.get('number_of_bowel_movements'))}",
+        f"- Stool character at end of prep: {format_value(patient.get('stool_character_end_of_prep'))}",
+    ]
+    volume = patient.get("volume_liters")
+    if volume is not None:
+        prep_lines.append(f"- Prep volume: {volume} L")
+    if patient.get("adjuncts") not in (None, "", "None"):
+        prep_lines.append(f"- Adjuncts: {patient['adjuncts']}")
+    if patient.get("dietary_restriction") not in (None, "", "None"):
+        prep_lines.append(f"- Dietary restriction: {patient['dietary_restriction']}")
+    if patient.get("prep_modifications") not in (None, "", "None"):
+        prep_lines.append(f"- Prep modifications: {patient['prep_modifications']}")
+
+    if is_positive(patient.get("nausea_during_prep")):
+        prep_lines.append("- Nausea during prep")
+    if is_positive(patient.get("vomiting_during_prep")):
+        prep_lines.append("- Vomiting during prep")
+    if is_positive(patient.get("abdominal_cramps_during_prep")):
+        prep_lines.append("- Abdominal cramps during prep")
+    if is_positive(patient.get("dizziness_during_prep")):
+        prep_lines.append("- Dizziness during prep")
+
+    prior_colonoscopy_lines = []
+
+    if is_positive(patient.get("prior_colonoscopy_flag")):
+        prior_colonoscopy_lines.append("- Prior colonoscopy: Yes")
+
+    if patient.get("prior_colonoscopy_date"):
+        prior_colonoscopy_lines.append(
+            f"- Prior colonoscopy date: {format_value(patient['prior_colonoscopy_date'])}"
+        )
+
+    if patient.get("years_since_prior_colonoscopy") is not None:
+        prior_colonoscopy_lines.append(
+            f"- Years since prior colonoscopy: {patient['years_since_prior_colonoscopy']}"
+        )
+
+    if patient.get("prior_bbps_total") is not None:
+        prior_colonoscopy_lines.append(
+            f"- Prior BBPS total: {patient['prior_bbps_total']}"
+        )
+
+    if patient.get("prior_prep_adequate_flag") is not None:
+        adequate = "Yes" if is_positive(patient.get("prior_prep_adequate_flag")) else "No"
+        prior_colonoscopy_lines.append(f"- Prior prep adequate: {adequate}")
+
+    if is_positive(patient.get("prior_extended_prep_required")):
+        prior_colonoscopy_lines.append("- Prior extended prep required")
+
+    if patient.get("prior_prep_attempts_count"):
+        prior_colonoscopy_lines.append(
+            f"- Prior prep attempts: {patient['prior_prep_attempts_count']}"
+        )
+
+    prior_section = ""
+    if prior_colonoscopy_lines:
+        prior_section = f"""
+
+PRIOR COLONOSCOPY HISTORY
+{chr(10).join(prior_colonoscopy_lines)}
+"""
 
     return f"""
 PATIENT PROFILE
-Age: {patient.get("age_at_colonoscopy")}
-Sex: {patient.get("sex_at_birth")}
-Gender Identity: {patient.get("gender_identity")}
-BMI: {patient.get("bmi")}
-Smoking Status: {patient.get("smoking_status")}
-Alcohol Use: {patient.get("alcohol_use")}
-Mobility status: {patient.get("mobility_status")}
-High risk flag: {patient.get("high_risk_flag")}
+- Age: {format_value(patient.get("age_at_colonoscopy"))}
+- Sex at birth: {format_value(patient.get("sex_at_birth"))}
+- Gender identity: {format_value(patient.get("gender_identity"))}
+- Preferred language: {format_value(patient.get("preferred_language"))}
+- BMI: {format_value(patient.get("bmi"))}
+- Smoking status: {format_value(patient.get("smoking_status"))}
+- Alcohol use: {format_value(patient.get("alcohol_use"))}
+- Mobility status: {format_value(patient.get("mobility_status"))}
+- High risk flag: {format_value(patient.get("high_risk_flag"))}
 
-COMORBIDITIES
+COMORBIDITIES AND RELEVANT HISTORY
 {comorbidity_block}
 
 CURRENT MEDICATIONS
-{current_medications}
+- {current_medications}
+
+ENCOUNTER DETAILS
+{chr(10).join(encounter_lines)}
+
+PREP DETAILS
+{chr(10).join(prep_lines)}{prior_section}
 """.strip()
