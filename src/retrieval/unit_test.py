@@ -1,6 +1,6 @@
 from rag import retrieve_for_query
 
-result = retrieve_for_query("can I drive after my colonoscopy?")
+result = retrieve_for_query("can I drive after my colonoscopy?", patient_id='P658448776', is_follow_up=False)
 
 print("=== Clinical Hits ===")
 for h in result.clinical_hits:

@@ -510,12 +510,12 @@ Examples:
 @app.post("/chat")
 def chat(req: ChatRequest):
     try:
-        patient_record, hits, context = retrieve_for_query(req.query, req.patient_id)
+        result = retrieve_for_query(req.query, req.patient_id)
 
-        if patient_record is None:
+        if result.patient_record is None:
             return {"error": "Patient ID not found."}
 
-        answer = generate_response(req.query, context)
+        answer = generate_response(req.query, result.combined_context)
 
         sources = [
             {
@@ -523,16 +523,16 @@ def chat(req: ChatRequest):
                 "metadata": h.get("metadata", {}),
                 "snippet": (h.get("document") or "")[:300],
             }
-            for h in hits
+            for h in result.clinical_hits
         ]
 
         return {
             "query": req.query,
             "answer": answer,
             "debug": {
-                "num_chunks": len(hits),
+                "num_chunks": len(result.clinical_hits),
                 "sources": sources,
-                "context_preview": context[:500],
+                "context_preview": result.combined_context[:500],
             },
         }
 

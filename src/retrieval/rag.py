@@ -7,8 +7,16 @@ for a given user query.
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+from typing import Any, NamedTuple
 from src.retrieval.embedder import Embedding
-from src.retrieval.chromadb_store import collection
+from src.retrieval.chromadb_store import clinical_collection, qa_collection, conversation_collection
+from src.retrieval.filters import (
+    _build_where,
+    extract_filters,
+    extract_qa_filters,
+    extract_conversation_filters,
+    extract_patient_filters,
+)
 from src.config import EMBEDDING_MODEL, TOP_K
 from src.patient_data.bigquery_client import get_patient_record
 from src.patient_data.patient_context import build_patient_context
@@ -16,135 +24,324 @@ from src.patient_data.patient_context import build_patient_context
 embedder = Embedding(model_type=EMBEDDING_MODEL)
 
 
-# ── 1. Query understanding ─────────────────────────────────────────────────────
+# ── 1. Retrieval ───────────────────────────────────────────────────────────────
 
-def extract_filters(query: str) -> dict | None:
-    """
-    Translate natural-language cues in the query into ChromaDB `where` filters
-    so the vector search is scoped before cosine distance is computed.
-
-    Returns a Chroma `where` dict, or None for unfiltered search.
-    Multiple conditions are combined with $and.
-
-    Note: `tags` is stored as a comma-joined string in Chroma, so
-    {"tags": {"$contains": "med_class:anticoagulants"}} does a substring match.
-    """
-    q = query.lower()
-    conditions = []
-
-    # Medication class keywords (mirrors MEDICATION_CLASSES in document_processor.py)
-    MEDICATION_KEYWORDS = {
-        "med_class:anticoagulants": ["warfarin", "coumadin", "xarelto", "rivaroxaban",
-                                     "eliquis", "apixaban", "pradaxa", "dabigatran",
-                                     "lovenox", "enoxaparin", "blood thinner"],
-        "med_class:antiplatelet":   ["clopidogrel", "plavix", "ticagrelor", "brilinta",
-                                     "prasugrel", "effient", "aspirin"],
-        "med_class:diuretics":      ["furosemide", "lasix", "hydrochlorothiazide", "hctz",
-                                     "spironolactone"],
-        "med_class:ace_inhibitors": ["lisinopril", "enalapril", "ramipril",
-                                     "ace inhibitor", "ace-inhibitor"],
-        "med_class:sglt2_inhibitors": ["invokana", "canagliflozin", "farxiga",
-                                       "dapagliflozin", "jardiance", "empagliflozin", "sglt2"],
-        "med_class:nsaids":         ["ibuprofen", "advil", "naproxen", "aleve", "nsaid"],
-    }
-
-    for tag, keywords in MEDICATION_KEYWORDS.items():
-        if any(kw in q for kw in keywords):
-            conditions.append({"tags": {"$contains": tag}})
-            break  # one medication class filter at a time is enough
-
-    # ── Specific bowel prep drug names → filter by drug_name field
-    BOWEL_PREP_DRUGS = ["suprep", "golytely", "miralax", "moviprep",
-                        "prepopik", "clenpiq", "plenvu", "suflave"]
-    for drug in BOWEL_PREP_DRUGS:
-        if drug in q:
-            conditions.append({"drug_name": {"$eq": drug.upper()}})
-            break
-
-    # ── Document type keywords
-    if any(kw in q for kw in ["drug label", "fda", "prescribing information", "package insert"]):
-        conditions.append({"document_type": {"$eq": "drug_label"}})
-    elif any(kw in q for kw in ["guideline", "recommend", "consensus", "taskforce", "society"]):
-        conditions.append({"document_type": {"$eq": "clinical_guideline"}})
-    elif any(kw in q for kw in ["patient instruction", "how to prepare", "preparation steps"]):
-        conditions.append({"document_type": {"$eq": "patient_instructions"}})
-
-    # ── Procedure timing
-    if "morning" in q:
-        conditions.append({"tags": {"$contains": "procedure_time:morning"}})
-    elif "afternoon" in q:
-        conditions.append({"tags": {"$contains": "procedure_time:afternoon"}})
-
-    # ── Return
-    if not conditions:
-        return None
-    if len(conditions) == 1:
-        return conditions[0]
-    return {"$and": conditions}
-
-
-# ── 2. Retrieval ───────────────────────────────────────────────────────────────
-
-
-def retrieve(query: str, top_k: int = TOP_K) -> list[dict]:
-    """
-    Embed the query, run cosine search in Chroma, return top_k results.
-
-    Each result dict has keys: id, document, metadata, distance.
-    """
-    query_embedding = embedder.encode([query])[0]
-    try:
-        where = extract_filters(query)
-    except:
-        where = None # if there are no filters matched
-
+def _query_collection(collection: Any, query_embedding: list, top_k: int, where: Any) -> list[dict]:
+    """Run a single ChromaDB query and flatten the nested result into a list of dicts."""
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=top_k,
         where=where,
         include=["documents", "metadatas", "distances"],
     )
-
-    # Flatten Chroma's nested list response into a list of dicts
     hits = []
-    for doc, meta, dist, id_ in zip(
-        results["documents"][0],
-        results["metadatas"][0],
-        results["distances"][0],
-        results["ids"][0],
-    ):
+    docs = results["documents"] or [[]]
+    metas = results["metadatas"] or [[]]
+    dists = results["distances"] or [[]]
+    ids = results["ids"] or [[]]
+    for doc, meta, dist, id_ in zip(docs[0], metas[0], dists[0], ids[0]):
         hits.append({"id": id_, "document": doc, "metadata": meta, "distance": dist})
-
     return hits
 
 
-# ── 3. Context formatting ──────────────────────────────────────────────────────
+def _union_query(collection: Any, query_embedding: list, top_k: int, where: Any) -> list[dict]:
+    """
+    Run both a filtered and an unfiltered query, merge by best distance per
+    unique chunk ID, and return the top_k results sorted by distance.
 
-def format_context(hits: list[dict]) -> str:
+    This ensures chunks missed by incomplete tagging are still retrievable
+    when a more semantically similar unfiltered result exists.
+    If no filter is provided, falls through to a single unfiltered query.
     """
-    Format retrieved chunks into a prompt-ready context string.
-    Each block is labelled with its source so the LLM can cite it.
+    unfiltered = _query_collection(collection, query_embedding, top_k, None)
+    if where is None:
+        return unfiltered
+
+    filtered = _query_collection(collection, query_embedding, top_k, where)
+
+    # Merge: keep the lower (better) distance for each unique id
+    best: dict[str, dict] = {}
+    for hit in filtered + unfiltered:
+        id_ = hit["id"]
+        if id_ not in best or hit["distance"] < best[id_]["distance"]:
+            best[id_] = hit
+
+    return sorted(best.values(), key=lambda h: h["distance"])[:top_k]
+
+
+def _build_augmented_query(query: str, patient_record: dict) -> str:
     """
+    Prepend a short patient summary to the query before embedding so the
+    query vector sits closer to chunks relevant to this patient's specific
+    conditions, not just the question in the abstract.
+
+    Only the most clinically salient fields are included to keep the
+    augmentation concise — a long prefix dilutes the query signal.
+    """
+    from src.retrieval.filters import _pos
+    from datetime import datetime
+
+    parts = []
+
+    # Conditions
+    if _pos(patient_record.get("diabetes")) or _pos(patient_record.get("on_diabetes_medication")):
+        parts.append("diabetes")
+    if _pos(patient_record.get("heart_failure")):
+        parts.append("heart failure")
+    if _pos(patient_record.get("cirrhosis")):
+        parts.append("cirrhosis")
+    if _pos(patient_record.get("ibd_diagnosis")):
+        parts.append("inflammatory bowel disease")
+    if _pos(patient_record.get("chronic_constipation")):
+        parts.append("chronic constipation")
+
+    ckd_stage = patient_record.get("ckd_stage")
+    if ckd_stage not in (None, "", 0, "0"):
+        parts.append(f"chronic kidney disease stage {ckd_stage}")
+
+    # Procedure timing
+    colonoscopy_dt = patient_record.get("colonoscopy_datetime")
+    if colonoscopy_dt:
+        try:
+            if isinstance(colonoscopy_dt, str):
+                colonoscopy_dt = datetime.fromisoformat(colonoscopy_dt)
+            parts.append("morning procedure" if colonoscopy_dt.hour < 12 else "afternoon procedure")
+        except Exception:
+            pass
+
+    # Prep agent
+    prep_agent = patient_record.get("prep_agent")
+    if prep_agent:
+        parts.append(f"{prep_agent} bowel prep")
+
+    if not parts:
+        return query
+
+    patient_summary = ", ".join(parts)
+    return f"Patient context: {patient_summary}. Query: {query}"
+
+
+def retrieve_clinical(query: str, top_k: int = TOP_K, patient_record: dict | None = None) -> list[dict]:
+    """
+    Embed the query, run cosine search in clinical_collection, return top_k results.
+
+    patient_record: when provided, patient EHR filters are merged with
+        query-based filters so results are scoped to chunks relevant to
+        both what the patient asked AND who the patient is.
+
+    Falls back to unfiltered top-k if the filtered query returns no results.
+    Each result dict has keys: id, document, metadata, distance.
+    """
+    augmented_query = _build_augmented_query(query, patient_record) if patient_record else query
+    query_embedding = embedder.encode([augmented_query])[0]
+    where: Any = None
+    try:
+        query_where = extract_filters(query)  # original query — keyword matching, not embedding
+        patient_where = extract_patient_filters(patient_record) if patient_record else None
+        if query_where and patient_where:
+            where = {"$and": [query_where, patient_where]}
+        else:
+            where = query_where or patient_where
+    except Exception:
+        where = None
+
+    return _union_query(clinical_collection, query_embedding, top_k, where)
+
+
+def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None) -> list[dict]:
+    """
+    Retrieve turn-level Q&A examples from qa_collection.
+    Used for tone/phrasing reference — caller surfaces chatbot_response from metadata.
+
+    is_follow_up: when provided, filters examples to the same turn state —
+        True  → retrieve follow-up turn examples (turn_number > 1)
+        False → retrieve first-turn examples
+        None  → no filter (default)
+
+    Falls back to unfiltered top-k if the filtered query returns no results.
+
+    TODO [EHR integration]: Add `prep_type: str | None = None` parameter and inject
+          {"prep_type": {"$eq": prep_type}} as a condition when prep_type is provided.
+          prep_type is stored as an uppercase exact string in qa_collection metadata
+          (e.g. "SUPREP", "GOLYTELY", "MIRALAX"). This ensures tone/phrasing examples
+          are always drawn from the same prep protocol as the patient, preventing
+          cross-prep response anchoring. Passed down from retrieve_for_query().
+    """
+    query_embedding = embedder.encode([query])[0]
+    where: Any = None
+    try:
+        conditions = []
+        keyword_where = extract_qa_filters(query)
+        if keyword_where:
+            conditions.append(keyword_where)
+        if is_follow_up is not None:
+            conditions.append({"is_follow_up": {"$eq": is_follow_up}})
+        where = _build_where(conditions)
+    except Exception:
+        where = None
+
+    return _union_query(qa_collection, query_embedding, top_k, where)
+
+
+def retrieve_conversations(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None) -> list[dict]:
+    """
+    Retrieve full conversation threads from conversation_collection.
+    Used for multi-turn flow reference — shows how similar questions were handled end-to-end.
+
+    is_follow_up: when True, restricts results to multi-turn conversations
+        (demonstrates_multi_turn=True) so the LLM sees flow examples that
+        actually demonstrate follow-up handling.
+        False/None → no filter on demonstrates_multi_turn.
+
+    Falls back to unfiltered top-k if the filtered query returns no results.
+
+    TODO [EHR integration]: Add `prep_type: str | None = None` parameter and inject
+          {"prep_type": {"$eq": prep_type}} as a condition when prep_type is provided.
+          prep_type is stored as an uppercase exact string in conversation_collection
+          metadata (e.g. "SUPREP", "GOLYTELY", "MIRALAX"), taken from the first turn
+          of each conversation. Passed down from retrieve_for_query().
+    """
+    query_embedding = embedder.encode([query])[0]
+    where: Any = None
+    try:
+        conditions = []
+        keyword_where = extract_conversation_filters(query)
+        if keyword_where:
+            conditions.append(keyword_where)
+        if is_follow_up:
+            conditions.append({"demonstrates_multi_turn": {"$eq": True}})
+        where = _build_where(conditions)
+    except Exception:
+        where = None
+
+    return _union_query(conversation_collection, query_embedding, top_k, where)
+
+
+# ── 2. Context formatting ──────────────────────────────────────────────────────
+
+def format_clinical_context(hits: list[dict]) -> str:
+    """
+    Format clinical_collection hits into a prompt-ready string.
+    Returns a sentinel string when no hits are available.
+    """
+    if not hits:
+        return "No relevant clinical information found."
 
     blocks = []
     for i, hit in enumerate(hits):
-        metadata = hit["metadata"]
-        org = metadata.get('organization') or hit['id']
-        label = f"Source {i+1} | source: {org} | document_type: {metadata.get('document_type')} | section: {metadata.get('section_title')}"
-        blocks.append(f"[{label}]\n{hit['document']}")
+        meta = hit["metadata"]
+        org = meta.get("organization") or "Unknown source"
+        year = meta.get("publication_year") or ""
+        section = meta.get("section_title") or ""
+        doc_type = meta.get("document_type") or ""
+        drug = meta.get("drug_name") or ""
+
+        parts = [f"source: {org}"]
+        if year:
+            parts.append(f"year: {year}")
+        if doc_type:
+            parts.append(f"type: {doc_type}")
+        if drug:
+            parts.append(f"drug: {drug}")
+        if section:
+            parts.append(f"section: {section}")
+
+        label = f"[Clinical Source {i+1} | {' | '.join(parts)}]"
+        blocks.append(f"{label}\n{hit['document']}")
 
     return "\n\n---\n\n".join(blocks)
 
 
-# ── 4. Full RAG call (retrieval only — generation wired in orchestration) ──────
-
-def retrieve_for_query(query: str, patient_id: str) -> tuple[dict | None, list[dict], str]:
+def format_qa_context(hits: list[dict]) -> str:
     """
-    Public entry point.  Returns (patient_record, hits, combined_context).
+    Format qa_collection hits (turn-level Q&A pairs) into a prompt-ready string.
+    Surfaces chatbot_response from metadata for tone/phrasing reference.
+    Returns a sentinel string when no hits are available.
+    """
+    if not hits:
+        return "No similar Q&A examples found."
 
-    - patient_record: structured patient data from BigQuery
-    - hits: retrieved KB chunks from Chroma
-    - combined_context: patient context + KB context for the LLM
+    blocks = []
+    for i, hit in enumerate(hits):
+        meta = hit["metadata"]
+        category = meta.get("query_category") or ""
+        turn = meta.get("turn_number") or ""
+        patient_msg = meta.get("patient_message") or ""
+        chatbot_resp = meta.get("chatbot_response") or hit["document"]
+
+        label = f"[Q&A Example {i+1} | category: {category} | turn: {turn}]"
+        blocks.append(
+            f"{label}\n"
+            f"Similar patient question: {patient_msg}\n"
+            f"Example response: {chatbot_resp}"
+        )
+
+    return "\n\n---\n\n".join(blocks)
+
+
+def format_conversation_context(hits: list[dict]) -> str:
+    """
+    Format conversation_collection hits (full multi-turn threads) into a
+    prompt-ready string.
+    Returns a sentinel string when no hits are available.
+    """
+    if not hits:
+        return "No similar conversation flows found."
+
+    blocks = []
+    for i, hit in enumerate(hits):
+        meta = hit["metadata"]
+        flow = meta.get("conversation_flow") or ""
+        num_turns = meta.get("num_turns") or ""
+        appt_time = meta.get("appointment_time") or ""
+
+        parts = []
+        if flow:
+            parts.append(f"flow: {flow}")
+        if num_turns:
+            parts.append(f"turns: {num_turns}")
+        if appt_time:
+            parts.append(f"appointment: {appt_time}")
+
+        label = f"[Conversation Example {i+1} | {' | '.join(parts)}]"
+        blocks.append(f"{label}\n{hit['document']}")
+
+    return "\n\n---\n\n".join(blocks)
+
+
+# ── 3. Orchestration ───────────────────────────────────────────────────────────
+
+class RAGResult(NamedTuple):
+    """Structured return type for retrieve_for_query."""
+    patient_record: dict | None
+    patient_context: str
+    clinical_hits: list[dict]
+    qa_hits: list[dict]
+    conversation_hits: list[dict]
+    clinical_context: str
+    qa_context: str
+    conversation_context: str
+    combined_context: str
+
+
+def retrieve_for_query(
+    query: str,
+    patient_id: str,
+    is_follow_up: bool | None = None,
+) -> RAGResult:
+    """
+    Public entry point. Returns a RAGResult with patient data, per-collection
+    hits, formatted context strings, and a single combined_context for the LLM.
+
+    patient_id: used to look up the patient record from BigQuery.
+    is_follow_up: pass True for any turn after the first in the conversation,
+        False for the opening message, or None to skip turn-state filtering.
+        The orchestration layer should derive this from conversation history length.
+
+    TODO [EHR integration]: Add `prep_type: str | None = None` parameter once the EHR
+          system is available. prep_type should be resolved from the patient's EHR record
+          at session start and forwarded to retrieve_qa() and retrieve_conversations().
+          See those functions for where the filter is applied.
 
     TODO: add re-ranking step here once you have more chunks —
           e.g. cross-encoder on (query, document) pairs to reorder hits
@@ -152,7 +349,6 @@ def retrieve_for_query(query: str, patient_id: str) -> tuple[dict | None, list[d
     TODO: add query rewriting — expand abbreviations like "UC" → "ulcerative
           colitis" before embedding to improve recall.
     """
-
     patient_record = get_patient_record(patient_id)
     patient_context = (
         build_patient_context(patient_record)
@@ -160,15 +356,36 @@ def retrieve_for_query(query: str, patient_id: str) -> tuple[dict | None, list[d
         else "No patient-specific data found."
     )
 
-    hits = retrieve(query)
-    kb_context = format_context(hits)
+    clinical_hits = retrieve_clinical(query, patient_record=patient_record)
+    qa_hits = retrieve_qa(query, is_follow_up=is_follow_up)
+    conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up)
+
+    clinical_context = format_clinical_context(clinical_hits)
+    qa_context = format_qa_context(qa_hits)
+    conversation_context = format_conversation_context(conversation_hits)
 
     combined_context = f"""
-PATIENT-SPECIFIC CONTEXT
-{patient_context}
+                        PATIENT-SPECIFIC CONTEXT
+                        {patient_context}
 
-KNOWLEDGE-BASE CONTEXT
-{kb_context}
-""".strip()
+                        CLINICAL KNOWLEDGE BASE
+                        {clinical_context}
 
-    return patient_record, hits, combined_context
+                        SIMILAR Q&A EXAMPLES
+                        {qa_context}
+
+                        SIMILAR CONVERSATION FLOWS
+                        {conversation_context}
+                        """.strip()
+
+    return RAGResult(
+        patient_record=patient_record,
+        patient_context=patient_context,
+        clinical_hits=clinical_hits,
+        qa_hits=qa_hits,
+        conversation_hits=conversation_hits,
+        clinical_context=clinical_context,
+        qa_context=qa_context,
+        conversation_context=conversation_context,
+        combined_context=combined_context,
+    )
