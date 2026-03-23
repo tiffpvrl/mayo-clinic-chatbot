@@ -4,10 +4,13 @@
 # Options: "openai" | "pubmed_bert" | "mini_llm"
 EMBEDDING_MODEL = "mini_lm"
 
-# LLM
-# Options: # todo
-LLM_PROVIDER = "openai"
-LLM_MODEL = "gpt-4o"           
+# LLM — model string is passed directly to LiteLLM
+# OpenAI:    "gpt-4o", "gpt-4o-mini"
+# Anthropic: "claude-sonnet-4-6", "claude-haiku-4-5-20251001"
+# Google:    "gemini/gemini-2.0-flash"
+# Local:     "ollama/llama3"
+LLM_MODEL = "gpt-4o"
+LLM_TEMPERATURE = 0.3
 
 # Vector DB = chromadb for simplicity
 CHROMA_PATH = "src/retrieval/vector_storage/chroma_db"

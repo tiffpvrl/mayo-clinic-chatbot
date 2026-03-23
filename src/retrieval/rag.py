@@ -16,7 +16,7 @@ embedder = Embedding(model_type=EMBEDDING_MODEL)
 
 
 # ── 1. Query understanding ─────────────────────────────────────────────────────
-# TODO: improve this by using llm-based extraction:
+# TODO: improve this by using llm-based extraction - look at notes
 
 def extract_filters(query: str) -> dict | None:
     """
@@ -455,6 +455,7 @@ def retrieve_for_query(query: str, is_follow_up: bool | None = None) -> RAGResul
           before trimming to top_k.
     TODO: add query rewriting — expand abbreviations like "UC" → "ulcerative
           colitis" before embedding to improve recall.
+    TODO: LLM Re-ranking?
     """
     clinical_hits = retrieve_clinical(query)
     qa_hits = retrieve_qa(query, is_follow_up=is_follow_up)
