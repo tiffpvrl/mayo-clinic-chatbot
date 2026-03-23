@@ -1,20 +1,33 @@
 """
-One-time script to process the knowledge base and populate ChromaDB
+One-time script to process the knowledge base and populate ChromaDB.
+
+Run from the repository root, e.g.:
+  python -m src.retrieval.index_kb
 """
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from __future__ import annotations
 
-from data_processing.document_processor import process_patient_kb
-from chromadb_store import index_chunks, collection
+import sys
+from pathlib import Path
+
+# Repo root (parent of src/)
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.data_processing.document_processor import process_patient_kb
+from src.retrieval.chromadb_store import collection, index_chunks
+
+KB_DIR = ROOT / "src/data_processing/patient_kb"
+OUT_JSON = ROOT / "src/data_processing/patient_kb/processed_chunks/processed_chunks.json"
+
 
 if __name__ == "__main__":
-    # Wipe existing collection so re-runs don't hit duplicate ID errors
     existing = collection.count()
     if existing > 0:
         print(f"Collection already has {existing} chunks. Re-indexing...")
-        collection.delete(where={"document_type": {"$ne": ""}})  # delete all
+        collection.delete(where={"document_type": {"$ne": ""}})
 
-    chunks = process_patient_kb(kb_dir="src/data_processing/patient_kb")
+    chunks = process_patient_kb(kb_dir=KB_DIR, output_path=OUT_JSON)
     index_chunks(chunks)
-    print("Finished indexing chunks into ChromaDB")
+    print(f"Finished indexing {len(chunks)} chunks into ChromaDB")

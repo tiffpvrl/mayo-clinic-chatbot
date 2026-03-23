@@ -4,14 +4,23 @@ chromadb_store.py (vector search) to retrieve relevant chunks
 for a given user query.
 """
 
-import sys, os
+import logging
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from src.retrieval.embedder import Embedding
 from src.retrieval.chromadb_store import collection
+from src.retrieval.research_filters import (
+    is_research_background_metadata,
+    query_requests_research_evidence,
+)
 from src.config import EMBEDDING_MODEL, TOP_K
 from src.patient_data.bigquery_client import get_patient_record
 from src.patient_data.patient_context import build_patient_context
+
+logger = logging.getLogger(__name__)
 
 embedder = Embedding(model_type=EMBEDDING_MODEL)
 
@@ -181,6 +190,8 @@ def extract_filters(query: str) -> dict | None:
             break
 
     # ── Document type keywords
+    # Note: clinical_guideline includes society PDFs and trial PDFs in the KB; retrieve() post-filters
+    # research_background chunks unless the user asks for studies/evidence.
     if any(kw in q for kw in ["drug label", "fda", "prescribing information", "package insert"]):
         conditions.append({"document_type": {"$eq": "drug_label"}})
     elif any(kw in q for kw in ["guideline", "recommend", "consensus", "taskforce", "society"]):
@@ -204,22 +215,34 @@ def extract_filters(query: str) -> dict | None:
 
 # ── 2. Retrieval ───────────────────────────────────────────────────────────────
 
+_RESEARCH_EXCLUDE_OVERFETCH = 5
+_RESEARCH_EXCLUDE_MAX_FETCH = 60
+
 
 def retrieve(query: str, top_k: int = TOP_K) -> list[dict]:
     """
     Embed the query, run cosine search in Chroma, return top_k results.
+
+    Drops trial/meta-analysis (research_background) chunks unless the query appears to ask for
+    studies or evidence. Uses post-filtering on metadata/tags. Over-fetches when excluding research
+    so the post-filtered list can still reach top_k.
 
     Each result dict has keys: id, document, metadata, distance.
     """
     query_embedding = embedder.encode([query])[0]
     try:
         where = extract_filters(query)
-    except:
-        where = None # if there are no filters matched
+    except Exception:
+        where = None
+
+    want_research = query_requests_research_evidence(query)
+    n_fetch = top_k
+    if not want_research:
+        n_fetch = min(top_k * _RESEARCH_EXCLUDE_OVERFETCH, _RESEARCH_EXCLUDE_MAX_FETCH)
 
     results = collection.query(
         query_embeddings=[query_embedding],
-        n_results=top_k,
+        n_results=n_fetch,
         where=where,
         include=["documents", "metadatas", "distances"],
     )
@@ -234,7 +257,10 @@ def retrieve(query: str, top_k: int = TOP_K) -> list[dict]:
     ):
         hits.append({"id": id_, "document": doc, "metadata": meta, "distance": dist})
 
-    return hits
+    if not want_research:
+        hits = [h for h in hits if not is_research_background_metadata(h["metadata"])]
+
+    return hits[:top_k]
 
 
 # ── 3. Context formatting ──────────────────────────────────────────────────────
@@ -242,7 +268,8 @@ def retrieve(query: str, top_k: int = TOP_K) -> list[dict]:
 def format_context(hits: list[dict]) -> str:
     """
     Format retrieved chunks into a prompt-ready context string.
-    Each block is labelled with source metadata and caution flags.
+    Each block is labelled with source metadata, patient_kb fields (audience_tier, etc.), and
+    caution flags from postprocess_hits.
     """
 
     blocks = []
@@ -252,6 +279,10 @@ def format_context(hits: list[dict]) -> str:
         org = metadata.get("organization") or hit["id"]
         doc_type = metadata.get("document_type") or "unknown"
         section = metadata.get("section_title") or "unknown"
+        src_file = metadata.get("source_file") or ""
+        aud = metadata.get("audience_tier") or ""
+        pol = metadata.get("content_use_policy") or ""
+        src_cat = metadata.get("source_category") or ""
 
         caution_notes = []
         if metadata.get("needs_source_caution"):
@@ -267,9 +298,20 @@ def format_context(hits: list[dict]) -> str:
             else ""
         )
 
+        extra = []
+        if src_file:
+            extra.append(f"file: {src_file}")
+        if aud:
+            extra.append(f"audience_tier: {aud}")
+        if pol:
+            extra.append(f"content_use_policy: {pol}")
+        if src_cat:
+            extra.append(f"source_category: {src_cat}")
+        meta_suffix = (" | " + " | ".join(extra)) if extra else ""
+
         label = (
             f"Source {i+1} | source: {org} | document_type: {doc_type} "
-            f"| section: {section}{caution_text}"
+            f"| section: {section}{meta_suffix}{caution_text}"
         )
 
         blocks.append(f"[{label}]\n{hit['document']}")
@@ -301,8 +343,16 @@ def retrieve_for_query(query: str, patient_id: str) -> tuple[dict | None, list[d
         else "No patient-specific data found."
     )
 
+    # Research filter runs inside retrieve(); then safety flags + Mayo-first ordering.
     hits = retrieve(query)
     hits = postprocess_hits(hits)
+    if len(hits) < TOP_K:
+        logger.warning(
+            "Retrieval returned %s chunks after filters (TOP_K=%s); query may be over-constrained "
+            "or the KB may be sparse for this topic.",
+            len(hits),
+            TOP_K,
+        )
     kb_context = format_context(hits)
 
     combined_context = f"""
