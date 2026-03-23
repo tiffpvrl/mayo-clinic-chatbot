@@ -1,5 +1,6 @@
 import chromadb
-from embedder import Embedding
+#from embedder import Embedding
+from src.retrieval.embedder import Embedding
 from data_processing.document_processor import ProcessedChunk
 import numpy as np
 import sys, os
