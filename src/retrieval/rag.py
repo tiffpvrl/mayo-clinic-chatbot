@@ -148,7 +148,7 @@ def retrieve_clinical(query: str, top_k: int = TOP_K, patient_record: dict | Non
     return _union_query(clinical_collection, query_embedding, top_k, where)
 
 
-def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None) -> list[dict]:
+def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
     """
     Retrieve turn-level Q&A examples from qa_collection.
     Used for tone/phrasing reference — caller surfaces chatbot_response from metadata.
@@ -171,7 +171,7 @@ def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None
     where: Any = None
     try:
         conditions = []
-        keyword_where = extract_qa_filters(query)
+        keyword_where = extract_qa_filters(query, risk_tier=risk_tier)
         if keyword_where:
             conditions.append(keyword_where)
         if is_follow_up is not None:
@@ -183,7 +183,7 @@ def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None
     return _union_query(qa_collection, query_embedding, top_k, where)
 
 
-def retrieve_conversations(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None) -> list[dict]:
+def retrieve_conversations(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
     """
     Retrieve full conversation threads from conversation_collection.
     Used for multi-turn flow reference — shows how similar questions were handled end-to-end.
@@ -205,7 +205,7 @@ def retrieve_conversations(query: str, top_k: int = TOP_K, is_follow_up: bool | 
     where: Any = None
     try:
         conditions = []
-        keyword_where = extract_conversation_filters(query)
+        keyword_where = extract_conversation_filters(query, risk_tier=risk_tier)
         if keyword_where:
             conditions.append(keyword_where)
         if is_follow_up:
@@ -255,7 +255,7 @@ def format_clinical_context(hits: list[dict]) -> str:
 def format_qa_context(hits: list[dict]) -> str:
     """
     Format qa_collection hits (turn-level Q&A pairs) into a prompt-ready string.
-    Surfaces chatbot_response from metadata for tone/phrasing reference.
+    Surfaces clinician_response from metadata for tone/phrasing reference.
     Returns a sentinel string when no hits are available.
     """
     if not hits:
@@ -264,16 +264,16 @@ def format_qa_context(hits: list[dict]) -> str:
     blocks = []
     for i, hit in enumerate(hits):
         meta = hit["metadata"]
-        category = meta.get("query_category") or ""
+        risk_tier = meta.get("risk_tier") or ""
         turn = meta.get("turn_number") or ""
         patient_msg = meta.get("patient_message") or ""
-        chatbot_resp = meta.get("chatbot_response") or hit["document"]
+        clinician_resp = meta.get("clinician_response") or hit["document"]
 
-        label = f"[Q&A Example {i+1} | category: {category} | turn: {turn}]"
+        label = f"[Q&A Example {i+1} | risk: {risk_tier} | turn: {turn}]"
         blocks.append(
             f"{label}\n"
             f"Similar patient question: {patient_msg}\n"
-            f"Example response: {chatbot_resp}"
+            f"Example clinician response: {clinician_resp}"
         )
 
     return "\n\n---\n\n".join(blocks)
@@ -291,13 +291,13 @@ def format_conversation_context(hits: list[dict]) -> str:
     blocks = []
     for i, hit in enumerate(hits):
         meta = hit["metadata"]
-        flow = meta.get("conversation_flow") or ""
+        risk_tier = meta.get("risk_tier") or ""
         num_turns = meta.get("num_turns") or ""
         appt_time = meta.get("appointment_time") or ""
 
         parts = []
-        if flow:
-            parts.append(f"flow: {flow}")
+        if risk_tier:
+            parts.append(f"risk: {risk_tier}")
         if num_turns:
             parts.append(f"turns: {num_turns}")
         if appt_time:
@@ -356,9 +356,12 @@ def retrieve_for_query(
         else "No patient-specific data found."
     )
 
+    # TODO: need to add risk table in BigQuery
+    risk_tier = patient_record.get("risk_tier") if patient_record else None
+
     clinical_hits = retrieve_clinical(query, patient_record=patient_record)
-    qa_hits = retrieve_qa(query, is_follow_up=is_follow_up)
-    conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up)
+    qa_hits = retrieve_qa(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
+    conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
 
     clinical_context = format_clinical_context(clinical_hits)
     qa_context = format_qa_context(qa_hits)

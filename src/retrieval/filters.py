@@ -112,25 +112,25 @@ _CATEGORY_KEYWORDS: dict[str, list[str]] = {
 }
 
 
-def extract_qa_filters(query: str) -> dict | None:
+def extract_qa_filters(query: str, risk_tier: str | None = None) -> dict | None:
     """
     Translate natural-language cues into ChromaDB `where` filters for qa_collection
     (turn-level Q&A chunks).
 
     Filterable fields in qa_collection:
-      - query_category   : str  exact match ("timing","dietary","medication","logistics","general")
+      - risk_tier        : str  exact match ("Low" | "Medium" | "High")
       - appointment_time : str  exact match ("morning" | "afternoon")
-      - days_relative_to_procedure : int  (0 = day-of, -1 = day before, -2 = two days before)
       - is_follow_up     : bool (True if turn_number > 1)
+
+    risk_tier: when provided (from patient EHR), retrieves examples matching
+        the patient's risk level so tone is appropriate for their situation.
     """
     q = query.lower()
     conditions = []
 
-    # ── query_category
-    for category, keywords in _CATEGORY_KEYWORDS.items():
-        if any(kw in q for kw in keywords):
-            conditions.append({"query_category": {"$eq": category}})
-            break  # one category at a time
+    # ── risk_tier (passed in from patient record — highest-signal filter)
+    if risk_tier in ("Low", "Medium", "High"):
+        conditions.append({"risk_tier": {"$eq": risk_tier}})
 
     # ── appointment_time
     if "morning" in q:
@@ -138,36 +138,28 @@ def extract_qa_filters(query: str) -> dict | None:
     elif "afternoon" in q:
         conditions.append({"appointment_time": {"$eq": "afternoon"}})
 
-    # ── days_relative_to_procedure
-    if any(kw in q for kw in ["day of", "morning of", "day of procedure"]):
-        conditions.append({"days_relative_to_procedure": {"$eq": 0}})
-    elif any(kw in q for kw in ["day before", "night before", "eve of"]):
-        conditions.append({"days_relative_to_procedure": {"$eq": -1}})
-    elif any(kw in q for kw in ["two days before", "2 days before"]):
-        conditions.append({"days_relative_to_procedure": {"$eq": -2}})
-
     return _build_where(conditions)
 
 
-def extract_conversation_filters(query: str) -> dict | None:
+def extract_conversation_filters(query: str, risk_tier: str | None = None) -> dict | None:
     """
     Translate natural-language cues into ChromaDB `where` filters for
     conversation_collection (full multi-turn thread chunks).
 
     Filterable fields in conversation_collection:
-      - query_categories    : str  comma-joined, use $contains
+      - risk_tier           : str  exact match ("Low" | "Medium" | "High")
       - appointment_time    : str  exact match ("morning" | "afternoon")
       - demonstrates_multi_turn : bool
-      - tags                : str  comma-joined, use $contains
+
+    risk_tier: when provided (from patient EHR), scopes examples to the
+        patient's risk level so tone and clinical urgency are appropriate.
     """
     q = query.lower()
     conditions = []
 
-    # ── query_categories (comma-joined string — use $contains)
-    for category, keywords in _CATEGORY_KEYWORDS.items():
-        if any(kw in q for kw in keywords):
-            conditions.append({"query_categories": {"$contains": category}})
-            break
+    # ── risk_tier (passed in from patient record)
+    if risk_tier in ("Low", "Medium", "High"):
+        conditions.append({"risk_tier": {"$eq": risk_tier}})
 
     # ── appointment_time
     if "morning" in q:

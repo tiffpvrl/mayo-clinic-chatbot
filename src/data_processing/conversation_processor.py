@@ -1,13 +1,20 @@
 """
 Conversational Dialogue Processing for Bowel Prep Patient Knowledge Base
 
-Reads mayo_clinic_chatbot_dialogues.xlsx and produces two chunk types:
-1. turn_level   — one Q&A pair per chunk (tone/phrasing examples)
+Reads Mayo_Clinic_Patient_Clinician_Dialogues.xlsx and produces two chunk types:
+1. turn_level        — one Q&A pair per chunk (tone/phrasing examples)
 2. conversation_level — full multi-turn thread per chunk (flow examples)
+
+New file schema (9 columns):
+  conversation_id, turn_number, risk_tier, prep_type, appointment_time,
+  patient_message, clinician_response, escalated_to_clinician, escalation_reason
 
 Output format matches clinical_processed_chunks.json so both can be indexed
 by the same ChromaDB pipeline in retrieval/chromadb_store.py.
 """
+
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from pathlib import Path
 import json
@@ -17,12 +24,15 @@ import pandas as pd
 from data_processing.document_processor import DocumentType
 
 
+VALID_RISK_TIERS = {"Low", "Medium", "High"}
+
+
 class ConversationalChunks(NamedTuple):
     """Return type for process_conversational_dialogues — pre-split by chunk type."""
     turn_level: list[dict]
     conversation_level: list[dict]
 
-# TODO: handle duplicates either through new data
+
 def process_conversational_dialogues(
     input_file: Path | str,
     output_path: Path | str | None = None,
@@ -42,6 +52,9 @@ def process_conversational_dialogues(
     df = pd.read_excel(input_file)
     print(f"Loaded {len(df):,} dialogue turns across {df['conversation_id'].nunique():,} conversations")
 
+    # Normalise risk_tier: merge any legacy "Very High" into "High"
+    df["risk_tier"] = df["risk_tier"].replace("Very High", "High")
+
     # ------------------------------------------------------------------
     # PART 1: Turn-level chunks (one Q&A pair each)
     # ------------------------------------------------------------------
@@ -49,14 +62,14 @@ def process_conversational_dialogues(
     turn_chunks: list[dict] = []
 
     for _, row in df.iterrows():
-        timestamp_val = row["timestamp"]
-        timestamp_str = timestamp_val.isoformat() if pd.notna(timestamp_val) else None
+        escalated = str(row.get("escalated_to_clinician", "No")).strip()
+        escalation_reason = str(row.get("escalation_reason", "")).strip()
 
         chunk = {
-            "id": f"dialogue_turn_{row['conversation_id']}_{int(row['turn_number']):02d}",
+            "id": f"conversation_{row['conversation_id']}_turn_{int(row['turn_number']):02d}",
             "content": (
                 f"Patient Question: {row['patient_message']}\n\n"
-                f"Chatbot Response: {row['chatbot_response']}"
+                f"Clinician Response: {row['clinician_response']}"
             ),
             "metadata": {
                 "source_file": str(input_file),
@@ -64,19 +77,19 @@ def process_conversational_dialogues(
                 "chunk_type": "turn_level",
                 "conversation_id": int(row["conversation_id"]),
                 "turn_number": int(row["turn_number"]),
-                "query_category": row["query_category"],
+                "risk_tier": row["risk_tier"],
                 "prep_type": row["prep_type"],
                 "appointment_time": row["appointment_time"],
-                "days_relative_to_procedure": int(row["days_relative_to_procedure"]),
-                "timestamp": timestamp_str,
                 "patient_message": row["patient_message"],
-                "chatbot_response": row["chatbot_response"],
+                "clinician_response": row["clinician_response"],
                 "is_follow_up": int(row["turn_number"]) > 1,
+                "escalated_to_clinician": escalated,
+                "escalation_reason": escalation_reason,
                 "tags": [
-                    row["query_category"],
+                    f"risk_{row['risk_tier'].lower()}",
                     "conversational_tone",
                     f"turn_{int(row['turn_number'])}",
-                ],
+                ] + (["escalated"] if escalated == "Yes" else []),
             },
         }
         turn_chunks.append(chunk)
@@ -95,11 +108,16 @@ def process_conversational_dialogues(
             turns_text.append(
                 f"Turn {int(row['turn_number'])}:\n"
                 f"Patient: {row['patient_message']}\n"
-                f"Chatbot: {row['chatbot_response']}"
+                f"Clinician: {row['clinician_response']}"
             )
 
-        topics = group["query_category"].tolist()
-        unique_topics = list(dict.fromkeys(topics))  # preserve order, deduplicate
+        risk_tier = group.iloc[0]["risk_tier"]
+        any_escalated = bool((group["escalated_to_clinician"].str.strip() == "Yes").any())
+        escalation_reasons = (
+            group.loc[group["escalated_to_clinician"].str.strip() == "Yes", "escalation_reason"]
+            .dropna()
+            .tolist()
+        )
 
         chunk = {
             "id": f"dialogue_conversation_{conv_id}",
@@ -110,14 +128,16 @@ def process_conversational_dialogues(
                 "chunk_type": "conversation_level",
                 "conversation_id": int(conv_id),
                 "num_turns": len(group),
-                "query_categories": topics,
-                "conversation_flow": " -> ".join(topics),
+                "risk_tier": risk_tier,
                 "prep_type": group.iloc[0]["prep_type"],
                 "appointment_time": group.iloc[0]["appointment_time"],
                 "demonstrates_multi_turn": len(group) > 1,
+                "any_escalated": any_escalated,
+                "escalation_reasons": escalation_reasons,
                 "tags": (
-                    ["multi_turn_example", "conversation_flow", f"{len(group)}_turns"]
-                    + unique_topics
+                    ["multi_turn_example", "conversation_flow", f"{len(group)}_turns",
+                     f"risk_{risk_tier.lower()}"]
+                    + (["has_escalation"] if any_escalated else [])
                 ),
             },
         }
@@ -137,16 +157,22 @@ def process_conversational_dialogues(
         print(f"Saved {len(combined):,} conversational chunks to: {output_path}")
 
         summary_path = output_path.parent / "conversational_processing_summary.json"
-        categories = df["query_category"].value_counts()
+        risk_dist = df["risk_tier"].value_counts()
         summary = {
             "total_chunks": len(combined),
             "turn_level_chunks": len(turn_chunks),
             "conversation_level_chunks": len(conv_chunks),
             "total_conversations": int(df["conversation_id"].nunique()),
             "total_turns": len(df),
-            "query_category_distribution": {
-                cat: {"count": int(cnt), "pct": round(cnt / len(df) * 100, 1)}
-                for cat, cnt in categories.items()
+            "risk_tier_distribution": {
+                tier: {"count": int(cnt), "pct": round(cnt / len(df) * 100, 1)}
+                for tier, cnt in risk_dist.items()
+            },
+            "escalation": {
+                "total_escalated": int((df["escalated_to_clinician"].str.strip() == "Yes").sum()),
+                "escalation_rate_pct": round(
+                    (df["escalated_to_clinician"].str.strip() == "Yes").mean() * 100, 1
+                ),
             },
         }
         with open(summary_path, "w", encoding="utf-8") as f:
@@ -169,7 +195,7 @@ def process_conversational_dialogues(
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    conv_input = Path("src/data_processing/patient_kb/conversations/mayo_clinic_chatbot_dialogues.xlsx")
+    conv_input = Path("src/data_processing/patient_kb/conversations/Mayo_Clinic_Patient_Clinician_Dialogues.xlsx")
     conv_out = Path("src/data_processing/patient_kb/processed_chunks/conversational_chunks.json")
 
     conv = process_conversational_dialogues(input_file=conv_input, output_path=conv_out)
@@ -177,8 +203,8 @@ if __name__ == "__main__":
     if conv.turn_level:
         c = conv.turn_level[0]
         print(f"  Id: {c['id']}")
-        print(f"  Document Type: {c['metadata']['document_type']}")
-        print(f"  Chunk Type: {c['metadata']['chunk_type']}")
+        print(f"  Risk tier: {c['metadata']['risk_tier']}")
+        print(f"  Escalated: {c['metadata']['escalated_to_clinician']}")
         print(f"  Tags: {c['metadata']['tags']}")
         print(f"  Content preview: {c['content'][:200]}...")
     print(f"\nSample conversation-level chunk:")
@@ -186,5 +212,5 @@ if __name__ == "__main__":
         c = conv.conversation_level[0]
         print(f"  Id: {c['id']}")
         print(f"  Num turns: {c['metadata']['num_turns']}")
-        print(f"  Flow: {c['metadata']['conversation_flow']}")
+        print(f"  Risk tier: {c['metadata']['risk_tier']}")
         print(f"  Content preview: {c['content'][:200]}...")

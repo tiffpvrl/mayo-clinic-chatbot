@@ -52,7 +52,7 @@ def index_qa_chunks(chunks: list[dict]) -> None:
     Index turn-level Q&A chunks into qa_collection in batches.
     Expects chunks.turn_level from process_conversational_dialogues() — no filtering needed.
     Embeds only patient_message for semantic search so query-to-question matching
-    is not distorted by the response text. chatbot_response is stored in metadata
+    is not distorted by the response text. clinician_response is stored in metadata
     for retrieval-time tone reference.
     """
     if not chunks:
@@ -71,15 +71,15 @@ def index_qa_chunks(chunks: list[dict]) -> None:
                     "chunk_type": c["metadata"]["chunk_type"],
                     "conversation_id": c["metadata"]["conversation_id"],
                     "turn_number": c["metadata"]["turn_number"],
-                    "query_category": c["metadata"]["query_category"],
+                    "risk_tier": c["metadata"]["risk_tier"],
                     "prep_type": c["metadata"]["prep_type"],
                     "appointment_time": c["metadata"]["appointment_time"],
-                    "days_relative_to_procedure": c["metadata"]["days_relative_to_procedure"],
                     "is_follow_up": c["metadata"]["is_follow_up"],
                     "patient_message": c["metadata"]["patient_message"],
-                    "chatbot_response": c["metadata"]["chatbot_response"],
+                    "clinician_response": c["metadata"]["clinician_response"],
+                    "escalated_to_clinician": c["metadata"]["escalated_to_clinician"],
+                    "escalation_reason": c["metadata"]["escalation_reason"],
                     "tags": ",".join(c["metadata"]["tags"]),
-                    "timestamp": c["metadata"].get("timestamp") or "",
                 }
                 for c in batch
             ],
@@ -109,11 +109,11 @@ def index_conversation_chunks(chunks: list[dict]) -> None:
                     "chunk_type": c["metadata"]["chunk_type"],
                     "conversation_id": c["metadata"]["conversation_id"],
                     "num_turns": c["metadata"]["num_turns"],
+                    "risk_tier": c["metadata"]["risk_tier"],
                     "prep_type": c["metadata"]["prep_type"],
                     "appointment_time": c["metadata"]["appointment_time"],
                     "demonstrates_multi_turn": c["metadata"]["demonstrates_multi_turn"],
-                    "conversation_flow": c["metadata"]["conversation_flow"],
-                    "query_categories": ",".join(c["metadata"]["query_categories"]),
+                    "any_escalated": c["metadata"]["any_escalated"],
                     "tags": ",".join(c["metadata"]["tags"]),
                 }
                 for c in batch
