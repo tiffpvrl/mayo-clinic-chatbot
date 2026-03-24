@@ -1,6 +1,7 @@
 # Exclude supplemental and venv
 supplemental/
 venv/
+.venv/
 
 # Python
 __pycache__/
@@ -24,3 +25,21 @@ src/retrieval/vector_storage
 # Generated drug label artifacts
 src/data_processing/patient_kb/drug_labels/
 src/data_processing/patient_kb/pdf_assets/
+
+# Secrets (keep .env.example if you add a template)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Tests / coverage
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Tool caches
+.mypy_cache/
+.ruff_cache/

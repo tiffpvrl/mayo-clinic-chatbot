@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "files": {},
+  "comment": "Optional per-stem overrides: audience_tier (patient_care | clinician_guideline | research_education), source_type (society_guideline | hospital | trial | meta_analysis | patient_handout | educational | trial_or_meta | other). Stems not listed use infer_default_pdf_manifest_entry in document_processor.py."
+}
