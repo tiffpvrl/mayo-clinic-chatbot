@@ -22,3 +22,5 @@ chromadb>=0.4.0
 
 # Utilities
 pathlib2>=2.3.7; python_version < '3.4'  # pathlib is built-in for Python 3.4+
+
+google-cloud-aiplatform>=1.38.0

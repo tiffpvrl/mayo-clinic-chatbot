@@ -1,0 +1,25 @@
+{
+  "total_chunks": 14400,
+  "turn_level_chunks": 11786,
+  "conversation_level_chunks": 2614,
+  "total_conversations": 2614,
+  "total_turns": 11786,
+  "risk_tier_distribution": {
+    "Low": {
+      "count": 5982,
+      "pct": 50.8
+    },
+    "Medium": {
+      "count": 3468,
+      "pct": 29.4
+    },
+    "High": {
+      "count": 2336,
+      "pct": 19.8
+    }
+  },
+  "escalation": {
+    "total_escalated": 214,
+    "escalation_rate_pct": 1.8
+  }
+}

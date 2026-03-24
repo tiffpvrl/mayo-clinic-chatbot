@@ -16,7 +16,6 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Iterator
 from enum import Enum
-
 # Optional: use PyPDF2 or pypdf for PDF extraction
 try:
     from PyPDF2 import PdfReader
@@ -32,6 +31,7 @@ class DocumentType(str, Enum):
     CLINICAL_GUIDELINE = "clinical_guideline"
     DRUG_LABEL = "drug_label"
     PATIENT_INSTRUCTIONS = "patient_instructions"
+    CONVERSATIONAL_EXAMPLE = "conversational_example"
     UNKNOWN = "unknown"
 
 
@@ -950,10 +950,10 @@ def process_document(path: Path, base_dir: Path) -> list[ProcessedChunk]:
     return chunk_clinical_guideline(content, path, pdf_entry=pdf_entry)
 
 
-def build_processing_summary(chunks: list[ProcessedChunk]) -> dict[str, Any]:
+def build_clinical_processing_summary(chunks: list[ProcessedChunk]) -> dict[str, Any]:
     """
     Build a summary dict from processed chunks for reporting and debugging.
-    Matches the structure of processing_summary.json.
+    Matches the structure of clinical_processing_summary.json.
     """
     if not chunks:
         return {
@@ -1017,7 +1017,7 @@ def build_processing_summary(chunks: list[ProcessedChunk]) -> dict[str, Any]:
 
 def process_patient_kb(
     kb_dir: Path | str = "patient_kb",
-    output_path: Path | str | None = "patient_kb/processed_chunks.json",
+    output_path: Path | str | None = "patient_kb/clinical_processed_chunks.json",
 ) -> list[ProcessedChunk]:
     """
     Process entire patient knowledge base and optionally save chunks to JSON.
@@ -1080,8 +1080,8 @@ def process_patient_kb(
             json.dump(serializable, f, indent=2, ensure_ascii=False)
 
         # Write processing summary alongside chunks (same directory)
-        summary_path = output_path.parent / "processing_summary.json"
-        summary = build_processing_summary(all_chunks)
+        summary_path = output_path.parent / "clinical_processing_summary.json"
+        summary = build_clinical_processing_summary(all_chunks)
         with open(summary_path, "w", encoding="utf-8") as f:
             json.dump(summary, f, indent=2, ensure_ascii=False)
         print(f"Summary saved to: {summary_path}")
@@ -1090,14 +1090,14 @@ def process_patient_kb(
 
 
 # ---------------------------------------------------------------------------
-# CLI
+# CLI - for testing only; production indexing runs via retrieval/index_kb.py
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
     import sys
 
     kb = Path("src/data_processing/patient_kb")
-    out = Path("src/data_processing/patient_kb/processed_chunks/processed_chunks.json")
+    out = Path("src/data_processing/patient_kb/processed_chunks/clinical_processed_chunks.json")
 
     if len(sys.argv) > 1:
         kb = Path(sys.argv[1])
@@ -1107,9 +1107,9 @@ if __name__ == "__main__":
     chunks = process_patient_kb(kb_dir=kb, output_path=out)
     print(f"Processed {len(chunks)} chunks from patient knowledge base")
     print(f"Saved to {out}")
-    print("\nSample chunk:")
     if chunks:
         c = chunks[0]
+        print(f"\nSample chunk:")
         print(f"  ID: {c.id}")
         print(f"  Type: {c.metadata.document_type.value}")
         print(f"  Section: {c.metadata.section_title}")
