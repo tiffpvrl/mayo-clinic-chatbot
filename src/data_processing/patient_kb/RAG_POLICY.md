@@ -1,6 +1,6 @@
 # RAG policy: research chunks and comorbidities
 
-This file documents how to use chunk metadata from `processed_chunks.json` for retrieval and LLM prompting. The pipeline sets these fields on PDF-derived chunks:
+This file documents how to use chunk metadata from `clinical_processed_chunks.json` for retrieval and LLM prompting. The pipeline sets these fields on PDF-derived chunks:
 
 - **`audience_tier`**: `patient_care` | `clinician_guideline` | `research_education`
 - **`source_category`**: coarse provenance (e.g. `society_guideline`, `hospital`, `trial`, `meta_analysis`, `patient_handout`, `other`)
@@ -23,6 +23,6 @@ Edit `pdf_manifest.json` to force `audience_tier` / `source_type` for a given fi
 
 ## Chroma indexing and retrieval
 
-- After regenerating `processed_chunks.json`, run `python -m src.retrieval.index_kb` from the repo root so Chroma stores `audience_tier`, `content_use_policy`, and `source_category` (see `src/retrieval/chromadb_store.py`).
+- After regenerating `clinical_processed_chunks.json`, run `python -m src.retrieval.index_kb` from the repo root so Chroma stores `audience_tier`, `content_use_policy`, and `source_category` (see `src/retrieval/chromadb_store.py`).
 - `src/retrieval/rag.py` **post-filters** trial/meta-analysis chunks (`audience_tier=research_education` or tag `content_policy:research_background`) out of default search results unless the query appears to ask for studies or evidence (`query_requests_research_evidence`). Retrieved context lines include these fields when present.
 - Chroma metadata includes **`source_file`** (PDF/JSON basename) for outside-hospital / contact heuristics in `postprocess_hits`; re-index after upgrading `chromadb_store`.

@@ -1018,12 +1018,56 @@ def build_clinical_processing_summary(chunks: list[ProcessedChunk]) -> dict[str,
 def process_patient_kb(
     kb_dir: Path | str = "patient_kb",
     output_path: Path | str | None = "patient_kb/clinical_processed_chunks.json",
+    use_cached: bool = False,
 ) -> list[ProcessedChunk]:
     """
     Process entire patient knowledge base and optionally save chunks to JSON.
     Scans pdf_assets, drug_labels/processed, and drug_labels dailymed/openfda JSONs.
+
+    use_cached: when True, loads already-processed chunks from the default cache path
+        (src/data_processing/patient_kb/processed_chunks/clinical_processed_chunks.json)
+        instead of re-running the full processing pipeline. Useful for local dev and
+        unit testing when the source documents haven't changed.
     """
     kb_dir = Path(kb_dir)
+
+    if use_cached:
+        cache_path = Path(__file__).resolve().parents[1] / "data_processing/patient_kb/processed_chunks/clinical_processed_chunks.json"
+        if not cache_path.exists():
+            raise FileNotFoundError(f"Cached chunks not found at {cache_path}. Run with use_cached=False first.")
+        print(f"Loading cached clinical chunks from {cache_path}")
+        with open(cache_path, encoding="utf-8") as f:
+            raw = json.load(f)
+        chunks = [
+            ProcessedChunk(
+                id=c["id"],
+                content=c["content"],
+                metadata=ChunkMetadata(
+                    source_file=c["metadata"]["source_file"],
+                    document_type=DocumentType(c["metadata"]["document_type"]),
+                    section_title=c["metadata"].get("section_title", ""),
+                    section_hierarchy=c["metadata"].get("section_hierarchy", []),
+                    publication_year=c["metadata"].get("publication_year"),
+                    organization=c["metadata"].get("organization"),
+                    drug_name=c["metadata"].get("drug_name"),
+                    page_number=c["metadata"].get("page_number"),
+                    chunk_index=c["metadata"].get("chunk_index", 0),
+                    total_chunks=c["metadata"].get("total_chunks", 0),
+                    tags=set(c["metadata"].get("tags", [])),
+                    label_source=c["metadata"].get("label_source"),
+                    canonical_section_key=c["metadata"].get("canonical_section_key"),
+                    labeled_for_colonoscopy_prep=c["metadata"].get("labeled_for_colonoscopy_prep"),
+                    rag_product_note=c["metadata"].get("rag_product_note"),
+                    audience_tier=c["metadata"].get("audience_tier"),
+                    source_category=c["metadata"].get("source_category"),
+                    content_use_policy=c["metadata"].get("content_use_policy"),
+                ),
+            )
+            for c in raw
+        ]
+        print(f"Loaded {len(chunks)} cached clinical chunks")
+        return chunks
+
     all_chunks: list[ProcessedChunk] = []
 
     # PDFs in pdf_assets

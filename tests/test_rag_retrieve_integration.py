@@ -61,6 +61,11 @@ if importlib.util.find_spec("numpy") is not None:
 
 @unittest.skipIf(rag is None, "requires numpy + rag import chain (use project venv)")
 class TestRetrieveResearchFilter(unittest.TestCase):
+    def _make_mock_collection(self, mock_results: dict) -> MagicMock:
+        mock_collection = MagicMock()
+        mock_collection.query.return_value = mock_results
+        return mock_collection
+
     def test_drops_research_chunks_when_not_evidence_query(self) -> None:
         assert rag is not None
         mock_results = {
@@ -77,11 +82,10 @@ class TestRetrieveResearchFilter(unittest.TestCase):
         }
         mock_embedder = MagicMock()
         mock_embedder.encode.return_value = [[0.0] * 8]
-        mock_collection = MagicMock()
-        mock_collection.query.return_value = mock_results
+        mock_collection = self._make_mock_collection(mock_results)
 
-        with patch.object(rag, "embedder", mock_embedder), patch.object(rag, "collection", mock_collection):
-            hits = rag.retrieve("When should I stop clear liquids?", top_k=2)
+        with patch.object(rag, "embedder", mock_embedder), patch.object(rag, "clinical_collection", mock_collection):
+            hits = rag.retrieve_clinical("When should I stop clear liquids?", top_k=2)
 
         self.assertEqual(len(hits), 1)
         self.assertEqual(hits[0]["id"], "id2")
@@ -96,11 +100,10 @@ class TestRetrieveResearchFilter(unittest.TestCase):
         }
         mock_embedder = MagicMock()
         mock_embedder.encode.return_value = [[0.0] * 8]
-        mock_collection = MagicMock()
-        mock_collection.query.return_value = mock_results
+        mock_collection = self._make_mock_collection(mock_results)
 
-        with patch.object(rag, "embedder", mock_embedder), patch.object(rag, "collection", mock_collection):
-            hits = rag.retrieve("What does the meta-analysis say about bowel prep?", top_k=2)
+        with patch.object(rag, "embedder", mock_embedder), patch.object(rag, "clinical_collection", mock_collection):
+            hits = rag.retrieve_clinical("What does the meta-analysis say about bowel prep?", top_k=2)
 
         self.assertEqual(len(hits), 2)
 

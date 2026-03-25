@@ -24,4 +24,6 @@ CHROMA_CONVO_COLLECTION = "conversation_kb"
 BATCH_SIZE = 100
 
 # Retrieval # todo: adjust later
-TOP_K = 5
+CLINICAL_TOP_K = 5
+QA_TOP_K = 2
+CONVERSATION_TOP_K = 2
