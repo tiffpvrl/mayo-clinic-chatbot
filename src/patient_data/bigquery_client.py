@@ -8,9 +8,8 @@ record used to personalize responses.
 from google.cloud import bigquery
 from typing import Optional, Dict, Any
 
-client = bigquery.Client()
-
 def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
+    client = bigquery.Client()
     query = """
     SELECT
         p.patient_id,

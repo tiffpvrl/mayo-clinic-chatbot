@@ -69,6 +69,19 @@ def extract_filters(query: str) -> dict | None:
             conditions.append({"tags": {"$contains": tag}})
             break  # one medication class filter at a time is enough
 
+    # ── Diabetes — broaden to both metabolic_conditions and diabetes_meds tags
+    #    so a query mentioning diabetes retrieves both condition chunks and
+    #    medication-management chunks (insulin, metformin, SGLT2, GLP-1, etc.)
+    DIABETES_KEYWORDS = ["diabetes", "diabetic", "blood sugar", "glucose",
+                         "insulin", "metformin", "glp-1", "glp1", "sglt2",
+                         "a1c", "hypoglycemi"]
+    if any(kw in q for kw in DIABETES_KEYWORDS):
+        conditions.append(_build_or_where([
+            {"tags": {"$contains": "metabolic_conditions"}},
+            {"tags": {"$contains": "diabetes_meds:oral_agents"}},
+            {"tags": {"$contains": "diabetes_meds:insulin"}},
+        ]))
+
     # ── Specific bowel prep drug names → filter by drug_name field
     BOWEL_PREP_DRUGS = ["suprep", "golytely", "miralax", "moviprep",
                         "prepopik", "clenpiq", "plenvu", "suflave"]
@@ -224,7 +237,11 @@ def extract_patient_filters(patient_record: dict) -> dict | None:
 
     # ── Medical conditions
     if _pos(patient_record.get("diabetes")) or _pos(patient_record.get("on_diabetes_medication")):
-        conditions.append({"tags": {"$contains": "metabolic_conditions"}})
+        conditions.append(_build_or_where([
+            {"tags": {"$contains": "metabolic_conditions"}},
+            {"tags": {"$contains": "diabetes_meds:oral_agents"}},
+            {"tags": {"$contains": "diabetes_meds:insulin"}},
+        ]))
 
     if _pos(patient_record.get("heart_failure")):
         conditions.append({"tags": {"$contains": "heart_failure"}})

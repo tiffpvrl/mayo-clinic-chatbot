@@ -20,7 +20,7 @@ from src.retrieval.filters import (
     extract_conversation_filters,
     extract_patient_filters,
 )
-from src.config import EMBEDDING_MODEL, TOP_K
+from src.config import EMBEDDING_MODEL, CLINICAL_TOP_K, QA_TOP_K, CONVERSATION_TOP_K
 from src.patient_data.bigquery_client import get_patient_record
 from src.patient_data.patient_context import build_patient_context
 from src.retrieval.research_filters import query_requests_research_evidence, is_research_background_metadata
@@ -254,7 +254,7 @@ def _build_augmented_query(query: str, patient_record: dict) -> str:
     return f"Patient context: {patient_summary}. Query: {query}"
 
 
-def retrieve_clinical(query: str, top_k: int = TOP_K, patient_record: dict | None = None) -> list[dict]:
+def retrieve_clinical(query: str, top_k: int = CLINICAL_TOP_K, patient_record: dict | None = None) -> list[dict]:
     """
     Embed the query, run cosine search in clinical_collection, return top_k results.
 
@@ -282,7 +282,7 @@ def retrieve_clinical(query: str, top_k: int = TOP_K, patient_record: dict | Non
     return postprocess_hits(hits, query)
 
 
-def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
+def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
     """
     Retrieve turn-level Q&A examples from qa_collection.
     Used for tone/phrasing reference — caller surfaces chatbot_response from metadata.
@@ -310,7 +310,7 @@ def retrieve_qa(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None
     return _union_query(qa_collection, query_embedding, top_k, where)
 
 
-def retrieve_conversations(query: str, top_k: int = TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
+def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
     """
     Retrieve full conversation threads from conversation_collection.
     Used for multi-turn flow reference — shows how similar questions were handled end-to-end.
