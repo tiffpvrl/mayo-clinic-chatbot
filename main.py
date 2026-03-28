@@ -15,6 +15,7 @@ from pydantic import BaseModel
 
 from src.retrieval.rag import retrieve_for_query
 from src.llm.generate_response import generate_response
+from src.patient_data.bigquery_client import get_patient_record
 
 
 # Initialize Vertex AI
@@ -307,6 +308,22 @@ def ui():
       font-weight: 600;
     }
 
+    .verify-btn {
+      display: inline-block;
+      margin: 10px 8px 0 0;
+      padding: 9px 22px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s ease;
+    }
+    .verify-btn:hover { opacity: 0.85; }
+    .verify-btn.yes { background: var(--brand); color: white; }
+    .verify-btn.no  { background: #fee2e2; color: #b42318; }
+    .verify-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
     .helper-chip {
       display: inline-block;
       margin: 6px 8px 0 0;
@@ -358,12 +375,7 @@ def ui():
               <div>
                 <div class="meta">MayoChat</div>
                 <div class="bubble bot">
-Hello — ask a question about colonoscopy prep.
-
-Examples:
-• Can I drink water after midnight?
-• What should I do if I feel nauseous?
-• Can I take my regular medications?
+Hello! Please enter your Patient ID in the field below, then ask a question about your colonoscopy preparation.
                 </div>
               </div>
             </div>
@@ -375,7 +387,7 @@ Examples:
             <div class="composer-grid">
               <div>
                 <label for="patientId">Patient ID</label>
-                <input id="patientId" value="P643879148" placeholder="Enter patient ID" />
+                <input id="patientId" placeholder="Not yet set" readonly style="background:#f3f4f6;color:#6b7280;cursor:default;" />
               </div>
 
               <div>
@@ -407,6 +419,10 @@ Examples:
     const chatWindow = document.getElementById("chatWindow");
     const statusEl = document.getElementById("status");
 
+    let patientIdSet = false;
+    let patientVerified = false;
+    let patientName = "";
+
     function scrollToBottom() {
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
@@ -434,10 +450,57 @@ Examples:
       return bubble;
     }
 
+    function addVerifyPrompt() {
+      const row = document.createElement("div");
+      row.className = "message-row bot";
+      const wrapper = document.createElement("div");
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = "MayoChat";
+      const bubble = document.createElement("div");
+      bubble.className = "bubble bot";
+      bubble.textContent = "Does this information look correct?";
+
+      const yesBtn = document.createElement("button");
+      yesBtn.className = "verify-btn yes";
+      yesBtn.textContent = "✓  Yes, looks correct";
+
+      const noBtn = document.createElement("button");
+      noBtn.className = "verify-btn no";
+      noBtn.textContent = "✗  No, something is wrong";
+
+      function disableBtns() {
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+      }
+
+      yesBtn.addEventListener("click", () => {
+        disableBtns();
+        addMessage("bot", `Thanks for verifying, ${patientName}! How can I help you with your colonoscopy prep today? You can ask questions like:\n• Can I take my regular medications?\n• What can I eat before the procedure?\n• What should I do if I feel nauseous during prep?\n• How long does the procedure take?`);
+        patientVerified = true;
+        queryInput.disabled = false;
+        sendBtn.disabled = false;
+        queryInput.focus();
+      });
+
+      noBtn.addEventListener("click", () => {
+        disableBtns();
+        addMessage("bot", "We're sorry about the confusion. Please contact your doctor or care team to update your records before proceeding.");
+      });
+
+      bubble.appendChild(document.createElement("br"));
+      bubble.appendChild(yesBtn);
+      bubble.appendChild(noBtn);
+      wrapper.appendChild(meta);
+      wrapper.appendChild(bubble);
+      row.appendChild(wrapper);
+      messages.appendChild(row);
+      scrollToBottom();
+    }
+
     function setLoadingState(isLoading) {
       sendBtn.disabled = isLoading;
       queryInput.disabled = isLoading;
-      patientIdInput.disabled = isLoading;
       statusEl.textContent = isLoading ? "Thinking..." : "";
     }
 
@@ -451,15 +514,70 @@ Examples:
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const patient_id = patientIdInput.value.trim();
-      const query = queryInput.value.trim();
+      const input = queryInput.value.trim();
+      if (!input) return;
+      if (patientIdSet && !patientVerified) return;
 
-      if (!patient_id || !query) return;
-
-      addMessage("user", query);
+      addMessage("user", input);
       queryInput.value = "";
       queryInput.style.height = "52px";
 
+      // First message sets the patient ID — validate against BigQuery
+      if (!patientIdSet) {
+        setLoadingState(true);
+        try {
+          const res = await fetch("/validate-patient", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ patient_id: input })
+          });
+          const data = await res.json();
+          console.log("[validate-patient] Response:", data);
+          if (!data.valid) {
+            console.log("[validate-patient] Not valid. Error:", data.error);
+            addMessage("bot", `Patient ID "${input}" was not found. Please check your ID and try again.`);
+            return;
+          }
+          console.log("[validate-patient] Valid. Building summary...");
+          patientIdInput.value = input;
+          patientIdSet = true;
+          const s = data.summary;
+          console.log("[validate-patient] Summary object:", s);
+          patientName = s.patient_name || s.patient_id;
+          const info = [
+            `Patient ID:            ${s.patient_id}`,
+            `Name:                  ${s.patient_name}`,
+            `Sex at Birth:          ${s.sex_at_birth}`,
+            `Gender Identity:       ${s.gender_identity}`,
+            `Comorbidities:         ${s.comorbidity_descriptions}`,
+            `Current Medications:   ${s.current_medications}`,
+            `Bowel Prep Start:      ${s.bowel_prep_start}`,
+            `Bowel Prep End:        ${s.bowel_prep_end}`,
+            `Colonoscopy Date/Time: ${s.colonoscopy_datetime}`,
+            `Indication:            ${s.colonoscopy_indication}`,
+            `Chief Complaint:       ${s.chief_complaint}`,
+            `Prep Agent:            ${s.prep_agent}`,
+          ].join("\\n");
+          try {
+            addMessage("bot", `Here is the record on file:\n\n${info}`);
+            console.log("[validate-patient] EHR message added.");
+            queryInput.disabled = true;
+            sendBtn.disabled = true;
+            addVerifyPrompt();
+            console.log("[validate-patient] Verify prompt added.");
+          } catch (renderErr) {
+            console.error("[validate-patient] Render error:", renderErr);
+            addMessage("bot", "Patient verified but could not display record. Please try again.");
+          }
+        } catch (err) {
+          addMessage("bot", "Could not verify patient ID. Please try again.");
+        } finally {
+          setLoadingState(false);
+        }
+        return;
+      }
+
+      const patient_id = patientIdInput.value.trim();
       const botBubble = addMessage("bot", "...");
       setLoadingState(true);
 
@@ -467,7 +585,7 @@ Examples:
         const res = await fetch("/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ patient_id, query })
+          body: JSON.stringify({ patient_id, query: input })
         });
 
         const data = await res.json();
@@ -482,7 +600,6 @@ Examples:
       } catch (err) {
         botBubble.textContent = "Something went wrong while contacting the server.";
         botBubble.parentElement.parentElement.querySelector(".meta").textContent = "System";
-        debugBox.textContent = String(err);
         statusEl.innerHTML = '<span class="error">Network or server error.</span>';
       } finally {
         setLoadingState(false);
@@ -507,6 +624,43 @@ Examples:
     """
 
 
+class ValidateRequest(BaseModel):
+    patient_id: str
+
+
+@app.post("/validate-patient")
+def validate_patient(req: ValidateRequest):
+    try:
+        print(f"[validate-patient] Looking up patient_id: {req.patient_id}")
+        record = get_patient_record(req.patient_id)
+        print(f"[validate-patient] Record found: {record is not None}")
+        if record is None:
+            return {"valid": False}
+        def fmt_dt(val):
+            if val is None:
+                return "N/A"
+            return str(val).replace("T", " ").split(".")[0]
+        summary = {
+            "patient_id":               record.get("patient_id", "N/A"),
+            "patient_name":             record.get("patient_name", "N/A"),
+            "sex_at_birth":             record.get("sex_at_birth", "N/A"),
+            "gender_identity":          record.get("gender_identity", "N/A"),
+            "comorbidity_descriptions": record.get("comorbidity_descriptions", "N/A"),
+            "current_medications":      record.get("current_medications", "N/A"),
+            "bowel_prep_start":         fmt_dt(record.get("bowel_prep_start_datetime")),
+            "bowel_prep_end":           fmt_dt(record.get("bowel_prep_end_datetime")),
+            "colonoscopy_datetime":     fmt_dt(record.get("colonoscopy_datetime")),
+            "colonoscopy_indication":   record.get("colonoscopy_indication", "N/A"),
+            "chief_complaint":          record.get("chief_complaint", "N/A"),
+            "prep_agent":               record.get("prep_agent", "N/A"),
+        }
+        print(f"[validate-patient] Returning summary: {summary}")
+        return {"valid": True, "summary": summary}
+    except Exception as e:
+        print(f"[validate-patient] ERROR: {e}")
+        return {"valid": False, "error": str(e)}
+
+
 @app.post("/chat")
 def chat(req: ChatRequest):
     try:
@@ -514,6 +668,10 @@ def chat(req: ChatRequest):
 
         if result.patient_record is None:
             return {"error": "Patient ID not found."}
+
+        print("\n===== RAG CONTEXT =====")
+        print(result.combined_context)
+        print("=======================\n")
 
         answer = generate_response(req.query, result.combined_context)
 

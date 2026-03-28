@@ -13,6 +13,7 @@ def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
     query = """
     SELECT
         p.patient_id,
+        p.patient_name,
         p.sex_at_birth,
         p.gender_identity,
         p.age_at_colonoscopy,

@@ -11,9 +11,6 @@ from vertexai.generative_models import GenerativeModel
 from src.config import LLM_MODEL
 
 
-model = GenerativeModel(LLM_MODEL)
-
-
 def _load_fewshot_examples() -> str:
     """
     Load the few-shot examples stored alongside this file.
@@ -85,7 +82,7 @@ Before answering, follow this decision process internally:
 Answer:
 """
 
-    response = model.generate_content(prompt)
+    response = GenerativeModel(LLM_MODEL).generate_content(prompt)
     text = response.text.strip()
 
     if not text:

@@ -269,14 +269,21 @@ def retrieve_clinical(query: str, top_k: int = CLINICAL_TOP_K, patient_record: d
     query_embedding = embedder.encode([augmented_query])[0]
     where: Any = None
     try:
-        query_where = extract_filters(query)  # original query — keyword matching, not embedding
+        query_where = extract_filters(query)
         patient_where = extract_patient_filters(patient_record) if patient_record else None
         if query_where and patient_where:
             where = {"$and": [query_where, patient_where]}
         else:
             where = query_where or patient_where
-    except Exception:
+    except Exception as e:
+        print(f"[clinical] Filter extraction error: {e}")
         where = None
+
+    print(f"\n[clinical] Original query:   {query}")
+    print(f"[clinical] Augmented query:  {augmented_query}")
+    print(f"[clinical] Query filter:     {query_where if 'query_where' in dir() else 'error'}")
+    print(f"[clinical] Patient filter:   {patient_where if 'patient_where' in dir() else 'error'}")
+    print(f"[clinical] Combined filter:  {where}")
 
     hits = _union_query(clinical_collection, query_embedding, top_k, where)
     return postprocess_hits(hits, query)
@@ -304,8 +311,12 @@ def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = N
         if is_follow_up is not None:
             conditions.append({"is_follow_up": {"$eq": is_follow_up}})
         where = _build_where(conditions)
-    except Exception:
+    except Exception as e:
+        print(f"[qa] Filter extraction error: {e}")
         where = None
+
+    print(f"\n[qa] Query:   {query}")
+    print(f"[qa] Filter:  {where}")
 
     return _union_query(qa_collection, query_embedding, top_k, where)
 
@@ -332,8 +343,12 @@ def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follo
         if is_follow_up:
             conditions.append({"demonstrates_multi_turn": {"$eq": True}})
         where = _build_where(conditions)
-    except Exception:
+    except Exception as e:
+        print(f"[conversation] Filter extraction error: {e}")
         where = None
+
+    print(f"\n[conversation] Query:   {query}")
+    print(f"[conversation] Filter:  {where}")
 
     return _union_query(conversation_collection, query_embedding, top_k, where)
 
