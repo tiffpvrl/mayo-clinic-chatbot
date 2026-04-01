@@ -229,8 +229,8 @@ def ui():
     }
 
     textarea {
-      min-height: 52px;
-      max-height: 180px;
+      min-height: 100px;
+      max-height: 300px;
       resize: vertical;
     }
 
