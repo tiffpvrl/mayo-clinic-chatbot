@@ -21,6 +21,7 @@ __pycache__/
 
 # ChromaDB
 src/retrieval/vector_storage
+chroma_db.zip
 
 # Generated drug label artifacts
 src/data_processing/patient_kb/drug_labels/

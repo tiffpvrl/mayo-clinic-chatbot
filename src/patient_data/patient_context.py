@@ -200,26 +200,26 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
         """
 
     return f"""
-                PATIENT PROFILE
-                - Age: {format_value(patient.get("age_at_colonoscopy"))}
-                - Sex at birth: {format_value(patient.get("sex_at_birth"))}
-                - Gender identity: {format_value(patient.get("gender_identity"))}
-                - Preferred language: {format_value(patient.get("preferred_language"))}
-                - BMI: {format_value(patient.get("bmi"))}
-                - Smoking status: {format_value(patient.get("smoking_status"))}
-                - Alcohol use: {format_value(patient.get("alcohol_use"))}
-                - Mobility status: {format_value(patient.get("mobility_status"))}
-                - High risk flag: {format_value(patient.get("high_risk_flag"))}
+PATIENT PROFILE
+- Age: {format_value(patient.get("age_at_colonoscopy"))}
+- Sex at birth: {format_value(patient.get("sex_at_birth"))}
+- Gender identity: {format_value(patient.get("gender_identity"))}
+- Preferred language: {format_value(patient.get("preferred_language"))}
+- BMI: {format_value(patient.get("bmi"))}
+- Smoking status: {format_value(patient.get("smoking_status"))}
+- Alcohol use: {format_value(patient.get("alcohol_use"))}
+- Mobility status: {format_value(patient.get("mobility_status"))}
+- High risk flag: {format_value(patient.get("high_risk_flag"))}
 
-                COMORBIDITIES AND RELEVANT HISTORY
-                {comorbidity_block}
+COMORBIDITIES AND RELEVANT HISTORY
+{comorbidity_block}
 
-                CURRENT MEDICATIONS
-                - {current_medications}
+CURRENT MEDICATIONS
+- {current_medications}
 
-                ENCOUNTER DETAILS
-                {chr(10).join(encounter_lines)}
+ENCOUNTER DETAILS
+{chr(10).join(encounter_lines)}
 
-                PREP DETAILS
-                {chr(10).join(prep_lines)}{prior_section}
-                """.strip()
+PREP DETAILS
+{chr(10).join(prep_lines)}{prior_section}
+""".strip()

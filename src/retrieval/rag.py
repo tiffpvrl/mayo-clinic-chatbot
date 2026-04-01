@@ -19,11 +19,13 @@ from src.retrieval.filters import (
     extract_qa_filters,
     extract_conversation_filters,
     extract_patient_filters,
+    extract_query_understanding,
+    build_clinical_where,
 )
 from src.config import EMBEDDING_MODEL, CLINICAL_TOP_K, QA_TOP_K, CONVERSATION_TOP_K
 from src.patient_data.bigquery_client import get_patient_record
 from src.patient_data.patient_context import build_patient_context
-from src.retrieval.research_filters import query_requests_research_evidence, is_research_background_metadata
+from src.retrieval.research_filters import is_research_background_metadata
 
 logger = logging.getLogger(__name__)
 
@@ -121,13 +123,15 @@ def source_priority(hit: dict) -> tuple[int, float]:
     return (priority, distance)
 
 
-def postprocess_hits(hits: list[dict], query: str = "") -> list[dict]:
+def postprocess_hits(hits: list[dict], wants_research: bool = False) -> list[dict]:
     """
     Add lightweight safety flags and reorder hits so preferred sources come first.
     Suppress chunks that are mostly contact/admin content, or research-background
     chunks when the query is not explicitly asking for clinical evidence/trials.
+
+    wants_research: pre-computed by extract_query_understanding() in retrieve_for_query()
+        so no second LLM call is needed here.
     """
-    wants_research = query_requests_research_evidence(query) if query else False
     cleaned = []
 
     for hit in hits:
@@ -254,13 +258,24 @@ def _build_augmented_query(query: str, patient_record: dict) -> str:
     return f"Patient context: {patient_summary}. Query: {query}"
 
 
-def retrieve_clinical(query: str, top_k: int = CLINICAL_TOP_K, patient_record: dict | None = None) -> list[dict]:
+def retrieve_clinical(
+    query: str,
+    top_k: int = CLINICAL_TOP_K,
+    patient_record: dict | None = None,
+    query_where: dict | None = None,
+    wants_research: bool = False,
+) -> list[dict]:
     """
     Embed the query, run cosine search in clinical_collection, return top_k results.
 
     patient_record: when provided, patient EHR filters are merged with
         query-based filters so results are scoped to chunks relevant to
         both what the patient asked AND who the patient is.
+    query_where: pre-built ChromaDB where clause from build_clinical_where().
+        When provided, skips the extract_filters() LLM call — caller is
+        responsible for running extract_query_understanding() once upstream.
+    wants_research: pre-computed research intent flag, passed through to
+        postprocess_hits() to suppress research chunks when not needed.
 
     Falls back to unfiltered top-k if the filtered query returns no results.
     Each result dict has keys: id, document, metadata, distance.
@@ -269,7 +284,8 @@ def retrieve_clinical(query: str, top_k: int = CLINICAL_TOP_K, patient_record: d
     query_embedding = embedder.encode([augmented_query])[0]
     where: Any = None
     try:
-        query_where = extract_filters(query)
+        if query_where is None:
+            query_where = extract_filters(query)
         patient_where = extract_patient_filters(patient_record) if patient_record else None
         if query_where and patient_where:
             where = {"$and": [query_where, patient_where]}
@@ -281,12 +297,12 @@ def retrieve_clinical(query: str, top_k: int = CLINICAL_TOP_K, patient_record: d
 
     print(f"\n[clinical] Original query:   {query}")
     print(f"[clinical] Augmented query:  {augmented_query}")
-    print(f"[clinical] Query filter:     {query_where if 'query_where' in dir() else 'error'}")
+    print(f"[clinical] Query filter:     {query_where}")
     print(f"[clinical] Patient filter:   {patient_where if 'patient_where' in dir() else 'error'}")
     print(f"[clinical] Combined filter:  {where}")
 
     hits = _union_query(clinical_collection, query_embedding, top_k, where)
-    return postprocess_hits(hits, query)
+    return postprocess_hits(hits, wants_research=wants_research)
 
 
 def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
@@ -484,7 +500,14 @@ def retrieve_for_query(
     # TODO: need to add risk table in BigQuery
     risk_tier = patient_record.get("risk_tier") if patient_record else None
 
-    clinical_hits = retrieve_clinical(query, patient_record=patient_record)
+    # ── Single LLM call for all query-level signals ────────────────────────────
+    # Runs once here and results are passed down — avoids a second LLM call
+    # inside retrieve_clinical() and postprocess_hits().
+    query_understanding = extract_query_understanding(query)
+    query_where = build_clinical_where(query_understanding)
+    wants_research = bool(query_understanding.get("wants_research", False))
+
+    clinical_hits = retrieve_clinical(query, patient_record=patient_record, query_where=query_where, wants_research=wants_research)
     qa_hits = retrieve_qa(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
     conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
 
@@ -493,18 +516,18 @@ def retrieve_for_query(
     conversation_context = format_conversation_context(conversation_hits)
 
     combined_context = f"""
-                        PATIENT-SPECIFIC CONTEXT
-                        {patient_context}
+PATIENT-SPECIFIC CONTEXT
+{patient_context}
 
-                        CLINICAL KNOWLEDGE BASE
-                        {clinical_context}
+CLINICAL KNOWLEDGE BASE
+{clinical_context}
 
-                        SIMILAR Q&A EXAMPLES
-                        {qa_context}
+SIMILAR Q&A EXAMPLES
+{qa_context}
 
-                        SIMILAR CONVERSATION FLOWS
-                        {conversation_context}
-                        """.strip()
+SIMILAR CONVERSATION FLOWS
+{conversation_context}
+""".strip()
 
     return RAGResult(
         patient_record=patient_record,
