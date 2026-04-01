@@ -150,18 +150,21 @@ def ui():
 
     .message-row {
       display: flex;
+      width: 100%;
     }
 
     .message-row.user {
       justify-content: flex-end;
+      padding-left: 5%;
     }
 
     .message-row.bot {
       justify-content: flex-start;
+      padding-right: 5%;
     }
 
     .bubble {
-      max-width: 78%;
+      max-width: 100%;
       padding: 12px 14px;
       border-radius: 18px;
       line-height: 1.45;
@@ -200,7 +203,7 @@ def ui():
       display: grid;
       grid-template-columns: 170px 1fr auto;
       gap: 10px;
-      align-items: end;
+      align-items: start;
     }
 
     label {
@@ -229,8 +232,8 @@ def ui():
     }
 
     textarea {
-      min-height: 52px;
-      max-height: 180px;
+      min-height: 100px;
+      max-height: 300px;
       resize: vertical;
     }
 
