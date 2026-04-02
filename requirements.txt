@@ -1,27 +1,25 @@
 fastapi==0.110.0
 uvicorn==0.29.0
 
-# Core dependencies
+# HTTP
 requests>=2.31.0
-pandas>=2.0.0
 
-# PDF processing
+# Data processing
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# PDF processing (optional — only needed for index_kb.py)
 PyPDF2>=3.0.0
-# Optional: required to read some AES-encrypted PDFs with PyPDF2
 pycryptodome>=3.20.0
 
-# Text processing and chunking
-langchain>=0.1.0
-langchain-text-splitters>=0.0.1
-
-# Embeddings (choose one or both)
+# Embeddings
 sentence-transformers>=2.2.0
 openai>=1.0.0
+
+# Vector store
 chromadb>=0.4.0
-# transformers>=4.30.0  # Uncomment if you want to use BioBERT or other HuggingFace models
+numpy>=1.24.0
 
-# Utilities
-pathlib2>=2.3.7; python_version < '3.4'  # pathlib is built-in for Python 3.4+
-
+# LLM / GCP
 google-cloud-aiplatform>=1.38.0
-google-cloud-bigquery
+google-cloud-bigquery>=3.0.0

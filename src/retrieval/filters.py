@@ -4,11 +4,17 @@ ChromaDB filter builders for the RAG pipeline.
 Three filter functions for query-based narrowing (one per collection),
 plus one for EHR-based narrowing of the clinical collection.
 All share the _build_where / _build_or_where helpers.
-
-TODO: replace keyword matching with LLM-based extraction for better recall.
 """
 
+import json
+import logging
+import time
 from datetime import datetime
+
+from vertexai.generative_models import GenerativeModel, GenerationConfig
+from src.config import LLM_MODEL
+
+logger = logging.getLogger(__name__)
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -33,78 +39,139 @@ def _build_or_where(conditions: list[dict]) -> dict | None:
 
 # ── Query-based filters ────────────────────────────────────────────────────────
 
-def extract_filters(query: str) -> dict | None:
-    """
-    Translate natural-language cues in the query into ChromaDB `where` filters
-    for clinical_collection, scoping the vector search before cosine distance
-    is computed.
+_FILTER_EXTRACTION_PROMPT = """
+You are a filter extractor for a colonoscopy prep chatbot's retrieval system.
+Given a patient's question, extract structured search filters and intent signals.
 
-    Returns a Chroma `where` dict, or None for unfiltered search.
-    Multiple conditions are combined with $and.
+Patient question: {query}
 
-    Note: `tags` is stored as a comma-joined string in Chroma, so
-    {"tags": {"$contains": "med_class:anticoagulants"}} does a substring match.
+Rules:
+- medication_class: identify if the question mentions a medication class by trade name, generic name, or patient vernacular.
+  Map to exactly one of: anticoagulants, antiplatelet, diuretics, ace_inhibitors, sglt2_inhibitors, nsaids, or null.
+  Examples: "blood thinner" → anticoagulants, "water pill" → diuretics, "Jardiance" → sglt2_inhibitors, "heart medicine" → null (too vague).
+- is_diabetes_query: true if the question mentions diabetes, blood sugar, glucose, insulin, metformin, GLP-1, SGLT2, A1C, or hypoglycemia.
+- drug_name: if the question names a specific bowel prep agent, return exactly one of:
+  SUPREP, GOLYTELY, MIRALAX, MOVIPREP, PREPOPIK, CLENPIQ, PLENVU, SUFLAVE, or null.
+- document_type: if the question is clearly asking for FDA/prescribing/drug label info return "drug_label",
+  for guidelines/recommendations return "clinical_guideline",
+  for step-by-step prep instructions return "patient_instructions", else null.
+- procedure_timing: if the question mentions morning or afternoon procedure, return "morning" or "afternoon", else null.
+- wants_research: true if the question is asking for clinical study, trial, or research evidence.
+  Examples: "Is there any proof that MiraLax works better than GoLytely?" → true,
+            "Are there studies showing split-dose prep is more effective?" → true,
+            "What does the science say about bowel prep and kidney disease?" → true,
+            "What time should I stop eating?" → false,
+            "Can I take my blood pressure pill this morning?" → false.
+"""
+
+_FILTER_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "medication_class":  {"type": "string"},
+        "is_diabetes_query": {"type": "boolean"},
+        "drug_name":         {"type": "string"},
+        "document_type":     {"type": "string"},
+        "procedure_timing":  {"type": "string"},
+        "wants_research":    {"type": "boolean"},
+    },
+    "required": ["is_diabetes_query", "wants_research"],
+}
+
+_VALID_MED_CLASSES = {
+    "anticoagulants", "antiplatelet", "diuretics",
+    "ace_inhibitors", "sglt2_inhibitors", "nsaids",
+}
+_VALID_DRUG_NAMES = {
+    "SUPREP", "GOLYTELY", "MIRALAX", "MOVIPREP",
+    "PREPOPIK", "CLENPIQ", "PLENVU", "SUFLAVE",
+}
+_VALID_DOC_TYPES  = {"drug_label", "clinical_guideline", "patient_instructions"}
+_VALID_TIMINGS    = {"morning", "afternoon"}
+
+
+def extract_query_understanding(query: str) -> dict:
     """
-    q = query.lower()
+    Single LLM call that returns all query-level signals needed by the pipeline:
+    filter fields for ChromaDB (medication_class, drug_name, etc.) and intent
+    flags (is_diabetes_query, wants_research).
+
+    Callers should use this once and pass the result to build_clinical_where()
+    and retrieve the wants_research flag — avoids a second LLM call.
+    Falls back to safe defaults on any error.
+    """
+    try:
+        t0 = time.perf_counter()
+        model = GenerativeModel(LLM_MODEL)
+        response = model.generate_content(
+            _FILTER_EXTRACTION_PROMPT.format(query=query),
+            generation_config=GenerationConfig(
+                response_mime_type="application/json",
+                response_schema=_FILTER_SCHEMA,
+                temperature=0.0,
+                max_output_tokens=128,
+            ),
+        )
+        extracted = json.loads(response.text)
+        print(f"[query_understanding] LLM extraction took {(time.perf_counter() - t0) * 1000:.0f}ms | extracted={extracted}")
+        return extracted
+    except Exception as e:
+        logger.warning("[query_understanding] LLM extraction failed, returning defaults: %s", e)
+        return {"is_diabetes_query": False, "wants_research": False}
+
+
+def build_clinical_where(understanding: dict) -> dict | None:
+    """
+    Convert a pre-extracted query understanding dict (from extract_query_understanding)
+    into a ChromaDB `where` clause for clinical_collection.
+
+    Separated from the LLM call so the caller can run extraction once and reuse
+    the result without a second round trip.
+    """
     conditions = []
 
-    # Medication class keywords (mirrors MEDICATION_CLASSES in document_processor.py)
-    MEDICATION_KEYWORDS = {
-        "med_class:anticoagulants": ["warfarin", "coumadin", "xarelto", "rivaroxaban",
-                                     "eliquis", "apixaban", "pradaxa", "dabigatran",
-                                     "lovenox", "enoxaparin", "blood thinner"],
-        "med_class:antiplatelet":   ["clopidogrel", "plavix", "ticagrelor", "brilinta",
-                                     "prasugrel", "effient", "aspirin"],
-        "med_class:diuretics":      ["furosemide", "lasix", "hydrochlorothiazide", "hctz",
-                                     "spironolactone"],
-        "med_class:ace_inhibitors": ["lisinopril", "enalapril", "ramipril",
-                                     "ace inhibitor", "ace-inhibitor"],
-        "med_class:sglt2_inhibitors": ["invokana", "canagliflozin", "farxiga",
-                                       "dapagliflozin", "jardiance", "empagliflozin", "sglt2"],
-        "med_class:nsaids":         ["ibuprofen", "advil", "naproxen", "aleve", "nsaid"],
-    }
+    # ── Medication class
+    med_class = (understanding.get("medication_class") or "").strip().lower()
+    if med_class in _VALID_MED_CLASSES:
+        conditions.append({"tags": {"$contains": f"med_class:{med_class}"}})
 
-    for tag, keywords in MEDICATION_KEYWORDS.items():
-        if any(kw in q for kw in keywords):
-            conditions.append({"tags": {"$contains": tag}})
-            break  # one medication class filter at a time is enough
-
-    # ── Diabetes — broaden to both metabolic_conditions and diabetes_meds tags
-    #    so a query mentioning diabetes retrieves both condition chunks and
-    #    medication-management chunks (insulin, metformin, SGLT2, GLP-1, etc.)
-    DIABETES_KEYWORDS = ["diabetes", "diabetic", "blood sugar", "glucose",
-                         "insulin", "metformin", "glp-1", "glp1", "sglt2",
-                         "a1c", "hypoglycemi"]
-    if any(kw in q for kw in DIABETES_KEYWORDS):
+    # ── Diabetes — $or across condition + medication tags
+    if understanding.get("is_diabetes_query"):
         conditions.append(_build_or_where([
             {"tags": {"$contains": "metabolic_conditions"}},
             {"tags": {"$contains": "diabetes_meds:oral_agents"}},
             {"tags": {"$contains": "diabetes_meds:insulin"}},
         ]))
 
-    # ── Specific bowel prep drug names → filter by drug_name field
-    BOWEL_PREP_DRUGS = ["suprep", "golytely", "miralax", "moviprep",
-                        "prepopik", "clenpiq", "plenvu", "suflave"]
-    for drug in BOWEL_PREP_DRUGS:
-        if drug in q:
-            conditions.append({"drug_name": {"$eq": drug.upper()}})
-            break
+    # ── Bowel prep drug name (enum-constrained, so value is already valid)
+    drug_name = (understanding.get("drug_name") or "").strip().upper()
+    if drug_name in _VALID_DRUG_NAMES:
+        conditions.append({"drug_name": {"$eq": drug_name}})
 
-    # ── Document type keywords
-    if any(kw in q for kw in ["drug label", "fda", "prescribing information", "package insert"]):
-        conditions.append({"document_type": {"$eq": "drug_label"}})
-    elif any(kw in q for kw in ["guideline", "recommend", "consensus", "taskforce", "society"]):
-        conditions.append({"document_type": {"$eq": "clinical_guideline"}})
-    elif any(kw in q for kw in ["patient instruction", "how to prepare", "preparation steps"]):
-        conditions.append({"document_type": {"$eq": "patient_instructions"}})
+    # ── Document type
+    doc_type = (understanding.get("document_type") or "").strip().lower()
+    if doc_type in _VALID_DOC_TYPES:
+        conditions.append({"document_type": {"$eq": doc_type}})
 
     # ── Procedure timing
-    if "morning" in q:
-        conditions.append({"tags": {"$contains": "procedure_time:morning"}})
-    elif "afternoon" in q:
-        conditions.append({"tags": {"$contains": "procedure_time:afternoon"}})
+    timing = (understanding.get("procedure_timing") or "").strip().lower()
+    if timing in _VALID_TIMINGS:
+        conditions.append({"tags": {"$contains": f"procedure_time:{timing}"}})
 
     return _build_where(conditions)
+
+
+def extract_filters(query: str) -> dict | None:
+    """
+    Convenience wrapper: runs extract_query_understanding + build_clinical_where
+    in one call. Use this when you only need the ChromaDB where clause and don't
+    need the full understanding dict (e.g. standalone testing).
+
+    For the main pipeline, prefer calling extract_query_understanding() once in
+    retrieve_for_query() and passing the result to build_clinical_where() and
+    postprocess_hits() separately to avoid a second LLM call.
+    """
+    understanding = extract_query_understanding(query)
+    return build_clinical_where(understanding)
 
 
 # Query categories stored in qa_collection / conversation_collection.
