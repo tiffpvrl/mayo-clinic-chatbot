@@ -82,8 +82,6 @@ def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
         pd.diet_protocol,
         pd.dietary_restriction,
         pd.prep_modifications,
-        pd.risk_tier,
-        pd.estimated_compliance_pct,
         pd.number_of_bowel_movements,
         pd.stool_character_end_of_prep,
         pd.nausea_during_prep,

@@ -214,6 +214,10 @@ PATIENT PROFILE
 - Mobility status: {format_value(patient.get("mobility_status"))}
 - High risk flag: {format_value(patient.get("high_risk_flag"))}
 
+RISK ASSESSMENT
+- Risk tier for inadequate bowel prep: {patient.get("risk_tier")}
+- Predicted probability of inadequate prep: {patient.get("risk_probability")}
+
 COMORBIDITIES AND RELEVANT HISTORY
 {comorbidity_block}
 
