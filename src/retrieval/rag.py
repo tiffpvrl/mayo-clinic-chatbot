@@ -4,6 +4,8 @@ chromadb_store.py (vector search) to retrieve relevant chunks
 for a given user query.
 """
 
+from __future__ import annotations
+
 import logging
 import os
 import sys

@@ -27,3 +27,6 @@ joblib
 fastapi
 uvicorn
 python-dotenv
+
+# LangGraph orchestration
+langgraph>=0.2.0
