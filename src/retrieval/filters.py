@@ -6,6 +6,8 @@ plus one for EHR-based narrowing of the clinical collection.
 All share the _build_where / _build_or_where helpers.
 """
 
+from __future__ import annotations
+
 import json
 import logging
 import time
