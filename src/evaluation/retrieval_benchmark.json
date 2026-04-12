@@ -1,0 +1,801 @@
+[
+  {
+    "case_id": "RET-001",
+    "gr_id": "GR-001",
+    "patient_id": "G",
+    "query": "What should I drink during my prep?",
+    "patient_context": {
+      "risk_tier": "High",
+      "prep_agent": "Inpatient NG PEG",
+      "regimen": "Adapted high-risk",
+      "procedure_time": "Morning (10:00 AM)",
+      "comorbidities": "CKD stage 4, heart failure, dementia, chronic constipation, opioid use",
+      "medications": "Furosemide, oxycodone, donepezil, lactulose",
+      "dietary_restriction": "Renal-friendly modifications",
+      "prior_history": "Prior inadequate prep with dehydration complication",
+      "prep_modifications": "Lower volume due to CKD; extra hydration"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "renal",
+          "kidney",
+          "ckd",
+          "heart failure",
+          "fluid"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "clear liquids",
+          "hydration",
+          "dehydration"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "renal_disease"
+        ],
+        "keywords_any": [
+          "hydration",
+          "fluid"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests retrieval of renal/HF hydration guidance rather than generic drink advice."
+  },
+  {
+    "case_id": "RET-002",
+    "gr_id": "GR-002",
+    "patient_id": "G",
+    "query": "How is my prep going to be given to me?",
+    "patient_context": {
+      "risk_tier": "High",
+      "prep_agent": "Inpatient NG PEG",
+      "regimen": "Adapted high-risk",
+      "procedure_time": "Morning (10:00 AM)",
+      "comorbidities": "CKD stage 4, heart failure, dementia, chronic constipation, opioid use",
+      "medications": "Furosemide, oxycodone, donepezil, lactulose",
+      "dietary_restriction": "Renal-friendly modifications",
+      "prior_history": "Prior inadequate prep with dehydration complication",
+      "prep_modifications": "Lower volume due to CKD; extra hydration"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "nasogastric",
+          "ng tube",
+          "tube",
+          "nose into your stomach"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "inpatient",
+          "tube"
+        ],
+        "min_keyword_hits": 2
+      }
+    ],
+    "notes": "Should surface NG/inpatient prep administration content."
+  },
+  {
+    "case_id": "RET-003",
+    "gr_id": "GR-005",
+    "patient_id": "E",
+    "query": "Can I take my blood pressure medications on prep day?",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Afternoon (1:00 PM)",
+      "comorbidities": "CKD stage 3, heart failure, hypertension, obesity",
+      "medications": "Furosemide, metoprolol, lisinopril",
+      "dietary_restriction": "Renal-friendly modifications",
+      "prior_history": "No prior colonoscopy",
+      "prep_modifications": "Lower volume due to CKD"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "blood pressure",
+          "metoprolol",
+          "lisinopril"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "diuretic",
+          "furosemide",
+          "dehydration"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "med_class:diuretics"
+        ],
+        "keywords_any": [
+          "prep day"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Needs retrieval that distinguishes general BP meds from diuretic caveat."
+  },
+  {
+    "case_id": "RET-004",
+    "gr_id": "GR-007",
+    "patient_id": "E",
+    "query": "Can I just follow the regular clear liquid diet everyone else does?",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Afternoon (1:00 PM)",
+      "comorbidities": "CKD stage 3, heart failure, hypertension, obesity",
+      "medications": "Furosemide, metoprolol, lisinopril",
+      "dietary_restriction": "Renal-friendly modifications",
+      "prior_history": "No prior colonoscopy",
+      "prep_modifications": "Lower volume due to CKD"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "renal-friendly",
+          "kidney",
+          "heart failure",
+          "diet"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "clear liquid",
+          "renal"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "renal_disease",
+          "diet"
+        ],
+        "keywords_any": [
+          "clear liquid"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Should retrieve diet-specific restrictions, not only generic clear-liquid instructions."
+  },
+  {
+    "case_id": "RET-005",
+    "gr_id": "GR-010",
+    "patient_id": "B",
+    "query": "I'm diabetic \u2014 can I eat anything the morning of my procedure?",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Morning (8:00 AM)",
+      "comorbidities": "Diabetes, obesity, hypertension",
+      "medications": "Insulin glargine, metformin, amlodipine",
+      "dietary_restriction": "Diabetic-adapted clear liquid diet",
+      "prior_history": "Prior adequate prep",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "diabetic",
+          "clear liquid",
+          "blood sugar"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "morning procedure",
+          "clear liquid"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "metabolic_conditions",
+          "diet"
+        ],
+        "keywords_any": [
+          "clear liquid"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Should surface diabetic-adapted diet and fasting context."
+  },
+  {
+    "case_id": "RET-006",
+    "gr_id": "GR-012",
+    "patient_id": "C",
+    "query": "Should I keep taking my lactulose during the prep?",
+    "patient_context": {
+      "risk_tier": "High",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Adapted high-risk",
+      "procedure_time": "Morning (9:00 AM)",
+      "comorbidities": "Cirrhosis, hypertension",
+      "medications": "Lactulose, spironolactone, propranolol",
+      "dietary_restriction": "1-day low-residue diet + clear liquids",
+      "prior_history": "Prior inadequate prep; prior extended prep required",
+      "prep_modifications": "Extended timeline (36h)"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "lactulose",
+          "osmotic",
+          "laxative"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "polyethylene glycol",
+          "prep solution",
+          "laxative"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "cirrhosis",
+          "lactulose"
+        ],
+        "min_keyword_hits": 2
+      }
+    ],
+    "notes": "Should retrieve overlap between lactulose and bowel-prep/laxative guidance."
+  },
+  {
+    "case_id": "RET-007",
+    "gr_id": "GR-016",
+    "patient_id": "A",
+    "query": "When do I take each dose of my PEG prep for an afternoon appointment?",
+    "patient_context": {
+      "risk_tier": "Low",
+      "prep_agent": "PEG 4L split-dose",
+      "regimen": "Regular",
+      "procedure_time": "Afternoon (1:30 PM)",
+      "comorbidities": "None",
+      "medications": "None",
+      "dietary_restriction": "None",
+      "prior_history": "First colonoscopy",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "peg",
+          "split-dose",
+          "afternoon"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "first half",
+          "second half",
+          "morning of"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "timing",
+          "regimen_pattern:split_dose"
+        ],
+        "keywords_any": [
+          "afternoon"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests timing retrieval for PEG split-dose afternoon scheduling."
+  },
+  {
+    "case_id": "RET-008",
+    "gr_id": "GR-018",
+    "patient_id": "F",
+    "query": "When should I take my pills relative to the prep solution?",
+    "patient_context": {
+      "risk_tier": "Low",
+      "prep_agent": "Sulfate-based prep",
+      "regimen": "Regular",
+      "procedure_time": "Morning (7:30 AM)",
+      "comorbidities": "None significant for prep",
+      "medications": "Warfarin",
+      "dietary_restriction": "None",
+      "prior_history": "No prior colonoscopy",
+      "prep_modifications": "Anticoagulation bridge protocol"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "one hour before",
+          "one hour after",
+          "prep dose"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "warfarin",
+          "bridge",
+          "blood thinner"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "med_class:anticoagulants"
+        ],
+        "keywords_any": [
+          "prep"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Should retrieve general med spacing plus anticoagulation-specific material."
+  },
+  {
+    "case_id": "RET-009",
+    "gr_id": "GR-020",
+    "patient_id": "B",
+    "query": "The prep instructions say clear liquids, but my dietary plan says diabetic-adapted \u2014 which do I follow?",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Morning (8:00 AM)",
+      "comorbidities": "Diabetes, obesity, hypertension",
+      "medications": "Insulin glargine, metformin, amlodipine",
+      "dietary_restriction": "Diabetic-adapted clear liquid diet",
+      "prior_history": "Prior adequate prep",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "diabetic-adapted",
+          "clear liquid"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "diabetes",
+          "diet"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "metabolic_conditions",
+          "diet"
+        ],
+        "keywords_any": [
+          "clear liquid"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests diet personalization retrieval."
+  },
+  {
+    "case_id": "RET-010",
+    "gr_id": "GR-022",
+    "patient_id": "F",
+    "query": "It's 2 AM and I'm vomiting up my second dose \u2014 my procedure is in five hours.",
+    "patient_context": {
+      "risk_tier": "Low",
+      "prep_agent": "Sulfate-based prep",
+      "regimen": "Regular",
+      "procedure_time": "Morning (7:30 AM)",
+      "comorbidities": "None significant for prep",
+      "medications": "Warfarin",
+      "dietary_restriction": "None",
+      "prior_history": "No prior colonoscopy",
+      "prep_modifications": "Anticoagulation bridge protocol"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "vomiting",
+          "call your provider",
+          "contact your care team"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "second dose",
+          "procedure",
+          "hours away"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "side_effects",
+          "when_to_contact_provider"
+        ],
+        "keywords_any": [
+          "vomiting"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests urgent symptom retrieval near procedure time."
+  },
+  {
+    "case_id": "RET-011",
+    "gr_id": "GR-023",
+    "patient_id": "B",
+    "query": "My procedure is at 8 AM \u2014 do I take my morning medications when I wake up?",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Morning (8:00 AM)",
+      "comorbidities": "Diabetes, obesity, hypertension",
+      "medications": "Insulin glargine, metformin, amlodipine",
+      "dietary_restriction": "Diabetic-adapted clear liquid diet",
+      "prior_history": "Prior adequate prep",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "amlodipine",
+          "sip of water"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "insulin",
+          "metformin",
+          "fasting"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "diabetes_meds:insulin",
+          "diabetes_meds:oral_agents"
+        ],
+        "keywords_any": [
+          "morning"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Should retrieve differentiated med guidance, not blanket deferral."
+  },
+  {
+    "case_id": "RET-012",
+    "gr_id": "GR-024",
+    "patient_id": "C",
+    "query": "When exactly does my 36-hour prep timeline start?",
+    "patient_context": {
+      "risk_tier": "High",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Adapted high-risk",
+      "procedure_time": "Morning (9:00 AM)",
+      "comorbidities": "Cirrhosis, hypertension",
+      "medications": "Lactulose, spironolactone, propranolol",
+      "dietary_restriction": "1-day low-residue diet + clear liquids",
+      "prior_history": "Prior inadequate prep; prior extended prep required",
+      "prep_modifications": "Extended timeline (36h)"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "36-hour",
+          "extended timeline",
+          "day and a half"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "adapted",
+          "timeline",
+          "morning procedure"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "timing"
+        ],
+        "keywords_any": [
+          "extended"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests retrieval of adapted extended-prep scheduling."
+  },
+  {
+    "case_id": "RET-013",
+    "gr_id": "GR-029",
+    "patient_id": "B",
+    "query": "I'm shaky and sweating \u2014 I haven't been able to eat anything solid since yesterday because of the diet.",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Morning (8:00 AM)",
+      "comorbidities": "Diabetes, obesity, hypertension",
+      "medications": "Insulin glargine, metformin, amlodipine",
+      "dietary_restriction": "Diabetic-adapted clear liquid diet",
+      "prior_history": "Prior adequate prep",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "shaky",
+          "sweating",
+          "low blood sugar"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "diabetes",
+          "contact your care team"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "metabolic_conditions"
+        ],
+        "keywords_any": [
+          "clear liquid"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests urgent diabetic fasting retrieval."
+  },
+  {
+    "case_id": "RET-014",
+    "gr_id": "GR-031",
+    "patient_id": "F",
+    "query": "My instructions mention a bridging protocol \u2014 what does that mean for my blood thinner?",
+    "patient_context": {
+      "risk_tier": "Low",
+      "prep_agent": "Sulfate-based prep",
+      "regimen": "Regular",
+      "procedure_time": "Morning (7:30 AM)",
+      "comorbidities": "None significant for prep",
+      "medications": "Warfarin",
+      "dietary_restriction": "None",
+      "prior_history": "No prior colonoscopy",
+      "prep_modifications": "Anticoagulation bridge protocol"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "bridge",
+          "blood thinner",
+          "temporarily adjusting"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "warfarin",
+          "clotting"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "tags_any": [
+          "med_class:anticoagulants"
+        ],
+        "keywords_any": [
+          "bridge"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests retrieval of bridge-protocol explanation."
+  },
+  {
+    "case_id": "RET-015",
+    "gr_id": "GR-033",
+    "patient_id": "H",
+    "query": "Should I keep taking my daily laxative during the prep?",
+    "patient_context": {
+      "risk_tier": "Low",
+      "prep_agent": "PEG 4L split-dose",
+      "regimen": "Regular",
+      "procedure_time": "Afternoon (1:00 PM)",
+      "comorbidities": "Chronic constipation",
+      "medications": "Polyethylene glycol 17g daily",
+      "dietary_restriction": "2-day low-residue diet + clear liquids",
+      "prior_history": "Prior inadequate prep; prior low-volume PEG + ascorbate failed",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "polyethylene glycol",
+          "daily laxative",
+          "prep solution"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "keywords_any": [
+          "laxative",
+          "similar",
+          "continue",
+          "pause"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "constipation_history"
+        ],
+        "keywords_any": [
+          "laxative"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests overlap retrieval for daily PEG laxative + prep."
+  },
+  {
+    "case_id": "RET-016",
+    "gr_id": "GR-041",
+    "patient_id": "E",
+    "query": "What's the phone number for the GI clinic? I need to ask about my kidney labs.",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Afternoon (1:00 PM)",
+      "comorbidities": "CKD stage 3, heart failure, hypertension, obesity",
+      "medications": "Furosemide, metoprolol, lisinopril",
+      "dietary_restriction": "Renal-friendly modifications",
+      "prior_history": "No prior colonoscopy",
+      "prep_modifications": "Lower volume due to CKD"
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "patient portal",
+          "appointment materials",
+          "contact information"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "clinic",
+          "phone"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "when_to_contact_provider"
+        ],
+        "keywords_any": [
+          "contact"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Out-of-scope admin retrieval."
+  },
+  {
+    "case_id": "RET-017",
+    "gr_id": "GR-054",
+    "patient_id": "A",
+    "query": "I'm having chest tightness during the prep \u2014 could this be a heart attack?",
+    "patient_context": {
+      "risk_tier": "Low",
+      "prep_agent": "PEG 4L split-dose",
+      "regimen": "Regular",
+      "procedure_time": "Afternoon (1:30 PM)",
+      "comorbidities": "None",
+      "medications": "None",
+      "dietary_restriction": "None",
+      "prior_history": "First colonoscopy",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "chest tightness",
+          "911",
+          "emergency room"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "stop the prep",
+          "immediately"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "emergency",
+          "breathing",
+          "chest"
+        ],
+        "min_keyword_hits": 2
+      }
+    ],
+    "notes": "Emergency retrieval should beat generic side-effect chunks."
+  },
+  {
+    "case_id": "RET-018",
+    "gr_id": "GR-066",
+    "patient_id": "B",
+    "query": "I'm on the diabetic diet but my blood sugar still dropped to 60 \u2014 is that dangerous?",
+    "patient_context": {
+      "risk_tier": "Medium",
+      "prep_agent": "PEG + bisacodyl",
+      "regimen": "Regular",
+      "procedure_time": "Morning (8:00 AM)",
+      "comorbidities": "Diabetes, obesity, hypertension",
+      "medications": "Insulin glargine, metformin, amlodipine",
+      "dietary_restriction": "Diabetic-adapted clear liquid diet",
+      "prior_history": "Prior adequate prep",
+      "prep_modifications": ""
+    },
+    "expected_any": [
+      {
+        "keywords_any": [
+          "blood sugar of 60",
+          "low blood sugar",
+          "contact your care team"
+        ],
+        "min_keyword_hits": 1
+      },
+      {
+        "keywords_any": [
+          "diabetes",
+          "immediate attention"
+        ],
+        "min_keyword_hits": 2
+      },
+      {
+        "tags_any": [
+          "metabolic_conditions"
+        ],
+        "keywords_any": [
+          "blood sugar"
+        ],
+        "min_keyword_hits": 1
+      }
+    ],
+    "notes": "Tests urgent diabetic low-glucose retrieval."
+  }
+]

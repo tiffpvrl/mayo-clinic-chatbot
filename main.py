@@ -13,8 +13,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-from src.retrieval.rag import retrieve_for_query
-from src.llm.generate_response import generate_response
+from src.graph.graph import graph
 from src.patient_data.bigquery_client import get_patient_record
 
 
@@ -667,33 +666,59 @@ def validate_patient(req: ValidateRequest):
 @app.post("/chat")
 def chat(req: ChatRequest):
     try:
-        result = retrieve_for_query(req.query, req.patient_id)
+        # thread_id scopes the MemorySaver checkpoint to this patient's session,
+        # giving multi-turn memory across requests without a separate session store.
+        config = {"configurable": {"thread_id": req.patient_id}}
 
-        if result.patient_record is None:
+        result = graph.invoke(
+            {
+                "query": req.query,
+                "patient_id": req.patient_id,
+                "chat_history": [],
+                "retry_count": 0,
+                "max_retries": 2,
+                "escalated": False,
+            },
+            config=config,
+        )
+
+        intent = result.get("query_intent", "unknown")
+
+        # For non-medical intents the patient record lookup is skipped or
+        # irrelevant (chitchat), so only gate on None for medical queries.
+        if intent == "medical" and result.get("patient_record") is None:
             return {"error": "Patient ID not found."}
 
-        print("\n===== RAG CONTEXT =====")
-        print(result.combined_context)
-        print("=======================\n")
+        print(f"\n===== GRAPH RESULT | intent={intent} =====")
+        if result.get("combined_context"):
+            print(result["combined_context"])
+        print(f"judge_score={result.get('judge_score')}  "
+              f"retries={result.get('retry_count', 0)}  "
+              f"escalated={result.get('escalated', False)}")
+        print("==========================================\n")
 
-        answer = generate_response(req.query, result.combined_context)
-
+        clinical_hits = result.get("clinical_hits") or []
         sources = [
             {
                 "id": h.get("id"),
                 "metadata": h.get("metadata", {}),
                 "snippet": (h.get("document") or "")[:300],
             }
-            for h in result.clinical_hits
+            for h in clinical_hits
         ]
 
         return {
             "query": req.query,
-            "answer": answer,
+            "answer": result.get("response", ""),
             "debug": {
-                "num_chunks": len(result.clinical_hits),
+                "intent": intent,
+                "num_chunks": len(clinical_hits),
                 "sources": sources,
-                "context_preview": result.combined_context[:500],
+                "context_preview": (result.get("combined_context") or "")[:500],
+                "judge_score": result.get("judge_score"),
+                "judge_reasoning": result.get("judge_reasoning"),
+                "retries": result.get("retry_count", 0),
+                "escalated": result.get("escalated", False),
             },
         }
 

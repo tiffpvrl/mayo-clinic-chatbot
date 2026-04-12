@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Document Processing & Semantic Chunking for Bowel Prep Patient Knowledge Base
 
