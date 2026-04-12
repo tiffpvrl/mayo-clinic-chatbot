@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Conversational Dialogue Processing for Bowel Prep Patient Knowledge Base
 

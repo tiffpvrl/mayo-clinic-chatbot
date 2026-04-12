@@ -5,12 +5,20 @@ Fetches patient-level data using patient_id and returns a structured
 record used to personalize responses.
 """
 
+import google.auth
 from google.cloud import bigquery
 from typing import Optional, Dict, Any
 
-def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
-    client = bigquery.Client()
-    query = """
+# Create the client once at import time — before vertexai.init() runs in main.py
+# (main.py imports this module on line 17, vertexai.init() fires on line 21).
+# Building the client early means the credentials object is frozen before vertexai
+# can attach a quota_project to the global auth state, preventing the
+# x-goog-user-project header that triggers serviceusage.services.use checks.
+_creds, _ = google.auth.default()
+_creds = _creds.with_quota_project(None)
+_BQ_CLIENT = bigquery.Client(project="industrial-net-487818-h9", credentials=_creds)
+
+_QUERY = """
     SELECT
         p.patient_id,
         p.patient_name,
@@ -82,8 +90,6 @@ def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
         pd.diet_protocol,
         pd.dietary_restriction,
         pd.prep_modifications,
-        pd.risk_tier,
-        pd.estimated_compliance_pct,
         pd.number_of_bowel_movements,
         pd.stool_character_end_of_prep,
         pd.nausea_during_prep,
@@ -114,15 +120,17 @@ def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
     LEFT JOIN `industrial-net-487818-h9.pre_procedure_data.Prior_Colonoscopy_History` AS h
         ON p.patient_id = h.patient_id
     WHERE p.patient_id = @patient_id
-    """
+"""
 
+
+def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
             bigquery.ScalarQueryParameter("patient_id", "STRING", patient_id)
         ]
     )
 
-    rows = list(client.query(query, job_config=job_config).result())
+    rows = list(_BQ_CLIENT.query(_QUERY, job_config=job_config).result())
 
     if not rows:
         return None

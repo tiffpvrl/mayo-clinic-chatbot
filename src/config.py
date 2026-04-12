@@ -27,3 +27,14 @@ BATCH_SIZE = 100
 CLINICAL_TOP_K = 5
 QA_TOP_K = 2
 CONVERSATION_TOP_K = 2
+
+# Judge guardrail
+# Confidence thresholds vary by patient risk tier — higher-risk patients require
+# more certainty before a response is delivered autonomously.
+JUDGE_THRESHOLDS = {
+    "high":   0.9,
+    "medium": 0.85,
+    "low":    0.8,
+}
+JUDGE_DEFAULT_THRESHOLD = 0.85   # used when risk tier is unknown
+JUDGE_MAX_RETRIES = 2             # max regeneration attempts before escalation

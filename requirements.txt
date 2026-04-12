@@ -23,3 +23,10 @@ numpy>=1.24.0
 # LLM / GCP
 google-cloud-aiplatform>=1.38.0
 google-cloud-bigquery>=3.0.0
+joblib
+fastapi
+uvicorn
+python-dotenv
+
+# LangGraph orchestration
+langgraph>=0.2.0

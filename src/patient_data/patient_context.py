@@ -7,7 +7,7 @@ readable context block that is included in the LLM prompt.
 
 from typing import Dict, Any, List
 from datetime import datetime
-
+from src.risk.risk_model import get_risk_score
 
 COMORBIDITY_LABELS = {
     "diabetes": "Diabetes",
@@ -115,6 +115,8 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
     if not patient:
         return "No patient-specific data found."
 
+    risk = get_risk_score(patient)
+
     comorbidities = summarize_comorbidities(patient)
     comorbidity_block = "\n".join(f"- {item}" for item in comorbidities) if comorbidities else "- None reported"
 
@@ -132,7 +134,6 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
     ]
 
     prep_lines = [
-        f"- Risk tier: {format_value(patient.get('risk_tier'))}",
         f"- Regimen type: {format_value(patient.get('regimen_type'))}",
         f"- Prep agent: {format_value(patient.get('prep_agent'))}",
         f"- Diet protocol: {format_value(patient.get('diet_protocol'))}",
@@ -186,7 +187,7 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
     if is_positive(patient.get("prior_extended_prep_required")):
         prior_colonoscopy_lines.append("- Prior extended prep required")
 
-    if patient.get("prior_prep_attempts_count"):
+    if patient.get("prior_prep_attempts_count") is not None:
         prior_colonoscopy_lines.append(
             f"- Prior prep attempts: {patient['prior_prep_attempts_count']}"
         )
@@ -194,12 +195,14 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
     prior_section = ""
     if prior_colonoscopy_lines:
         prior_section = f"""
-
-        PRIOR COLONOSCOPY HISTORY
-        {chr(10).join(prior_colonoscopy_lines)}
+PRIOR COLONOSCOPY HISTORY
+{chr(10).join(prior_colonoscopy_lines)}
         """
 
     return f"""
+RISK ASSESSMENT
+- Risk tier for inadequate bowel prep: {risk['risk_tier']}
+
 PATIENT PROFILE
 - Age: {format_value(patient.get("age_at_colonoscopy"))}
 - Sex at birth: {format_value(patient.get("sex_at_birth"))}
@@ -211,6 +214,10 @@ PATIENT PROFILE
 - Mobility status: {format_value(patient.get("mobility_status"))}
 - High risk flag: {format_value(patient.get("high_risk_flag"))}
 
+RISK ASSESSMENT
+- Risk tier for inadequate bowel prep: {patient.get("risk_tier")}
+- Predicted probability of inadequate prep: {patient.get("risk_probability")}
+
 COMORBIDITIES AND RELEVANT HISTORY
 {comorbidity_block}
 
@@ -221,5 +228,6 @@ ENCOUNTER DETAILS
 {chr(10).join(encounter_lines)}
 
 PREP DETAILS
-{chr(10).join(prep_lines)}{prior_section}
+{chr(10).join(prep_lines)}
+{prior_section}
 """.strip()
