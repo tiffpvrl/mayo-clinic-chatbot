@@ -7,7 +7,6 @@ readable context block that is included in the LLM prompt.
 
 from typing import Dict, Any, List
 from datetime import datetime
-from src.risk.risk_model import get_risk_score
 
 COMORBIDITY_LABELS = {
     "diabetes": "Diabetes",
@@ -115,7 +114,7 @@ def build_patient_context(patient: Dict[str, Any]) -> str:
     if not patient:
         return "No patient-specific data found."
 
-    risk = get_risk_score(patient)
+    risk_tier = patient.get("risk_tier", "N/A")
 
     comorbidities = summarize_comorbidities(patient)
     comorbidity_block = "\n".join(f"- {item}" for item in comorbidities) if comorbidities else "- None reported"
@@ -201,7 +200,7 @@ PRIOR COLONOSCOPY HISTORY
 
     return f"""
 RISK ASSESSMENT
-- Risk tier for inadequate bowel prep: {risk['risk_tier']}
+- Risk tier for inadequate bowel prep: {risk_tier}
 
 PATIENT PROFILE
 - Age: {format_value(patient.get("age_at_colonoscopy"))}
@@ -214,9 +213,6 @@ PATIENT PROFILE
 - Mobility status: {format_value(patient.get("mobility_status"))}
 - High risk flag: {format_value(patient.get("high_risk_flag"))}
 
-RISK ASSESSMENT
-- Risk tier for inadequate bowel prep: {patient.get("risk_tier")}
-- Predicted probability of inadequate prep: {patient.get("risk_probability")}
 
 COMORBIDITIES AND RELEVANT HISTORY
 {comorbidity_block}

@@ -109,7 +109,12 @@ _QUERY = """
         h.years_since_prior_colonoscopy,
         h.prior_prep_inadequate_verbatim,
         h.prior_extended_prep_required,
-        h.prior_prep_attempts_count
+        h.prior_prep_attempts_count,
+
+        rs.risk_tier,
+        rs.predicted_inadequate_risk,
+        rs.model_version,
+        rs.scored_at
     FROM `industrial-net-487818-h9.pre_procedure_data.Patients` AS p
     LEFT JOIN `industrial-net-487818-h9.pre_procedure_data.Comorbidities` AS c
         ON p.patient_id = c.patient_id
@@ -119,6 +124,8 @@ _QUERY = """
         ON e.procedure_id = pd.procedure_id
     LEFT JOIN `industrial-net-487818-h9.pre_procedure_data.Prior_Colonoscopy_History` AS h
         ON p.patient_id = h.patient_id
+    LEFT JOIN `industrial-net-487818-h9.pre_procedure_data.Patient_Risk_Scores` AS rs
+        ON e.procedure_id = rs.procedure_id
     WHERE p.patient_id = @patient_id
 """
 
