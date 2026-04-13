@@ -28,7 +28,6 @@ from src.config import EMBEDDING_MODEL, CLINICAL_TOP_K, QA_TOP_K, CONVERSATION_T
 from src.patient_data.bigquery_client import get_patient_record
 from src.patient_data.patient_context import build_patient_context
 from src.retrieval.research_filters import is_research_background_metadata
-from src.risk.risk_model import get_risk_score
 
 logger = logging.getLogger(__name__)
 
@@ -494,10 +493,9 @@ def retrieve_for_query(
         The orchestration layer should derive this from conversation history length.
     """
     patient_record = get_patient_record(patient_id)
-    if patient_record:
-        risk_result = get_risk_score(patient_record)
-        patient_record["risk_tier"] = risk_result["risk_tier"].capitalize()
-        patient_record["risk_probability"] = risk_result["risk_probability"]
+
+    if patient_record and isinstance(patient_record.get("risk_tier"), str):
+        patient_record["risk_tier"] = patient_record["risk_tier"].capitalize()
     
     patient_context = (
         build_patient_context(patient_record)
@@ -505,7 +503,6 @@ def retrieve_for_query(
         else "No patient-specific data found."
     )
 
-    # TODO: need to add risk table in BigQuery
     risk_tier = patient_record.get("risk_tier") if patient_record else None
 
     # ── Single LLM call for all query-level signals ────────────────────────────

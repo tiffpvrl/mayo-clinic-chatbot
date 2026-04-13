@@ -46,7 +46,6 @@ from src.retrieval.rag import (
     retrieve_conversations,
     retrieve_qa,
 )
-from src.risk.risk_model import get_risk_score
 
 logger = logging.getLogger(__name__)
 
@@ -135,21 +134,27 @@ def fetch_patient_data_node(state: ChatState) -> dict:
 
 def score_risk_node(state: ChatState) -> dict:
     """
-    Run the joblib risk model to produce a risk tier (Low / Medium / High).
-    The tier is stored in state so both the RAG retrieval and judge guardrail
-    can read it without re-running the model.
+    Read precomputed risk tier from BigQuery (no live model scoring).
     """
     patient_record = state.get("patient_record")
+
     if not patient_record:
         return {"risk_tier": None, "risk_probability": None}
 
-    risk_result = get_risk_score(patient_record)
-    risk_tier = risk_result["risk_tier"].capitalize()
-    risk_probability = risk_result["risk_probability"]
+    # Pull stored values
+    risk_tier = patient_record.get("risk_tier")
+    risk_probability = patient_record.get("predicted_inadequate_risk")
 
-    print(f"[risk] tier={risk_tier}  probability={risk_probability:.3f}  "
-          f"judge_threshold={_judge_threshold(risk_tier):.2f}")
-    return {"risk_tier": risk_tier, "risk_probability": risk_probability}
+    # Normalize formatting
+    if isinstance(risk_tier, str):
+        risk_tier = risk_tier.capitalize()
+
+    print(f"[risk] tier={risk_tier}  probability={risk_probability}")
+
+    return {
+        "risk_tier": risk_tier,
+        "risk_probability": risk_probability,
+    }
 
 
 # ── 4. RAG Retrieval ───────────────────────────────────────────────────────────
