@@ -1,25 +1,25 @@
 {
-  "total_chunks": 14400,
-  "turn_level_chunks": 11786,
-  "conversation_level_chunks": 2614,
-  "total_conversations": 2614,
-  "total_turns": 11786,
+  "total_chunks": 1066,
+  "turn_level_chunks": 866,
+  "conversation_level_chunks": 200,
+  "total_conversations": 200,
+  "total_turns": 866,
   "risk_tier_distribution": {
     "Low": {
-      "count": 5982,
-      "pct": 50.8
+      "count": 422,
+      "pct": 48.7
     },
     "Medium": {
-      "count": 3468,
-      "pct": 29.4
+      "count": 260,
+      "pct": 30.0
     },
     "High": {
-      "count": 2336,
-      "pct": 19.8
+      "count": 184,
+      "pct": 21.2
     }
   },
   "escalation": {
-    "total_escalated": 214,
-    "escalation_rate_pct": 1.8
+    "total_escalated": 109,
+    "escalation_rate_pct": 12.6
   }
 }

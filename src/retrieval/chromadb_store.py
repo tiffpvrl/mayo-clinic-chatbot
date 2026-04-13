@@ -57,7 +57,11 @@ def _clinical_metadata_for_chroma(c: ProcessedChunk) -> dict:
 def index_clinical_chunks(chunks: list[ProcessedChunk]) -> None:
     for i in range(0, len(chunks), BATCH_SIZE):
         batch = chunks[i : i + BATCH_SIZE]
-        embeddings = np.array(embedder.encode([c.content for c in batch]))
+        embed_inputs = [
+            f"{c.metadata.section_title}\n\n{c.content}" if c.metadata.section_title else c.content
+            for c in batch
+        ]
+        embeddings = np.array(embedder.encode(embed_inputs))
         clinical_collection.upsert(
             ids=[c.id for c in batch],
             embeddings=embeddings,
