@@ -16,16 +16,18 @@ from pathlib import Path
 import json
 import re
 from dataclasses import dataclass, field
-from typing import Any, Iterator
+from typing import Any
 from enum import Enum
-# Optional: use PyPDF2 or pypdf for PDF extraction
+# PyMuPDF4LLM — layout-aware PDF extractor that outputs Markdown.
+# Preserves headings (##/###), tables, and bold emphasis; eliminates the
+# OCR-artifact / collapsed-header problems produced by PyPDF2.
+# Install: pip install pymupdf4llm
 try:
-    from PyPDF2 import PdfReader
+    import pymupdf4llm as _pymupdf4llm  # type: ignore[import-untyped]
+    _PYMUPDF4LLM_AVAILABLE = True
 except ImportError:
-    try:
-        from pypdf import PdfReader
-    except ImportError:
-        PdfReader = None
+    _pymupdf4llm = None  # type: ignore[assignment]
+    _PYMUPDF4LLM_AVAILABLE = False
 
 
 class DocumentType(str, Enum):
@@ -45,21 +47,6 @@ AUDIENCE_TIER_RESEARCH_EDUCATION = "research_education"
 # Cached manifest by resolved base_dir
 _pdf_manifest_cache: dict[str, dict[str, Any]] = {}
 
-
-# Standard FDA drug label section keys (for contextual tagging & chunking)
-DRUG_LABEL_SECTIONS = {
-    "indications_and_usage",
-    "dosage_and_administration",
-    "contraindications",
-    "warnings",
-    "warnings_and_precautions",
-    "adverse_reactions",
-    "drug_interactions",
-    "special_populations",
-    "patient_counseling_information",
-    "patient_information",
-    "precautions",
-}
 
 # Map alternate SPL section keys to a canonical name (DailyMed vs OpenFDA drift)
 DRUG_SECTION_KEY_ALIASES: dict[str, str] = {
@@ -86,37 +73,6 @@ def _normalize_drug_label_sections(sections: dict[str, Any]) -> dict[str, Any]:
         else:
             out[canon] = dict(val)
     return out
-
-# Medical conditions relevant to bowel prep (for contextual tagging)
-RELEVANT_CONDITIONS = {
-    "renal_disease",
-    "kidney_disease",
-    "CKD",
-    "ESRD",
-    "diabetes",
-    "G6PD_deficiency",
-    "phenylketonuria",
-    "PKU",
-    "ulcerative_colitis",
-    "Crohns_disease",
-    "IBD",
-    "ileus",
-    "bowel_obstruction",
-    "gastric_retention",
-    "bariatric_surgery",
-    "heart_failure",
-    "arrhythmia",
-    "hypertension",
-    "geriatric",
-    "elderly",
-    "pediatric",
-    "children",
-    "pregnancy",
-    "lactation",
-    "breastfeeding",
-    "anticoagulation",
-    "antiplatelet",
-}
 
 # Medication classes (for contextual tagging)
 MEDICATION_CLASSES = {
@@ -181,16 +137,13 @@ class ChunkMetadata:
     publication_year: str | None = None
     organization: str | None = None  # e.g., "USMSTF", "UCSF", "FDA"
     drug_name: str | None = None  # For drug labels
-    page_number: int | None = None
     chunk_index: int = 0
     total_chunks: int = 0
     tags: set[str] = field(default_factory=set)  # medical_conditions, medication_classes, topics
-    parent_chunk_id: str | None = None  # For hierarchical retrieval
     # Drug label provenance / RAG routing (from SPL + prep_agents rag_metadata)
     label_source: str | None = None  # "DailyMed" | "OpenFDA"
     canonical_section_key: str | None = None  # After aliasing, e.g. warnings_and_precautions
     labeled_for_colonoscopy_prep: bool | None = None
-    rag_product_note: str | None = None
     # PDF provenance (pdf_manifest.json + filename inference)
     audience_tier: str | None = None  # patient_care | clinician_guideline | research_education
     source_category: str | None = None  # society_guideline | hospital | trial | meta_analysis | patient_handout | other
@@ -247,10 +200,6 @@ def _society_or_hospital_stem(stem: str) -> bool:
     tokens = (
         "usmstf",
         "asge",
-        "mayoclinic",
-        "massgeneral",
-        "clevelandclinic",
-        "ucsf",
         "bostonbowelprep",
     )
     return any(t in stem for t in tokens)
@@ -300,7 +249,14 @@ def detect_document_type(file_path: Path, content_preview: str = "") -> Document
     if _research_or_quality_denylist_stem(stem):
         return DocumentType.CLINICAL_GUIDELINE
 
-    # Society / hospital filename hints → guideline
+    # Patient-facing hospital handouts → patient_instructions.
+    # These hospitals publish both guidelines and patient handouts; the numbered
+    # files (massgeneral3, clevelandclinic2, etc.) are handouts, not guidelines.
+    _PATIENT_HOSPITAL_STEMS = ("massgeneral", "mayoclinic", "clevelandclinic", "ucsf")
+    if any(h in stem for h in _PATIENT_HOSPITAL_STEMS):
+        return DocumentType.PATIENT_INSTRUCTIONS
+
+    # Remaining society stems (usmstf, asge, bostonbowelprep) → guideline
     if _society_or_hospital_stem(stem):
         return DocumentType.CLINICAL_GUIDELINE
 
@@ -322,7 +278,7 @@ def detect_document_type(file_path: Path, content_preview: str = "") -> Document
         if "2day" in stem or "2_day" in stem or "extended" in stem:
             return DocumentType.PATIENT_INSTRUCTIONS
 
-    # Content-based fallback
+    # Content-based fallback — existing narrow rules
     if "indications and usage" in preview or "dosage and administration" in preview:
         return DocumentType.DRUG_LABEL
     if "we recommend" in preview or "consensus" in preview:
@@ -564,8 +520,6 @@ def chunk_drug_label(
     labeled_prep = rag.get("labeled_for_colonoscopy_prep")
     if labeled_prep is None:
         labeled_prep = True
-    rag_note = rag.get("product_note")
-
     id_slug = set_id[:8] if len(set_id) >= 8 else (set_id or label_source.replace(" ", "")[:8] or "label")
 
     base_metadata = ChunkMetadata(
@@ -575,7 +529,6 @@ def chunk_drug_label(
         organization=label_source,
         label_source=label_source,
         labeled_for_colonoscopy_prep=labeled_prep,
-        rag_product_note=rag_note,
     )
 
     for section_key, section_data in sections.items():
@@ -608,7 +561,6 @@ def chunk_drug_label(
                 label_source=label_source,
                 canonical_section_key=section_key,
                 labeled_for_colonoscopy_prep=labeled_prep,
-                rag_product_note=rag_note,
             )
             chunks.append(ProcessedChunk(id=chunk_id, content=sub_content.strip(), metadata=meta))
 
@@ -634,97 +586,210 @@ def _strip_references_section(content: str) -> str:
     return content
 
 
-def chunk_clinical_guideline(
+
+
+def _strip_markdown_prefix(line: str) -> str:
+    """Remove leading markdown heading markers (##, ###) and bold (**) from a line."""
+    line = re.sub(r"^#{1,6}\s+", "", line)
+    line = re.sub(r"^\*{1,2}(.*?)\*{1,2}$", r"\1", line.strip())
+    return line.strip()
+
+
+# Prep-phase pattern shared by the unified chunker.
+_PHASE_PATTERN = re.compile(
+    r"^("
+    r"\d+\s*Days?\s*Before(\s+Your)?|"
+    r"\d+[-–]\d+\s*Hours?\s*Before|"
+    r"\d+\s*Hours?\s*Before|"
+    r"One\s+Day\s+Before|Two\s+Days?\s+Before|Three\s+Days?\s+Before|"
+    r"Two\s+Nights?\s*Before|Three\s+Nights?\s*Before|"
+    r"The\s+(Night|Evening|Day)\s+(Before|Of)|"
+    r"(The\s+)?Morning\s+Of(\s+Your)?|"
+    r"(The\s+)?Night\s+Before(\s+Your)?|"
+    r"(The\s+)?Evening\s+Before(\s+Your)?|"
+    r"Day\s+Of(\s+(Your|the)\s+(Procedure|Colonoscopy))?|"
+    r"Before\s+Your\s+(Colonoscopy|Procedure)|"
+    r"After\s+Your\s+(Colonoscopy|Procedure)|"
+    r"Step\s+\d+[:\.]?|"
+    r"STOP:\s*|Ok\s*/\s*Approved\s*to\s*Take:|"
+    r"Medication(s)?\s+to\s+(Hold|Stop|Take|Avoid)|"
+    r"Medication\s+Instructions?|"
+    r"Diet\s+Instructions?|Dietary\s+Instructions?|"
+    r"What\s+to\s+(Eat|Drink|Bring|Expect)"
+    r")",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+_TABLE_HEADER_RE = re.compile(r"^TABLE\s+\d+", re.IGNORECASE)
+
+
+def chunk_pdf_document(
     content: str,
     source_path: Path,
+    doc_type: DocumentType,
     pdf_entry: dict[str, Any] | None = None,
 ) -> list[ProcessedChunk]:
     """
-    Chunk clinical guidelines by section headers.
-    Looks for patterns like INTRODUCTION, METHODS, RECOMMENDATIONS, Table N, etc.
-    Excludes the REFERENCES section to avoid confusing the chatbot.
+    Unified chunker for all PDF document types (Option C).
+
+    Strategy — three layers applied in order, first match wins:
+
+    1. Prep-phase detection (temporal/medication headers):
+       "3 Days Before", "Morning Of", "Medication Instructions", etc.
+       Best for patient instruction handouts with explicit prep timelines.
+
+    2. Markdown / structural header detection (## / ALL-CAPS / numbered):
+       Catches Q&A headers, guideline sections, and any document whose headers
+       didn't match phase vocabulary.
+
+    3. Paragraph fallback:
+       Used only when neither layer finds any structure.
+
+    This eliminates the regression where Q&A-style patient handouts (clevelandclinic,
+    massgeneral) collapsed to "Additional Information" because their headers didn't
+    match temporal phase patterns but were perfectly readable as markdown headers.
     """
     content = _strip_references_section(content)
-
-    chunks = []
-    doc_type = DocumentType.CLINICAL_GUIDELINE
+    chunks: list[ProcessedChunk] = []
     year = extract_publication_year(source_path, content)
     org = extract_organization(source_path, content)
 
-    # Section header pattern: ALL CAPS lines, numbered sections (1. 2. 3.), or "Table N"
-    section_pattern = re.compile(
-        r"^(?:(?:Table\s+\d+[.:]?\s*)|(?:[A-Z][A-Z\s\-]+(?:\d+[.:])?)|(?:\d+\.\s+[A-Z][A-Za-z\s]+))\s*$",
-        re.MULTILINE,
-    )
+    id_prefix = "patient" if doc_type == DocumentType.PATIENT_INSTRUCTIONS else "guideline"
 
-    # Simpler: split on lines that look like headers (ALL CAPS, or "1. Title", or "Table N")
-    lines = content.split("\n")
-    current_section_title = "Introduction"
+    # ── Normalise: strip markdown prefixes so phase patterns fire on "## 3 Days Before"
+    norm_lines = [_strip_markdown_prefix(ln) if ln.strip() else ln for ln in content.splitlines()]
+    norm_content = "\n".join(norm_lines)
+
+    # ── Layer 1: prep-phase detection on normalised content ───────────────
+    phase_sections: list[tuple[str, str]] = []
+    last_end = 0
+    for m in _PHASE_PATTERN.finditer(norm_content):
+        if m.start() > last_end:
+            before = norm_content[last_end:m.start()].strip()
+            if before:
+                phase_sections.append(("Introduction / General", before))
+        line_start = norm_content.rfind("\n", 0, m.start()) + 1
+        line_end = norm_content.find("\n", m.end())
+        if line_end == -1:
+            line_end = len(norm_content)
+        title = norm_content[line_start:line_end].strip()[:80]
+        next_m = _PHASE_PATTERN.search(norm_content, m.end())
+        end = next_m.start() if next_m else len(norm_content)
+        section_content = norm_content[m.start():end].strip()
+        if section_content:
+            phase_sections.append((title or m.group(0), section_content))
+        last_end = end
+    if last_end < len(norm_content):
+        rest = norm_content[last_end:].strip()
+        if rest:
+            phase_sections.append(("Additional Information", rest))
+
+    if len(phase_sections) >= 5:
+        # Phase detection found real structure — use it
+        for idx, (title, text) in enumerate(phase_sections):
+            for sub in _split_long_section(text, max_chars=800):
+                tags = tag_content(sub)
+                meta = ChunkMetadata(
+                    source_file=str(source_path), document_type=doc_type,
+                    section_title=title, section_hierarchy=[title],
+                    publication_year=year, organization=org,
+                    chunk_index=len(chunks), tags=tags,
+                )
+                if pdf_entry:
+                    apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
+                chunks.append(ProcessedChunk(
+                    id=f"{id_prefix}_{source_path.stem}_{idx}_{len(chunks):03d}",
+                    content=sub.strip(), metadata=meta,
+                ))
+        for c in chunks:
+            c.metadata.total_chunks = len(chunks)
+        return chunks
+
+    # ── Layer 2: markdown / structural header detection on original content ─
+    current_title = "Introduction"
     current_content: list[str] = []
     section_titles: list[str] = []
-    _table_header_re = re.compile(r"^TABLE\s+\d+", re.IGNORECASE)
+    chunk_idx = 0
 
-    def is_table_section(title: str) -> bool:
-        return bool(_table_header_re.match(title.strip()))
-
-    def flush_section(title: str, text: str):
+    def flush(title: str, text: str) -> None:
+        nonlocal chunk_idx
         if not text.strip():
             return
-        # Keep tables in a single chunk so row/column relationships aren't split
-        if is_table_section(title):
-            max_chars = 4000
-        else:
-            max_chars = 600
-        sub_chunks = _split_long_section(text, max_chars=max_chars)
-        for i, sub in enumerate(sub_chunks):
-            chunk_id = f"guideline_{source_path.stem}_{len(chunks):03d}"
+        is_table = bool(_TABLE_HEADER_RE.match(title.strip()))
+        max_chars = 4000 if is_table else 800
+        for sub in _split_long_section(text, max_chars=max_chars):
             tags = tag_content(sub)
-            if is_table_section(title):
+            if is_table:
                 tags.add("content_type:table")
             meta = ChunkMetadata(
-                source_file=str(source_path),
-                document_type=doc_type,
-                section_title=title,
-                section_hierarchy=section_titles.copy(),
-                publication_year=year,
-                organization=org,
-                chunk_index=len(chunks),
-                tags=tags,
+                source_file=str(source_path), document_type=doc_type,
+                section_title=title, section_hierarchy=section_titles.copy(),
+                publication_year=year, organization=org,
+                chunk_index=len(chunks), tags=tags,
             )
             if pdf_entry:
                 apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
-            chunks.append(ProcessedChunk(id=chunk_id, content=sub.strip(), metadata=meta))
+            chunks.append(ProcessedChunk(
+                id=f"{id_prefix}_{source_path.stem}_{chunk_idx:03d}",
+                content=sub.strip(), metadata=meta,
+            ))
+            chunk_idx += 1
 
-    for line in lines:
+    for line in content.split("\n"):
         stripped = line.strip()
-        # Header heuristic: ALL CAPS, "1. SECTION NAME", or "Table N" / "TABLE N. Title"
-        is_header = (
-            len(stripped) >= 4
-            and stripped.isupper()
-            and len(stripped) < 80
-            and not stripped.endswith(".")
-        ) or bool(re.match(r"^\d+\.\s+[A-Z]", stripped)) or bool(_table_header_re.match(stripped))
+        md_match = re.match(r"^(#{1,6})\s+(.+)$", stripped)
+        is_header = bool(md_match) or (
+            len(stripped) >= 4 and stripped.isupper()
+            and len(stripped) < 80 and not stripped.endswith(".")
+        ) or bool(re.match(r"^\d+\.\s+[A-Z]", stripped)) or bool(_TABLE_HEADER_RE.match(stripped))
+
+        header_title = (md_match.group(2).strip() if md_match else stripped)[:100]
 
         if is_header and current_content:
-            flush_section(current_section_title, "\n".join(current_content))
-            current_section_title = stripped[:100]
-            section_titles = [current_section_title]
+            flush(current_title, "\n".join(current_content))
+            current_title = header_title
+            section_titles = [current_title]
             current_content = []
         elif is_header:
-            current_section_title = stripped[:100]
-            if not section_titles or section_titles[-1] != current_section_title:
-                section_titles.append(current_section_title)
+            current_title = header_title
+            if not section_titles or section_titles[-1] != current_title:
+                section_titles.append(current_title)
             current_content = []
         else:
             current_content.append(line)
 
     if current_content:
-        flush_section(current_section_title, "\n".join(current_content))
+        flush(current_title, "\n".join(current_content))
+
+    # ── Layer 3: paragraph fallback if nothing was found ──────────────────
+    if not chunks:
+        for sub in _split_long_section(content, max_chars=800):
+            tags = tag_content(sub)
+            meta = ChunkMetadata(
+                source_file=str(source_path), document_type=doc_type,
+                section_title="Full Document", section_hierarchy=[],
+                publication_year=year, organization=org,
+                chunk_index=len(chunks), tags=tags,
+            )
+            if pdf_entry:
+                apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
+            chunks.append(ProcessedChunk(
+                id=f"{id_prefix}_{source_path.stem}_{len(chunks):03d}",
+                content=sub.strip(), metadata=meta,
+            ))
 
     for c in chunks:
         c.metadata.total_chunks = len(chunks)
-
     return chunks
+
+
+# Thin wrappers so existing call sites (process_document, tests) keep working
+def chunk_clinical_guideline(
+    content: str,
+    source_path: Path,
+    pdf_entry: dict[str, Any] | None = None,
+) -> list[ProcessedChunk]:
+    return chunk_pdf_document(content, source_path, DocumentType.CLINICAL_GUIDELINE, pdf_entry)
 
 
 def chunk_patient_instructions(
@@ -732,78 +797,7 @@ def chunk_patient_instructions(
     source_path: Path,
     pdf_entry: dict[str, Any] | None = None,
 ) -> list[ProcessedChunk]:
-    """
-    Chunk patient instructions by time phases and steps.
-    E.g., "3 Days Before", "2 Days Before", "1 Day Before", "Day Of", medication lists, etc.
-    """
-    chunks = []
-    doc_type = DocumentType.PATIENT_INSTRUCTIONS
-    year = extract_publication_year(source_path, content)
-    org = extract_organization(source_path, content)
-
-    # Phase patterns: "3 Days Before", "Two nights before", "One Day Before", "6-8 Hours Before"
-    phase_pattern = re.compile(
-        r"^(\d+\s*Days?\s*Before|\d+[-–]\d+\s*Hours?\s*Before|"
-        r"One\s+Day\s+Before|Two\s+Nights?\s*Before|Three\s+Nights?\s*Before|"
-        r"The\s+Day\s+(Before|Of)|Before\s+Your\s+Colonoscopy|"
-        r"STOP:\s*|Ok/Approved\s*to\s*Take:|\d+\s*Days?\s*Before\s*Your)",
-        re.IGNORECASE | re.MULTILINE,
-    )
-
-    sections: list[tuple[str, str]] = []
-    last_end = 0
-    for m in phase_pattern.finditer(content):
-        if m.start() > last_end:
-            # Content before first section
-            before = content[last_end:m.start()].strip()
-            if before:
-                sections.append(("Introduction / General", before))
-        # Extract section title (first line of match)
-        line_start = content.rfind("\n", 0, m.start()) + 1
-        line_end = content.find("\n", m.end())
-        if line_end == -1:
-            line_end = len(content)
-        title = content[line_start:line_end].strip()[:80]
-        # Content up to next section
-        next_m = phase_pattern.search(content, m.end())
-        end = next_m.start() if next_m else len(content)
-        section_content = content[m.start():end].strip()
-        if section_content:
-            sections.append((title or m.group(0), section_content))
-        last_end = end
-
-    if last_end < len(content):
-        rest = content[last_end:].strip()
-        if rest:
-            sections.append(("Additional Information", rest))
-
-    # If no phases found, fall back to paragraph-based chunking
-    if not sections:
-        sections = [("Full Document", content)]
-
-    for idx, (title, text) in enumerate(sections):
-        sub_chunks = _split_long_section(text, max_chars=500)
-        for sub_idx, sub in enumerate(sub_chunks):
-            chunk_id = f"patient_{source_path.stem}_{idx}_{sub_idx}"
-            tags = tag_content(sub)
-            meta = ChunkMetadata(
-                source_file=str(source_path),
-                document_type=doc_type,
-                section_title=title,
-                section_hierarchy=[title],
-                publication_year=year,
-                organization=org,
-                chunk_index=len(chunks),
-                tags=tags,
-            )
-            if pdf_entry:
-                apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
-            chunks.append(ProcessedChunk(id=chunk_id, content=sub.strip(), metadata=meta))
-
-    for c in chunks:
-        c.metadata.total_chunks = len(chunks)
-
-    return chunks
+    return chunk_pdf_document(content, source_path, DocumentType.PATIENT_INSTRUCTIONS, pdf_entry)
 
 
 def _split_long_section(text: str, max_chars: int = 600) -> list[str]:
@@ -855,50 +849,34 @@ def _split_long_section(text: str, max_chars: int = 600) -> list[str]:
 # ---------------------------------------------------------------------------
 
 
-def _clean_pdf_page_text(page_text: str) -> str:
+def _load_pdf_text_pymupdf(path: Path) -> str:
     """
-    Heuristically remove headers, footers, and page numbers from a single PDF page.
-    This targets things like journal headers, URLs, and standalone page numbers.
+    Extract text from PDF using PyMuPDF4LLM.
+
+    Returns the full document as a single Markdown string. PyMuPDF4LLM
+    preserves heading levels (##/###), bold emphasis, and table structure —
+    giving the downstream chunkers reliable structural cues that PyPDF2 lost.
+    Image placeholder lines emitted by pymupdf4llm are stripped since they
+    add no informational value to RAG chunks.
     """
-    if not page_text:
-        return ""
+    if not _PYMUPDF4LLM_AVAILABLE:
+        raise ImportError(
+            "pymupdf4llm is required for PDF extraction. "
+            "Install with: pip install pymupdf4llm"
+        )
+    md_text: str = _pymupdf4llm.to_markdown(str(path))  # type: ignore[union-attr]
 
-    cleaned_lines: list[str] = []
-    for line in page_text.splitlines():
-        stripped = line.strip()
-        if not stripped:
-            cleaned_lines.append("")
-            continue
-
-        # Standalone page numbers or simple ranges (e.g., "719" or "719-721")
-        if re.fullmatch(r"\d+(-\d+)?", stripped):
-            continue
-
-        # Common header/footer patterns: URLs, volume/issue, journal names
-        if re.search(r"https?://\S+", stripped) or re.search(r"www\.[\w\.-]+", stripped, re.IGNORECASE):
-            continue
-        if re.search(r"\b(volume|vol\.|no\.|issue)\b", stripped, re.IGNORECASE):
-            continue
-        if re.search(r"\bGASTROINTESTINAL ENDOSCOPY\b", stripped, re.IGNORECASE):
-            continue
-
-        cleaned_lines.append(line)
-
-    return "\n".join(cleaned_lines).strip()
+    # Strip image placeholder lines e.g. "**==> picture [293 x 47] intentionally omitted <==**"
+    cleaned_lines = [
+        line for line in md_text.splitlines()
+        if not re.search(r"==>.*intentionally omitted.*<==", line)
+    ]
+    return "\n".join(cleaned_lines)
 
 
 def load_pdf_text(path: Path) -> str:
-    """Extract text from PDF using PyPDF2 or pypdf."""
-    if PdfReader is None:
-        raise ImportError(
-            "PDF processing requires PyPDF2 or pypdf. Install with: pip install PyPDF2"
-        )
-    reader = PdfReader(str(path))
-    pages = []
-    for page in reader.pages:
-        raw = page.extract_text() or ""
-        pages.append(_clean_pdf_page_text(raw))
-    return "\n\n".join(p for p in pages if p)
+    """Extract text from a PDF using PyMuPDF4LLM (Markdown output)."""
+    return _load_pdf_text_pymupdf(path)
 
 
 def load_drug_label_json(path: Path) -> list[dict]:
@@ -940,6 +918,8 @@ def process_document(path: Path, base_dir: Path) -> list[ProcessedChunk]:
         manifest = load_pdf_manifest(base_dir)
         pdf_entry = resolve_pdf_manifest_entry(path.stem, manifest)
 
+    print(f"    type={doc_type.value}  chars={len(content):,}")
+
     if doc_type == DocumentType.CLINICAL_GUIDELINE:
         return chunk_clinical_guideline(content, path, pdf_entry=pdf_entry)
     if doc_type == DocumentType.PATIENT_INSTRUCTIONS:
@@ -949,6 +929,7 @@ def process_document(path: Path, base_dir: Path) -> list[ProcessedChunk]:
         return chunk_patient_instructions(content, path, pdf_entry=pdf_entry)
 
     # Fallback: semantic split by paragraphs
+    print(f"    WARNING: unknown doc type, falling back to clinical_guideline chunker")
     return chunk_clinical_guideline(content, path, pdf_entry=pdf_entry)
 
 
@@ -1019,7 +1000,7 @@ def build_clinical_processing_summary(chunks: list[ProcessedChunk]) -> dict[str,
 
 def process_patient_kb(
     kb_dir: Path | str = "patient_kb",
-    output_path: Path | str | None = "patient_kb/clinical_processed_chunks.json",
+    output_path: Path | str | None = "patient_kb/clinical_processed_chunks_pymupdf_unified.json",
     use_cached: bool = False,
 ) -> list[ProcessedChunk]:
     """
@@ -1052,14 +1033,12 @@ def process_patient_kb(
                     publication_year=c["metadata"].get("publication_year"),
                     organization=c["metadata"].get("organization"),
                     drug_name=c["metadata"].get("drug_name"),
-                    page_number=c["metadata"].get("page_number"),
                     chunk_index=c["metadata"].get("chunk_index", 0),
                     total_chunks=c["metadata"].get("total_chunks", 0),
                     tags=set(c["metadata"].get("tags", [])),
                     label_source=c["metadata"].get("label_source"),
                     canonical_section_key=c["metadata"].get("canonical_section_key"),
                     labeled_for_colonoscopy_prep=c["metadata"].get("labeled_for_colonoscopy_prep"),
-                    rag_product_note=c["metadata"].get("rag_product_note"),
                     audience_tier=c["metadata"].get("audience_tier"),
                     source_category=c["metadata"].get("source_category"),
                     content_use_policy=c["metadata"].get("content_use_policy"),
@@ -1070,26 +1049,51 @@ def process_patient_kb(
         print(f"Loaded {len(chunks)} cached clinical chunks")
         return chunks
 
+    import time as _time
+
     all_chunks: list[ProcessedChunk] = []
+    t_start = _time.perf_counter()
 
     # PDFs in pdf_assets
     pdf_dir = kb_dir / "pdf_assets"
     if pdf_dir.exists():
-        for f in pdf_dir.glob("*.pdf"):
+        pdf_files = sorted(pdf_dir.glob("*.pdf"))
+        print(f"\n{'='*60}")
+        print(f"STAGE 1/2 — PDFs  ({len(pdf_files)} files in {pdf_dir.name}/)")
+        print(f"{'='*60}")
+        for i, f in enumerate(pdf_files, 1):
+            t0 = _time.perf_counter()
             try:
                 chunks = process_document(f, kb_dir)
                 all_chunks.extend(chunks)
+                elapsed = _time.perf_counter() - t0
+                print(f"  [{i:02d}/{len(pdf_files)}] {f.name:<45} {len(chunks):>4} chunks  ({elapsed:.1f}s)")
             except Exception as e:
-                print(f"Warning: Failed to process {f}: {e}")
+                print(f"  [{i:02d}/{len(pdf_files)}] {f.name:<45} FAILED: {e}")
+    else:
+        print(f"  No pdf_assets/ directory found, skipping PDFs.")
 
     # Consolidated drug labels
     consolidated = kb_dir / "drug_labels" / "processed" / "consolidated_drug_labels.json"
+    print(f"\n{'='*60}")
+    print(f"STAGE 2/2 — Drug labels  ({consolidated.name})")
+    print(f"{'='*60}")
     if consolidated.exists():
+        t0 = _time.perf_counter()
         try:
             chunks = process_document(consolidated, kb_dir)
             all_chunks.extend(chunks)
+            elapsed = _time.perf_counter() - t0
+            print(f"  {consolidated.name:<45} {len(chunks):>4} chunks  ({elapsed:.1f}s)")
         except Exception as e:
-            print(f"Warning: Failed to process {consolidated}: {e}")
+            print(f"  {consolidated.name:<45} FAILED: {e}")
+    else:
+        print(f"  {consolidated} not found, skipping drug labels.")
+
+    total_elapsed = _time.perf_counter() - t_start
+    print(f"\n{'='*60}")
+    print(f"Processing complete — {len(all_chunks)} total chunks in {total_elapsed:.1f}s")
+    print(f"{'='*60}\n")
 
     # Save if requested
     if output_path:
@@ -1107,14 +1111,12 @@ def process_patient_kb(
                     "publication_year": c.metadata.publication_year,
                     "organization": c.metadata.organization,
                     "drug_name": c.metadata.drug_name,
-                    "page_number": c.metadata.page_number,
                     "chunk_index": c.metadata.chunk_index,
                     "total_chunks": c.metadata.total_chunks,
                     "tags": list(c.metadata.tags),
                     "label_source": c.metadata.label_source,
                     "canonical_section_key": c.metadata.canonical_section_key,
                     "labeled_for_colonoscopy_prep": c.metadata.labeled_for_colonoscopy_prep,
-                    "rag_product_note": c.metadata.rag_product_note,
                     "audience_tier": c.metadata.audience_tier,
                     "source_category": c.metadata.source_category,
                     "content_use_policy": c.metadata.content_use_policy,
@@ -1125,8 +1127,9 @@ def process_patient_kb(
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(serializable, f, indent=2, ensure_ascii=False)
 
-        # Write processing summary alongside chunks (same directory)
-        summary_path = output_path.parent / "clinical_processing_summary.json"
+        # Write processing summary alongside chunks (same directory).
+        # Filename mirrors the chunks file so pymupdf and pypdf2 outputs stay paired.
+        summary_path = output_path.parent / (output_path.stem.replace("processed_chunks", "processing_summary") + ".json")
         summary = build_clinical_processing_summary(all_chunks)
         with open(summary_path, "w", encoding="utf-8") as f:
             json.dump(summary, f, indent=2, ensure_ascii=False)
