@@ -1,6 +1,9 @@
 """Config file to help with modularization."""
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Repo root (parent of src/) — stable regardless of process cwd
 _REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -38,3 +41,12 @@ JUDGE_THRESHOLDS = {
 }
 JUDGE_DEFAULT_THRESHOLD = 0.85   # used when risk tier is unknown
 JUDGE_MAX_RETRIES = 2             # max regeneration attempts before escalation
+
+# Email settings
+DEFAULT_PATIENT_EMAIL = os.getenv("DEFAULT_PATIENT_EMAIL", "mayochatbot1@gmail.com")
+EMAIL_ENABLED = os.getenv("EMAIL_ENABLED", "false").lower() == "true"
+
+SMTP_EMAIL = os.getenv("SMTP_EMAIL", "mayochatbot1@gmail.com")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
