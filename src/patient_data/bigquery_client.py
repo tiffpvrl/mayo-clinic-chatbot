@@ -142,4 +142,10 @@ def get_patient_record(patient_id: str) -> Optional[Dict[str, Any]]:
     if not rows:
         return None
 
+    patient_record = dict(rows[0].items())
+
+    patient_record["patient_email"] = (
+        patient_record.get("patient_email") or "mayochatbot1@gmail.com"
+    )
+
     return dict(rows[0].items())

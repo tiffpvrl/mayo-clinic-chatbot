@@ -16,6 +16,11 @@ from pydantic import BaseModel
 from src.graph.graph import graph
 from src.patient_data.bigquery_client import get_patient_record
 
+from pydantic import BaseModel
+from src.patient_data.bigquery_client import get_patient_record
+from src.notifications.email_templates import build_prep_email
+from src.notifications.email_service import send_email
+from src.config import EMAIL_ENABLED, DEFAULT_PATIENT_EMAIL
 
 # Initialize Vertex AI
 vertexai.init(
@@ -636,12 +641,34 @@ def validate_patient(req: ValidateRequest):
         print(f"[validate-patient] Looking up patient_id: {req.patient_id}")
         record = get_patient_record(req.patient_id)
         print(f"[validate-patient] Record found: {record is not None}")
+
         if record is None:
             return {"valid": False}
+
+        # auto-send reminder email when patient is validated
+        email_status = "not_sent"
+        email_error = None
+
+        if EMAIL_ENABLED:
+            try:
+                email_payload = build_prep_email(record)
+                send_email(
+                    to_email=email_payload["to"],
+                    subject=email_payload["subject"],
+                    body=email_payload["body"],
+                )
+                email_status = "sent"
+                print(f"[validate-patient] Reminder email sent to {email_payload['to']}")
+            except Exception as email_exc:
+                email_status = "failed"
+                email_error = str(email_exc)
+                print(f"[validate-patient] Email send failed: {email_error}")
+
         def fmt_dt(val):
             if val is None:
                 return "N/A"
             return str(val).replace("T", " ").split(".")[0]
+
         summary = {
             "patient_id":               record.get("patient_id", "N/A"),
             "patient_name":             record.get("patient_name", "N/A"),
@@ -656,12 +683,72 @@ def validate_patient(req: ValidateRequest):
             "chief_complaint":          record.get("chief_complaint", "N/A"),
             "prep_agent":               record.get("prep_agent", "N/A"),
         }
+
         print(f"[validate-patient] Returning summary: {summary}")
-        return {"valid": True, "summary": summary}
+        return {
+            "valid": True,
+            "summary": summary,
+            "email_status": email_status,
+            "email_error": email_error,
+        }
+
     except Exception as e:
         print(f"[validate-patient] ERROR: {e}")
         return {"valid": False, "error": str(e)}
 
+class ReminderRequest(BaseModel):
+    patient_id: str
+    email: str | None = None
+
+@app.post("/preview-prep-reminder")
+def preview_prep_reminder(req: ReminderRequest):
+    try:
+        record = get_patient_record(req.patient_id)
+        if record is None:
+            return {"ok": False, "error": "Patient not found."}
+
+        record["patient_email"] = req.email or record.get("patient_email") or DEFAULT_PATIENT_EMAIL
+        email_payload = build_prep_email(record)
+
+        return {
+            "ok": True,
+            "status": "preview_only",
+            "email_preview": email_payload,
+        }
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+@app.post("/send-prep-reminder")
+def send_prep_reminder(req: ReminderRequest):
+    try:
+        record = get_patient_record(req.patient_id)
+        if record is None:
+            return {"ok": False, "error": "Patient not found."}
+
+        record["patient_email"] = req.email or record.get("patient_email") or DEFAULT_PATIENT_EMAIL
+        email_payload = build_prep_email(record)
+
+        if not EMAIL_ENABLED:
+            return {
+                "ok": True,
+                "status": "sending_disabled",
+                "email_preview": email_payload,
+            }
+
+        send_email(
+            to_email=email_payload["to"],
+            subject=email_payload["subject"],
+            body=email_payload["body"],
+        )
+
+        return {
+            "ok": True,
+            "message": f"Reminder sent to {email_payload['to']}.",
+        }
+
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
 
 @app.post("/chat")
 def chat(req: ChatRequest):
