@@ -297,12 +297,8 @@ def retrieve_clinical(
         print(f"[clinical] Filter extraction error: {e}")
         where = None
 
-    print(f"\n[clinical] Original query:   {query}")
-    print(f"[clinical] Augmented query:  {augmented_query}")
-    print(f"[clinical] Query filter:     {query_where}")
-    print(f"[clinical] Patient filter:   {patient_where if 'patient_where' in dir() else 'error'}")
-    print(f"[clinical] Combined filter:  {where}")
-
+    print(f"[clinical] augmented_query={augmented_query!r}")
+    print(f"[clinical] patient_filter={patient_where if 'patient_where' in dir() else 'error'}  combined_filter={where}")
     hits = _union_query(clinical_collection, query_embedding, top_k, where)
     return postprocess_hits(hits, wants_research=wants_research)
 
@@ -333,9 +329,6 @@ def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = N
         print(f"[qa] Filter extraction error: {e}")
         where = None
 
-    print(f"\n[qa] Query:   {query}")
-    print(f"[qa] Filter:  {where}")
-
     return _union_query(qa_collection, query_embedding, top_k, where)
 
 
@@ -364,9 +357,6 @@ def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follo
     except Exception as e:
         print(f"[conversation] Filter extraction error: {e}")
         where = None
-
-    print(f"\n[conversation] Query:   {query}")
-    print(f"[conversation] Filter:  {where}")
 
     return _union_query(conversation_collection, query_embedding, top_k, where)
 

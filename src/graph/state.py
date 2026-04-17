@@ -78,3 +78,6 @@ class ChatState(TypedDict):
     # so intermediate retry attempts never pollute the conversation history.
     chat_history: Annotated[List[Dict[str, str]], operator.add]
     is_follow_up: bool
+
+    # ── Timing (classify_query_node → finalize_node) ──────────────────────────
+    turn_start_time: Optional[float]  # perf_counter value set at turn start

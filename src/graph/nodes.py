@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from typing import Any
 
 from vertexai.generative_models import GenerativeModel
@@ -89,6 +90,7 @@ def classify_query_node(state: ChatState) -> dict:
     Also resets retry_count to 0 so the judge retry loop from a previous turn
     does not carry over into the current one.
     """
+    t0 = time.perf_counter()
     query = state["query"]
 
     prompt = _CLASSIFIER_PROMPT.format(query=query)
@@ -104,14 +106,15 @@ def classify_query_node(state: ChatState) -> dict:
 
     is_follow_up = len(state.get("chat_history") or []) > 0
 
-    print(f"[classify] intent={intent!r}  is_follow_up={is_follow_up}")
+    print(f"[classify] intent={intent!r}  is_follow_up={is_follow_up}  latency={1000*(time.perf_counter()-t0):.0f}ms")
     return {
         "query_intent": intent,
         "is_follow_up": is_follow_up,
-        "retry_count": 0,       # reset for this turn
+        "retry_count": 0,
         "escalated": False,
         "judge_score": None,
         "judge_reasoning": None,
+        "turn_start_time": t0,
     }
 
 
@@ -119,6 +122,7 @@ def classify_query_node(state: ChatState) -> dict:
 
 def fetch_patient_data_node(state: ChatState) -> dict:
     """Fetch patient record from BigQuery and build patient context string."""
+    t0 = time.perf_counter()
     patient_id = state["patient_id"]
     patient_record = get_patient_record(patient_id)
     patient_context = (
@@ -126,7 +130,7 @@ def fetch_patient_data_node(state: ChatState) -> dict:
         if patient_record
         else "No patient-specific data found."
     )
-    print(f"[patient_data] patient_id={patient_id}  found={patient_record is not None}")
+    print(f"[patient_data] patient_id={patient_id}  found={patient_record is not None}  latency={1000*(time.perf_counter()-t0):.0f}ms")
     return {"patient_record": patient_record, "patient_context": patient_context}
 
 
@@ -164,6 +168,7 @@ def retrieve_rag_node(state: ChatState) -> dict:
     Run the full three-collection RAG pipeline (clinical, Q&A, conversations).
     Query understanding is extracted once and reused by all three retrievers.
     """
+    t0 = time.perf_counter()
     query = state["query"]
     patient_record: Any = state.get("patient_record")
     risk_tier = state.get("risk_tier")
@@ -172,6 +177,7 @@ def retrieve_rag_node(state: ChatState) -> dict:
     query_understanding = extract_query_understanding(query)
     query_where = build_clinical_where(query_understanding)
     wants_research = bool(query_understanding.get("wants_research", False))
+    t_understand = time.perf_counter()
 
     clinical_hits = retrieve_clinical(
         query,
@@ -179,8 +185,11 @@ def retrieve_rag_node(state: ChatState) -> dict:
         query_where=query_where,
         wants_research=wants_research,
     )
+    t_clinical = time.perf_counter()
+
     qa_hits = retrieve_qa(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
     conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
+    t_retrieval = time.perf_counter()
 
     clinical_context = format_clinical_context(clinical_hits)
     qa_context = format_qa_context(qa_hits)
@@ -198,6 +207,15 @@ SIMILAR Q&A EXAMPLES
 
 SIMILAR CONVERSATION FLOWS
 {conversation_context}""".strip()
+
+    print(f"[rag] query_understanding={query_understanding}")
+    print(f"[rag] chroma_filter={query_where}  wants_research={wants_research}")
+    print(f"[rag] latency — understand={1000*(t_understand-t0):.0f}ms  clinical={1000*(t_clinical-t_understand):.0f}ms  qa+conv={1000*(t_retrieval-t_clinical):.0f}ms  total={1000*(t_retrieval-t0):.0f}ms")
+    print(f"[rag] hits — clinical={len(clinical_hits)}  qa={len(qa_hits)}  conversation={len(conversation_hits)}")
+    for i, h in enumerate(clinical_hits):
+        m = h["metadata"]
+        print(f"  [{i+1}] dist={h['distance']:.4f}  org={m.get('organization','')}  type={m.get('document_type','')}  section={m.get('section_title','')[:50]}")
+    print(f"[rag] combined_context={len(combined_context)} chars  judge_sees={min(2000, len(combined_context))} chars")
 
     return {
         "query_understanding": query_understanding,
@@ -260,6 +278,8 @@ def generate_response_node(state: ChatState) -> dict:
             )
         return ""
 
+    t0 = time.perf_counter()
+
     if intent == "chitchat":
         prompt = _CHITCHAT_PROMPT.format(query=query)
         try:
@@ -279,7 +299,9 @@ def generate_response_node(state: ChatState) -> dict:
         context = _retry_prefix() + combined_context
         response_text = generate_response(query, context)
 
-    print(f"[generate] intent={intent}  retry={retry_count}  response_len={len(response_text)}")
+    latency = 1000 * (time.perf_counter() - t0)
+    print(f"\n[generate] intent={intent}  retry={retry_count}  latency={latency:.0f}ms  response_len={len(response_text)}")
+    print(f"[generate] response preview: {response_text[:300]!r}")
     return {"response": response_text}
 
 
@@ -338,14 +360,17 @@ def judge_response_node(state: ChatState) -> dict:
     threshold = _judge_threshold(risk_tier)
     current_retry = state.get("retry_count", 0)
 
+    context_for_judge = combined_context[:2000]
+
     prompt = _JUDGE_PROMPT.format(
         risk_tier=risk_tier,
         threshold=threshold,
         query=query,
-        context=combined_context[:2000],
+        context=context_for_judge,
         response=response,
     )
 
+    t0 = time.perf_counter()
     try:
         raw = GenerativeModel(LLM_MODEL).generate_content(prompt)
         result = _parse_json_response(raw.text, {"score": 1.0, "reasoning": "parse error — failing open"})
@@ -357,9 +382,12 @@ def judge_response_node(state: ChatState) -> dict:
         score = 1.0
         reasoning = f"Judge skipped (error: {exc})"
 
+    latency = 1000 * (time.perf_counter() - t0)
     passed = score >= threshold
-    print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  "
-          f"retry={current_retry}  reasoning={reasoning!r}")
+
+    print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  risk={risk_tier}  retry={current_retry}  latency={latency:.0f}ms")
+    print(f"[judge] reasoning: {reasoning}")
+    print(f"[judge] context_chars_seen={len(context_for_judge)} / {len(combined_context)} total")
 
     update: dict = {
         "judge_score": score,
@@ -413,8 +441,10 @@ def finalize_node(state: ChatState) -> dict:
     query = state["query"]
     response = state.get("response", "")
     escalated = state.get("escalated", False)
+    turn_start = state.get("turn_start_time")
+    total_ms = f"{1000*(time.perf_counter()-turn_start):.0f}ms" if turn_start else "n/a"
 
-    print(f"[finalize] escalated={escalated}  history_len={len(state.get('chat_history') or [])}")
+    print(f"[finalize] escalated={escalated}  response_len={len(response)}  total_turn_latency={total_ms}  history_len={len(state.get('chat_history') or [])}")
 
     new_messages = [
         {"role": "user", "content": query},
