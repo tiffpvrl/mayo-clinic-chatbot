@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from src.risk.scoring import get_risk_score
 
-import joblib
 import pandas as pd
 from google.cloud import bigquery
 
@@ -173,77 +172,52 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-
-def assign_risk(prob):
-    if prob > 0.50:
-        return "High"
-    elif prob > 0.45:
-        return "Medium"
-    return "Low"
-
-
 def main() -> None:
-    model_path = MODEL_DIR / "risk_pipeline.joblib"
-    features_path = MODEL_DIR / "feature_columns.json"
-
-    if not model_path.exists():
-        raise FileNotFoundError(f"Missing model file: {model_path}")
-    if not features_path.exists():
-        raise FileNotFoundError(f"Missing feature columns file: {features_path}")
-
-    pipeline = joblib.load(model_path)
-    with open(features_path, "r") as f:
-        feature_columns = json.load(f)
-
     client = bigquery.Client(project=PROJECT_ID)
     raw_df = client.query(SOURCE_QUERY).to_dataframe()
 
     if raw_df.empty:
         print("No rows returned from BigQuery.")
         return
-
-    id_cols = raw_df[["patient_id", "procedure_id"]].copy()
+        
     feature_df = engineer_features(raw_df)
 
-    # Add any missing expected features as zero-filled columns.
-    for col in feature_columns:
-        if col not in feature_df.columns:
-            feature_df[col] = 0
+    output_rows = []
 
-    # Keep only the exact order used by the trained model.
-    X = feature_df[feature_columns].copy()
+    for i in range(len(raw_df)):
+        raw_row = raw_df.iloc[i].to_dict()        # contains rule variables
+        feature_row = feature_df.iloc[i].to_dict()  # contains model features
 
-    # Final numeric cleanup.
-    for col in X.columns:
-        X[col] = pd.to_numeric(X[col], errors="coerce").fillna(0)
+        # combine both
+        patient = {**raw_row, **feature_row}
 
-    # Notebook predicts probability of ADEQUATE prep, then converts to inadequate risk as 1 - p.
-    predicted_adequate = pipeline.predict_proba(X)[:, 1]
-    risk_proba = 1 - predicted_adequate
-    risk_tiers = [assign_risk(p) for p in risk_proba]
+        score = get_risk_score(patient)
 
-    output_df = id_cols.copy()
-    output_df["predicted_adequate_prob"] = predicted_adequate
-    output_df["predicted_inadequate_risk"] = risk_proba
-    output_df["risk_tier"] = risk_tiers
-    output_df["model_version"] = "logreg_v1"
-    output_df["scored_at"] = datetime.now(timezone.utc)
+        output_rows.append({
+            "procedure_id": raw_row["procedure_id"],
+            "predicted_adequate_prob": score["predicted_adequate_prob"],
+            "predicted_inadequate_risk": score["predicted_inadequate_risk"],
+            "risk_tier": score["risk_tier"],
+            "model_version": "hybrid_logreg_v1",
+            "scored_at": datetime.now(timezone.utc),
+        })
+
+    output_df = pd.DataFrame(output_rows)
 
     # Keep one row per procedure_id.
     output_df = output_df.drop_duplicates(subset=["procedure_id"])
 
-    job_config = bigquery.LoadJobConfig(rate_risk_scores.py
-        write_disposition="WRITE_TRUNCATE",
-        schema=[
-            bigquery.SchemaField("patient_id", "STRING"),
-            bigquery.SchemaField("procedure_id", "STRING"),
-            bigquery.SchemaField("predicted_adequate_prob", "FLOAT"),
-            bigquery.SchemaField("predicted_inadequate_risk", "FLOAT"),
-            bigquery.SchemaField("risk_tier", "STRING"),
-            bigquery.SchemaField("model_version", "STRING"),
-            bigquery.SchemaField("scored_at", "TIMESTAMP"),
-        ],
-    )
+    job_config = bigquery.LoadJobConfig(
+    write_disposition="WRITE_TRUNCATE",
+    schema=[
+        bigquery.SchemaField("procedure_id", "STRING"),
+        bigquery.SchemaField("predicted_adequate_prob", "FLOAT"),
+        bigquery.SchemaField("predicted_inadequate_risk", "FLOAT"),
+        bigquery.SchemaField("risk_tier", "STRING"),
+        bigquery.SchemaField("model_version", "STRING"),
+        bigquery.SchemaField("scored_at", "TIMESTAMP"),
+    ],
+)
 
     load_job = client.load_table_from_dataframe(
         output_df,

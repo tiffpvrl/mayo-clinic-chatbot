@@ -71,7 +71,7 @@ def ui():
     }
 
     .page {
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -81,6 +81,7 @@ def ui():
     .shell {
       width: 100%;
       max-width: 800px;
+      height: 100%;
       display: block;
     }
 
@@ -93,7 +94,7 @@ def ui():
     }
 
     .chat-card {
-      min-height: 78vh;
+      height: calc(100vh - 56px);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -139,6 +140,7 @@ def ui():
 
     .chat-window {
       flex: 1;
+      min-height: 0;
       padding: 18px;
       overflow-y: auto;
       background:
@@ -431,7 +433,9 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
     let patientName = "";
 
     function scrollToBottom() {
-      chatWindow.scrollTop = chatWindow.scrollHeight;
+      requestAnimationFrame(() => {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      });
     }
 
     function addMessage(role, text) {
