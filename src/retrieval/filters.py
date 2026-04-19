@@ -169,8 +169,8 @@ def extract_filters(query: str) -> dict | None:
     need the full understanding dict (e.g. standalone testing).
 
     For the main pipeline, prefer calling extract_query_understanding() once in
-    retrieve_for_query() and passing the result to build_clinical_where() and
-    postprocess_hits() separately to avoid a second LLM call.
+    retrieve_rag_node and passing the result to build_clinical_where() and
+    retrieve_clinical() separately to avoid a second LLM call.
     """
     understanding = extract_query_understanding(query)
     return build_clinical_where(understanding)
