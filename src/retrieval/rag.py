@@ -8,11 +8,14 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import sys
+
+import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from typing import Any, NamedTuple
+from typing import Any
 from src.retrieval.embedder import Embedding
 from src.retrieval.chromadb_store import clinical_collection, qa_collection, conversation_collection
 from src.retrieval.filters import (
@@ -21,19 +24,20 @@ from src.retrieval.filters import (
     extract_qa_filters,
     extract_conversation_filters,
     extract_patient_filters,
-    extract_query_understanding,
-    build_clinical_where,
 )
 from src.config import EMBEDDING_MODEL, CLINICAL_TOP_K, QA_TOP_K, CONVERSATION_TOP_K
-from src.patient_data.bigquery_client import get_patient_record
-from src.patient_data.patient_context import build_patient_context
 from src.retrieval.research_filters import is_research_background_metadata
 
 logger = logging.getLogger(__name__)
 
 embedder = Embedding(model_type=EMBEDDING_MODEL)
 
-import re
+# Cosine similarity threshold above which two retrieved hits are considered near-duplicates.
+# 1.0 = identical vectors, 0.0 = orthogonal. 0.95 catches paraphrased duplicates
+# (e.g. same question with minor wording change) while keeping genuinely different examples.
+DIVERSITY_SIMILARITY_THRESHOLD = 0.95
+# How many extra candidates to fetch so we have fallbacks after diversity filtering.
+DIVERSITY_FETCH_MULTIPLIER = 3
 
 
 CONTACT_PATTERNS = [
@@ -131,8 +135,7 @@ def postprocess_hits(hits: list[dict], wants_research: bool = False) -> list[dic
     Suppress chunks that are mostly contact/admin content, or research-background
     chunks when the query is not explicitly asking for clinical evidence/trials.
 
-    wants_research: pre-computed by extract_query_understanding() in retrieve_for_query()
-        so no second LLM call is needed here.
+    wants_research: pre-computed by extract_query_understanding() in retrieve_rag_node.
     """
     cleaned = []
 
@@ -165,6 +168,39 @@ def postprocess_hits(hits: list[dict], wants_research: bool = False) -> list[dic
 
 # ── 1. Retrieval ───────────────────────────────────────────────────────────────
 
+def _cosine_similarity(a: list, b: list) -> float:
+    """Cosine similarity between two embedding vectors."""
+    va, vb = np.array(a, dtype=float), np.array(b, dtype=float)
+    denom = np.linalg.norm(va) * np.linalg.norm(vb)
+    return float(np.dot(va, vb) / denom) if denom > 0 else 0.0
+
+
+def _diversify_hits(hits_with_embeddings: list[dict], top_k: int, threshold: float) -> list[dict]:
+    """
+    Greedy diversity filter: iterate candidates in distance order and add each
+    only if its cosine similarity to every already-selected hit is below threshold.
+    Falls back gracefully — if fewer than top_k diverse hits exist, returns all found.
+    Strips the embedding vector from returned dicts (not needed downstream).
+    """
+    selected: list[dict] = []
+    selected_embeddings: list[list] = []
+
+    for hit in hits_with_embeddings:
+        emb = hit.get("embedding")
+        if emb is None:
+            selected.append(hit)
+            continue
+        if all(_cosine_similarity(emb, s) < threshold for s in selected_embeddings):
+            selected.append(hit)
+            selected_embeddings.append(emb)
+        if len(selected) >= top_k:
+            break
+
+    for h in selected:
+        h.pop("embedding", None)
+    return selected
+
+
 def _query_collection(collection: Any, query_embedding: list, top_k: int, where: Any) -> list[dict]:
     """Run a single ChromaDB query and flatten the nested result into a list of dicts."""
     results = collection.query(
@@ -183,6 +219,25 @@ def _query_collection(collection: Any, query_embedding: list, top_k: int, where:
     return hits
 
 
+def _query_collection_with_embeddings(collection: Any, query_embedding: list, top_k: int, where: Any) -> list[dict]:
+    """Like _query_collection but also returns each hit's stored embedding for similarity comparison."""
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k,
+        where=where,
+        include=["documents", "metadatas", "distances", "embeddings"],
+    )
+    hits = []
+    docs = results["documents"] or [[]]
+    metas = results["metadatas"] or [[]]
+    dists = results["distances"] or [[]]
+    ids = results["ids"] or [[]]
+    embs = results["embeddings"] or [[]]
+    for doc, meta, dist, id_, emb in zip(docs[0], metas[0], dists[0], ids[0], embs[0]):
+        hits.append({"id": id_, "document": doc, "metadata": meta, "distance": dist, "embedding": emb})
+    return hits
+
+
 def _union_query(collection: Any, query_embedding: list, top_k: int, where: Any) -> list[dict]:
     """
     Run both a filtered and an unfiltered query, merge by best distance per
@@ -198,7 +253,6 @@ def _union_query(collection: Any, query_embedding: list, top_k: int, where: Any)
 
     filtered = _query_collection(collection, query_embedding, top_k, where)
 
-    # Merge: keep the lower (better) distance for each unique id
     best: dict[str, dict] = {}
     for hit in filtered + unfiltered:
         id_ = hit["id"]
@@ -206,6 +260,27 @@ def _union_query(collection: Any, query_embedding: list, top_k: int, where: Any)
             best[id_] = hit
 
     return sorted(best.values(), key=lambda h: h["distance"])[:top_k]
+
+
+def _union_query_with_embeddings(collection: Any, query_embedding: list, fetch_k: int, where: Any) -> list[dict]:
+    """
+    Like _union_query but fetches embeddings for diversity filtering.
+    Merges filtered and unfiltered results by best distance per unique chunk ID.
+    If no filter is provided, falls through to a single unfiltered query.
+    """
+    unfiltered = _query_collection_with_embeddings(collection, query_embedding, fetch_k, None)
+    if where is None:
+        return unfiltered
+
+    filtered = _query_collection_with_embeddings(collection, query_embedding, fetch_k, where)
+
+    best: dict[str, dict] = {}
+    for hit in filtered + unfiltered:
+        id_ = hit["id"]
+        if id_ not in best or hit["distance"] < best[id_]["distance"]:
+            best[id_] = hit
+
+    return sorted(best.values(), key=lambda h: h["distance"])[:fetch_k]
 
 
 def _build_augmented_query(query: str, patient_record: dict) -> str:
@@ -284,6 +359,8 @@ def retrieve_clinical(
     """
     augmented_query = _build_augmented_query(query, patient_record) if patient_record else query
     query_embedding = embedder.encode([augmented_query])[0]
+
+    patient_where = None
     where: Any = None
     try:
         if query_where is None:
@@ -295,10 +372,9 @@ def retrieve_clinical(
             where = query_where or patient_where
     except Exception as e:
         print(f"[clinical] Filter extraction error: {e}")
-        where = None
 
     print(f"[clinical] augmented_query={augmented_query!r}")
-    print(f"[clinical] patient_filter={patient_where if 'patient_where' in dir() else 'error'}  combined_filter={where}")
+    print(f"[clinical] patient_filter={patient_where}  combined_filter={where}")
     hits = _union_query(clinical_collection, query_embedding, top_k, where)
     return postprocess_hits(hits, wants_research=wants_research)
 
@@ -306,16 +382,18 @@ def retrieve_clinical(
 def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
     """
     Retrieve turn-level Q&A examples from qa_collection.
-    Used for tone/phrasing reference — caller surfaces chatbot_response from metadata.
+    Used for tone/phrasing reference — caller surfaces clinician_response from metadata.
+
+    Over-fetches by DIVERSITY_FETCH_MULTIPLIER then applies cosine-similarity diversity
+    filtering so the returned top_k examples are semantically distinct from each other.
 
     is_follow_up: when provided, filters examples to the same turn state —
         True  → retrieve follow-up turn examples (turn_number > 1)
         False → retrieve first-turn examples
         None  → no filter (default)
-
-    Falls back to unfiltered top-k if the filtered query returns no results.
     """
     query_embedding = embedder.encode([query])[0]
+    fetch_k = top_k * DIVERSITY_FETCH_MULTIPLIER
     where: Any = None
     try:
         conditions = []
@@ -327,9 +405,11 @@ def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = N
         where = _build_where(conditions)
     except Exception as e:
         print(f"[qa] Filter extraction error: {e}")
-        where = None
 
-    return _union_query(qa_collection, query_embedding, top_k, where)
+    candidates = _union_query_with_embeddings(qa_collection, query_embedding, fetch_k, where)
+    diverse = _diversify_hits(candidates, top_k, DIVERSITY_SIMILARITY_THRESHOLD)
+    print(f"[qa] fetched={len(candidates)}  after_diversity={len(diverse)}  threshold={DIVERSITY_SIMILARITY_THRESHOLD}")
+    return diverse
 
 
 def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
@@ -337,14 +417,16 @@ def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follo
     Retrieve full conversation threads from conversation_collection.
     Used for multi-turn flow reference — shows how similar questions were handled end-to-end.
 
+    Over-fetches by DIVERSITY_FETCH_MULTIPLIER then applies cosine-similarity diversity
+    filtering so returned threads are semantically distinct from each other.
+
     is_follow_up: when True, restricts results to multi-turn conversations
         (demonstrates_multi_turn=True) so the LLM sees flow examples that
         actually demonstrate follow-up handling.
         False/None → no filter on demonstrates_multi_turn.
-
-    Falls back to unfiltered top-k if the filtered query returns no results.
     """
     query_embedding = embedder.encode([query])[0]
+    fetch_k = top_k * DIVERSITY_FETCH_MULTIPLIER
     where: Any = None
     try:
         conditions = []
@@ -356,9 +438,11 @@ def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follo
         where = _build_where(conditions)
     except Exception as e:
         print(f"[conversation] Filter extraction error: {e}")
-        where = None
 
-    return _union_query(conversation_collection, query_embedding, top_k, where)
+    candidates = _union_query_with_embeddings(conversation_collection, query_embedding, fetch_k, where)
+    diverse = _diversify_hits(candidates, top_k, DIVERSITY_SIMILARITY_THRESHOLD)
+    print(f"[conversation] fetched={len(candidates)}  after_diversity={len(diverse)}  threshold={DIVERSITY_SIMILARITY_THRESHOLD}")
+    return diverse
 
 
 # ── 2. Context formatting ──────────────────────────────────────────────────────
@@ -451,87 +535,3 @@ def format_conversation_context(hits: list[dict]) -> str:
         blocks.append(f"{label}\n{hit['document']}")
 
     return "\n\n---\n\n".join(blocks)
-
-
-# ── 3. Orchestration ───────────────────────────────────────────────────────────
-
-class RAGResult(NamedTuple):
-    """Structured return type for retrieve_for_query."""
-    patient_record: dict | None
-    patient_context: str
-    clinical_hits: list[dict]
-    qa_hits: list[dict]
-    conversation_hits: list[dict]
-    clinical_context: str
-    qa_context: str
-    conversation_context: str
-    combined_context: str
-
-
-def retrieve_for_query(
-    query: str,
-    patient_id: str,
-    is_follow_up: bool | None = None,
-) -> RAGResult:
-    """
-    Public entry point. Returns a RAGResult with patient data, per-collection
-    hits, formatted context strings, and a single combined_context for the LLM.
-
-    patient_id: used to look up the patient record from BigQuery.
-    is_follow_up: pass True for any turn after the first in the conversation,
-        False for the opening message, or None to skip turn-state filtering.
-        The orchestration layer should derive this from conversation history length.
-    """
-    patient_record = get_patient_record(patient_id)
-
-    if patient_record and isinstance(patient_record.get("risk_tier"), str):
-        patient_record["risk_tier"] = patient_record["risk_tier"].capitalize()
-    
-    patient_context = (
-        build_patient_context(patient_record)
-        if patient_record
-        else "No patient-specific data found."
-    )
-
-    risk_tier = patient_record.get("risk_tier") if patient_record else None
-
-    # ── Single LLM call for all query-level signals ────────────────────────────
-    # Runs once here and results are passed down — avoids a second LLM call
-    # inside retrieve_clinical() and postprocess_hits().
-    query_understanding = extract_query_understanding(query)
-    query_where = build_clinical_where(query_understanding)
-    wants_research = bool(query_understanding.get("wants_research", False))
-
-    clinical_hits = retrieve_clinical(query, patient_record=patient_record, query_where=query_where, wants_research=wants_research)
-    qa_hits = retrieve_qa(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
-    conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
-
-    clinical_context = format_clinical_context(clinical_hits)
-    qa_context = format_qa_context(qa_hits)
-    conversation_context = format_conversation_context(conversation_hits)
-
-    combined_context = f"""
-PATIENT-SPECIFIC CONTEXT
-{patient_context}
-
-CLINICAL KNOWLEDGE BASE
-{clinical_context}
-
-SIMILAR Q&A EXAMPLES
-{qa_context}
-
-SIMILAR CONVERSATION FLOWS
-{conversation_context}
-""".strip()
-
-    return RAGResult(
-        patient_record=patient_record,
-        patient_context=patient_context,
-        clinical_hits=clinical_hits,
-        qa_hits=qa_hits,
-        conversation_hits=conversation_hits,
-        clinical_context=clinical_context,
-        qa_context=qa_context,
-        conversation_context=conversation_context,
-        combined_context=combined_context,
-    )

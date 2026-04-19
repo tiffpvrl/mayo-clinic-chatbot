@@ -388,6 +388,7 @@ def judge_response_node(state: ChatState) -> dict:
     print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  risk={risk_tier}  retry={current_retry}  latency={latency:.0f}ms")
     print(f"[judge] reasoning: {reasoning}")
     print(f"[judge] context_chars_seen={len(context_for_judge)} / {len(combined_context)} total")
+    print(f"[judge] context sent to judge:\n{context_for_judge}")
 
     update: dict = {
         "judge_score": score,
