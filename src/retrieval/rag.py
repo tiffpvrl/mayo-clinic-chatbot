@@ -507,6 +507,59 @@ def format_qa_context(hits: list[dict]) -> str:
     return "\n\n---\n\n".join(blocks)
 
 
+def format_qa_context_as_evidence(hits: list[dict]) -> str:
+    """
+    Format Q&A hits as factual evidence when clinical retrieval has failed.
+    Promotes clinician_response to the primary content and labels each block
+    as a Clinician Dialogue Example so the generator and judge know the evidence tier.
+    """
+    if not hits:
+        return ""
+
+    blocks = []
+    for i, hit in enumerate(hits):
+        meta = hit["metadata"]
+        risk_tier = meta.get("risk_tier") or ""
+        patient_msg = meta.get("patient_message") or ""
+        clinician_resp = meta.get("clinician_response") or hit["document"]
+
+        label = f"[Clinician Dialogue Example {i+1} | risk: {risk_tier}]"
+        blocks.append(
+            f"{label}\n"
+            f"Patient asked: {patient_msg}\n"
+            f"Clinician responded: {clinician_resp}"
+        )
+
+    return "\n\n---\n\n".join(blocks)
+
+
+def format_conversation_context_as_evidence(hits: list[dict]) -> str:
+    """
+    Format conversation hits as factual evidence when clinical retrieval has failed.
+    Labels each block as a Clinician Dialogue Example so the generator and judge
+    know the evidence tier.
+    """
+    if not hits:
+        return ""
+
+    blocks = []
+    for i, hit in enumerate(hits):
+        meta = hit["metadata"]
+        risk_tier = meta.get("risk_tier") or ""
+        num_turns = meta.get("num_turns") or ""
+
+        parts = []
+        if risk_tier:
+            parts.append(f"risk: {risk_tier}")
+        if num_turns:
+            parts.append(f"turns: {num_turns}")
+
+        label = f"[Clinician Dialogue Example {i+1} | {' | '.join(parts)}]"
+        blocks.append(f"{label}\n{hit['document']}")
+
+    return "\n\n---\n\n".join(blocks)
+
+
 def format_conversation_context(hits: list[dict]) -> str:
     """
     Format conversation_collection hits (full multi-turn threads) into a

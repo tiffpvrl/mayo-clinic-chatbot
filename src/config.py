@@ -30,6 +30,10 @@ BATCH_SIZE = 100
 CLINICAL_TOP_K = 5
 QA_TOP_K = 2
 CONVERSATION_TOP_K = 2
+# Cosine distance above which clinical hits are considered too weak to use as primary evidence.
+# At 0.5, the best clinical chunk is effectively orthogonal to the query.
+# Triggers conversational fallback when no hit clears this threshold.
+CLINICAL_RELEVANCE_THRESHOLD = 0.5
 
 # Judge guardrail
 # Confidence thresholds vary by patient risk tier — higher-risk patients require

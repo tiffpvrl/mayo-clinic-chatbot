@@ -46,6 +46,14 @@ class ChatState(TypedDict):
     conversation_context: str
     combined_context: str  # all sections merged for the LLM
 
+    # ── Evidence tier (retrieve_rag_node) ─────────────────────────────────────
+    # Tracks the quality of clinical retrieval for the current turn.
+    # "clinical"               — clinical chunks found and relevant (normal path)
+    # "conversational_fallback"— clinical weak/absent; conversational hits promoted
+    #                            to factual reference; judge score capped at 0.85
+    # "none"                   — nothing useful found in any collection
+    evidence_tier: str
+
     # ── Response (generate_response_node) ─────────────────────────────────────
     response: str
 

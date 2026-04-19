@@ -33,7 +33,7 @@ from typing import Any
 
 from vertexai.generative_models import GenerativeModel
 
-from src.config import JUDGE_DEFAULT_THRESHOLD, JUDGE_MAX_RETRIES, JUDGE_THRESHOLDS, LLM_MODEL
+from src.config import CLINICAL_RELEVANCE_THRESHOLD, JUDGE_DEFAULT_THRESHOLD, JUDGE_MAX_RETRIES, JUDGE_THRESHOLDS, LLM_MODEL
 from src.graph.state import ChatState
 from src.llm.generate_response import generate_response
 from src.patient_data.bigquery_client import get_patient_record
@@ -42,7 +42,9 @@ from src.retrieval.filters import build_clinical_where, extract_query_understand
 from src.retrieval.rag import (
     format_clinical_context,
     format_conversation_context,
+    format_conversation_context_as_evidence,
     format_qa_context,
+    format_qa_context_as_evidence,
     retrieve_clinical,
     retrieve_conversations,
     retrieve_qa,
@@ -196,7 +198,31 @@ def retrieve_rag_node(state: ChatState) -> dict:
     conversation_context = format_conversation_context(conversation_hits)
     patient_context = state.get("patient_context", "")
 
-    combined_context = f"""PATIENT-SPECIFIC CONTEXT
+    # ── Evidence tier detection ────────────────────────────────────────────────
+    best_clinical_dist = clinical_hits[0]["distance"] if clinical_hits else None
+    clinical_absent = len(clinical_hits) == 0
+    clinical_weak = best_clinical_dist is not None and best_clinical_dist > CLINICAL_RELEVANCE_THRESHOLD
+
+    if clinical_absent or clinical_weak:
+        has_conversational = bool(qa_hits or conversation_hits)
+        evidence_tier = "conversational_fallback" if has_conversational else "none"
+        fallback_reason = "no_clinical_hits" if clinical_absent else f"weak_clinical(dist={best_clinical_dist:.3f})"
+
+        dialogue_blocks = [
+            format_qa_context_as_evidence(qa_hits),
+            format_conversation_context_as_evidence(conversation_hits),
+        ]
+        dialogue_context = "\n\n---\n\n".join(b for b in dialogue_blocks if b)
+
+        combined_context = f"""PATIENT-SPECIFIC CONTEXT
+{patient_context}
+
+CLINICIAN DIALOGUE EXAMPLES (no verified clinical guideline found — use as secondary reference only)
+{dialogue_context or "No relevant examples found."}""".strip()
+    else:
+        evidence_tier = "clinical"
+        fallback_reason = None
+        combined_context = f"""PATIENT-SPECIFIC CONTEXT
 {patient_context}
 
 CLINICAL KNOWLEDGE BASE
@@ -212,10 +238,11 @@ SIMILAR CONVERSATION FLOWS
     print(f"[rag] chroma_filter={query_where}  wants_research={wants_research}")
     print(f"[rag] latency — understand={1000*(t_understand-t0):.0f}ms  clinical={1000*(t_clinical-t_understand):.0f}ms  qa+conv={1000*(t_retrieval-t_clinical):.0f}ms  total={1000*(t_retrieval-t0):.0f}ms")
     print(f"[rag] hits — clinical={len(clinical_hits)}  qa={len(qa_hits)}  conversation={len(conversation_hits)}")
+    print(f"[rag] evidence_tier={evidence_tier}" + (f"  reason={fallback_reason}" if fallback_reason else ""))
     for i, h in enumerate(clinical_hits):
         m = h["metadata"]
         print(f"  [{i+1}] dist={h['distance']:.4f}  org={m.get('organization','')}  type={m.get('document_type','')}  section={m.get('section_title','')[:50]}")
-    print(f"[rag] combined_context={len(combined_context)} chars  judge_sees={min(2000, len(combined_context))} chars")
+    print(f"[rag] combined_context={len(combined_context)} chars")
 
     return {
         "query_understanding": query_understanding,
@@ -228,6 +255,7 @@ SIMILAR CONVERSATION FLOWS
         "qa_context": qa_context,
         "conversation_context": conversation_context,
         "combined_context": combined_context,
+        "evidence_tier": evidence_tier,
     }
 
 
@@ -296,11 +324,27 @@ def generate_response_node(state: ChatState) -> dict:
 
     else:
         combined_context = state.get("combined_context", "")
-        context = _retry_prefix() + combined_context
+        evidence_tier = state.get("evidence_tier", "clinical")
+        if evidence_tier == "conversational_fallback":
+            fallback_note = (
+                "[EVIDENCE NOTE] No verified clinical guideline was found for this query. "
+                "The context below contains real clinician dialogue examples as secondary reference. "
+                "Do not cite formal guidelines. Acknowledge the limitation briefly and recommend "
+                "the patient confirm with their care team for definitive guidance.\n\n"
+            )
+        elif evidence_tier == "none":
+            fallback_note = (
+                "[EVIDENCE NOTE] No relevant clinical or dialogue evidence was found for this query. "
+                "Respond only from the patient context provided and direct the patient to their care team.\n\n"
+            )
+        else:
+            fallback_note = ""
+        context = _retry_prefix() + fallback_note + combined_context
         response_text = generate_response(query, context)
 
+    evidence_tier = state.get("evidence_tier", "clinical")
     latency = 1000 * (time.perf_counter() - t0)
-    print(f"\n[generate] intent={intent}  retry={retry_count}  latency={latency:.0f}ms  response_len={len(response_text)}")
+    print(f"\n[generate] intent={intent}  evidence_tier={evidence_tier}  retry={retry_count}  latency={latency:.0f}ms  response_len={len(response_text)}")
     print(f"[generate] response preview: {response_text[:300]!r}")
     return {"response": response_text}
 
@@ -311,12 +355,22 @@ _JUDGE_PROMPT = """\
 You are a clinical quality reviewer for a patient-facing colonoscopy preparation chatbot.
 Score the candidate response on a continuous scale from 0.0 to 1.0.
 
+Evidence tier: {evidence_tier}
+- "clinical": retrieved context contains verified clinical guidelines (AGA, FDA, drug labels).
+  Evaluate full factual accuracy against this source material.
+- "conversational_fallback": no verified clinical guideline was found. Context contains real
+  clinician dialogue examples as secondary reference. Evaluate consistency against these examples
+  but apply stricter scrutiny. Your score MUST NOT exceed 0.85 regardless of response quality,
+  reflecting the absence of verified clinical source material.
+- "none": no useful evidence found. Score should reflect that the response is operating without
+  any external grounding. Cap score at 0.70.
+
 Scoring dimensions:
-1. Factual consistency — Is every claim in the response supported by the retrieved evidence?
+1. Factual consistency — Is every claim supported by the retrieved context?
    Penalise heavily for hallucinated drug names, dosages, or instructions not in the context.
 2. Relevance — Does the response directly answer the patient's question?
 3. Absence of unsupported claims — No advice introduced beyond what the context provides.
-4. Appropriate tone for patient risk tier ({risk_tier}) — see below.
+4. Appropriate tone for patient risk tier ({risk_tier}):
    Low risk   → concise, reassuring
    Medium risk → explicit, reinforcing
    High risk   → directive, emphasises consequences, suggests care team contact when warranted
@@ -326,7 +380,7 @@ Patient question:
 
 Patient risk tier: {risk_tier} (confidence threshold: {threshold:.2f})
 
-Retrieved evidence (truncated to 2000 chars):
+Retrieved evidence:
 {context}
 
 Candidate response:
@@ -356,6 +410,7 @@ def judge_response_node(state: ChatState) -> dict:
     query = state["query"]
     response = state.get("response", "")
     combined_context = state.get("combined_context", "")
+    evidence_tier = state.get("evidence_tier", "clinical")
     risk_tier = state.get("risk_tier") or "unknown"
     threshold = _judge_threshold(risk_tier)
     current_retry = state.get("retry_count", 0)
@@ -363,6 +418,7 @@ def judge_response_node(state: ChatState) -> dict:
     context_for_judge = combined_context[:2000]
 
     prompt = _JUDGE_PROMPT.format(
+        evidence_tier=evidence_tier,
         risk_tier=risk_tier,
         threshold=threshold,
         query=query,
@@ -370,22 +426,26 @@ def judge_response_node(state: ChatState) -> dict:
         response=response,
     )
 
+    # Score ceilings by evidence tier — applied after LLM scoring
+    EVIDENCE_TIER_CEILING = {"conversational_fallback": 0.85, "none": 0.70}
+    score_ceiling = EVIDENCE_TIER_CEILING.get(evidence_tier, 1.0)
+
     t0 = time.perf_counter()
     try:
         raw = GenerativeModel(LLM_MODEL).generate_content(prompt)
         result = _parse_json_response(raw.text, {"score": 1.0, "reasoning": "parse error — failing open"})
         score = float(result.get("score", 1.0))
-        score = max(0.0, min(1.0, score))   # clamp to [0, 1]
+        score = max(0.0, min(score_ceiling, score))  # clamp to [0, ceiling]
         reasoning = str(result.get("reasoning", ""))
     except Exception as exc:
         logger.warning("[judge] Evaluation failed, failing open: %s", exc)
-        score = 1.0
+        score = score_ceiling
         reasoning = f"Judge skipped (error: {exc})"
 
     latency = 1000 * (time.perf_counter() - t0)
     passed = score >= threshold
 
-    print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  risk={risk_tier}  retry={current_retry}  latency={latency:.0f}ms")
+    print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  risk={risk_tier}  evidence_tier={evidence_tier}  retry={current_retry}  latency={latency:.0f}ms")
     print(f"[judge] reasoning: {reasoning}")
     print(f"[judge] context_chars_seen={len(context_for_judge)} / {len(combined_context)} total")
     print(f"[judge] context sent to judge:\n{context_for_judge}")
