@@ -410,12 +410,20 @@ def judge_response_node(state: ChatState) -> dict:
     query = state["query"]
     response = state.get("response", "")
     combined_context = state.get("combined_context", "")
+    clinical_context = state.get("clinical_context", "")
+    patient_context = state.get("patient_context", "")
     evidence_tier = state.get("evidence_tier", "clinical")
     risk_tier = state.get("risk_tier") or "unknown"
     threshold = _judge_threshold(risk_tier)
     current_retry = state.get("retry_count", 0)
 
-    context_for_judge = combined_context[:2000]
+    # Pass patient context + clinical context untruncated so the judge sees the
+    # complete factual basis for verification. For fallback turns the combined_context
+    # already contains only dialogue examples so we pass that directly.
+    if evidence_tier == "clinical":
+        context_for_judge = f"{patient_context}\n\nCLINICAL KNOWLEDGE BASE\n{clinical_context}"
+    else:
+        context_for_judge = combined_context
 
     prompt = _JUDGE_PROMPT.format(
         evidence_tier=evidence_tier,
@@ -438,16 +446,16 @@ def judge_response_node(state: ChatState) -> dict:
         score = max(0.0, min(score_ceiling, score))  # clamp to [0, ceiling]
         reasoning = str(result.get("reasoning", ""))
     except Exception as exc:
-        logger.warning("[judge] Evaluation failed, failing open: %s", exc)
-        score = score_ceiling
-        reasoning = f"Judge skipped (error: {exc})"
+        logger.warning("[judge] Evaluation failed, failing to retry: %s", exc)
+        score = 0.0
+        reasoning = f"Judge error — retrying: {exc}"
 
     latency = 1000 * (time.perf_counter() - t0)
     passed = score >= threshold
 
     print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  risk={risk_tier}  evidence_tier={evidence_tier}  retry={current_retry}  latency={latency:.0f}ms")
     print(f"[judge] reasoning: {reasoning}")
-    print(f"[judge] context_chars_seen={len(context_for_judge)} / {len(combined_context)} total")
+    print(f"[judge] context_chars={len(context_for_judge)}  evidence_basis={'clinical+patient' if evidence_tier == 'clinical' else evidence_tier}")
     print(f"[judge] context sent to judge:\n{context_for_judge}")
 
     update: dict = {
