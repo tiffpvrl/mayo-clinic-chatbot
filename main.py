@@ -15,12 +15,10 @@ from pydantic import BaseModel
 
 from src.graph.graph import graph
 from src.patient_data.bigquery_client import get_patient_record
-
-from pydantic import BaseModel
-from src.patient_data.bigquery_client import get_patient_record
 from src.notifications.email_templates import build_prep_email
 from src.notifications.email_service import send_email
 from src.config import EMAIL_ENABLED, DEFAULT_PATIENT_EMAIL
+from src.notifications.schedule_utils import build_demo_schedule
 
 # Initialize Vertex AI
 vertexai.init(
@@ -29,7 +27,6 @@ vertexai.init(
 )
 
 app = FastAPI()
-
 
 class ChatRequest(BaseModel):
     patient_id: str
@@ -555,6 +552,24 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
           const s = data.summary;
           console.log("[validate-patient] Summary object:", s);
           patientName = s.patient_name || s.patient_id;
+          
+          function formatDateTime(value) {
+          if (!value) return "N/A";
+
+          try {
+            const dt = new Date(value);
+            return dt.toLocaleString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            });
+          } catch {
+            return value;
+          }
+        }
           const info = [
             `Patient ID:            ${s.patient_id}`,
             `Name:                  ${s.patient_name}`,
@@ -562,9 +577,9 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
             `Gender Identity:       ${s.gender_identity}`,
             `Comorbidities:         ${s.comorbidity_descriptions}`,
             `Current Medications:   ${s.current_medications}`,
-            `Bowel Prep Start:      ${s.bowel_prep_start}`,
-            `Bowel Prep End:        ${s.bowel_prep_end}`,
-            `Colonoscopy Date/Time: ${s.colonoscopy_datetime}`,
+            `Bowel Prep Start:      ${formatDateTime(s.bowel_prep_start)}`,
+            `Bowel Prep End:        ${formatDateTime(s.bowel_prep_end)}`,
+            `Colonoscopy Date/Time: ${formatDateTime(s.colonoscopy_datetime)}`,
             `Indication:            ${s.colonoscopy_indication}`,
             `Chief Complaint:       ${s.chief_complaint}`,
             `Prep Agent:            ${s.prep_agent}`,
@@ -649,24 +664,8 @@ def validate_patient(req: ValidateRequest):
         if record is None:
             return {"valid": False}
 
-        # auto-send reminder email when patient is validated
-        email_status = "not_sent"
-        email_error = None
-
-        if EMAIL_ENABLED:
-            try:
-                email_payload = build_prep_email(record)
-                send_email(
-                    to_email=email_payload["to"],
-                    subject=email_payload["subject"],
-                    body=email_payload["body"],
-                )
-                email_status = "sent"
-                print(f"[validate-patient] Reminder email sent to {email_payload['to']}")
-            except Exception as email_exc:
-                email_status = "failed"
-                email_error = str(email_exc)
-                print(f"[validate-patient] Email send failed: {email_error}")
+        demo_schedule = build_demo_schedule(record)
+        record.update(demo_schedule)
 
         def fmt_dt(val):
             if val is None:
@@ -692,8 +691,6 @@ def validate_patient(req: ValidateRequest):
         return {
             "valid": True,
             "summary": summary,
-            "email_status": email_status,
-            "email_error": email_error,
         }
 
     except Exception as e:
@@ -712,7 +709,8 @@ def preview_prep_reminder(req: ReminderRequest):
             return {"ok": False, "error": "Patient not found."}
 
         record["patient_email"] = req.email or record.get("patient_email") or DEFAULT_PATIENT_EMAIL
-        email_payload = build_prep_email(record)
+        record.update(build_demo_schedule(record))
+        email_payload = build_prep_email(record, email_type="confirmation")
 
         return {
             "ok": True,
@@ -731,7 +729,8 @@ def send_prep_reminder(req: ReminderRequest):
             return {"ok": False, "error": "Patient not found."}
 
         record["patient_email"] = req.email or record.get("patient_email") or DEFAULT_PATIENT_EMAIL
-        email_payload = build_prep_email(record)
+        record.update(build_demo_schedule(record))
+        email_payload = build_prep_email(record, email_type="confirmation")
 
         if not EMAIL_ENABLED:
             return {
