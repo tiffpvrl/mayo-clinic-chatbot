@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.data_processing.document_processor import process_patient_kb
+from src.data_processing.document_processor import process_patient_kb, ProcessedChunk
 from src.data_processing.conversation_processor import process_conversational_dialogues
 from src.retrieval.chromadb_store import (
     clinical_collection,
@@ -47,18 +47,21 @@ def deduplicate_clinical_chunks(chunks):
     """
     Remove chunks whose normalized content is identical to a previously seen chunk.
     When duplicates exist, the first occurrence (lowest chunk_index, i.e. earliest
-    in processing order) is kept. Prints a summary of how many were removed and from
-    which source files.
+    in processing order) is kept, and its tags are merged with all duplicate chunks'
+    tags so no filter-relevant tags are lost during deduplication.
     """
-    seen: dict[str, str] = {}   # fingerprint → id of first chunk kept
+    seen: dict[str, ProcessedChunk] = {}  # fingerprint → kept chunk object
     kept = []
     dropped = []
     for chunk in chunks:
         fp = _content_fingerprint(chunk.content)
         if fp in seen:
-            dropped.append((chunk.id, seen[fp]))
+            # Merge duplicate's tags into the surviving chunk so it remains
+            # retrievable by any filter that the duplicate would have matched.
+            seen[fp].metadata.tags |= chunk.metadata.tags
+            dropped.append((chunk.id, seen[fp].id))
         else:
-            seen[fp] = chunk.id
+            seen[fp] = chunk
             kept.append(chunk)
 
     if dropped:
