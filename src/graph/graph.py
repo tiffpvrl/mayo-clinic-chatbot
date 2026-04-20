@@ -63,7 +63,6 @@ from src.graph.nodes import (
     generate_response_node,
     judge_response_node,
     retrieve_rag_node,
-    score_risk_node,
 )
 from src.graph.state import ChatState
 
@@ -79,17 +78,17 @@ def _route_after_classify(state: ChatState) -> str:
 
 
 def _route_after_patient_data(state: ChatState) -> str:
-    """Logistics stops after patient data; medical continues to risk scoring."""
+    """Logistics stops after patient data; medical continues to RAG retrieval."""
     intent = state.get("query_intent") or "medical"
     if intent == "logistics":
         return "generate_response"
-    return "score_risk"
+    return "retrieve_rag"
 
 
 def _route_after_generate(state: ChatState) -> str:
-    """Medical responses go to the judge; chitchat/logistics go straight to finalize."""
+    """Medical and logistics responses go to the judge; chitchat goes straight to finalize."""
     intent = state.get("query_intent") or "medical"
-    if intent == "medical":
+    if intent in ("medical", "logistics"):
         return "judge_response"
     return "finalize"
 
@@ -130,7 +129,6 @@ def build_graph() -> StateGraph:
     # ── Register nodes ──────────────────────────────────────────────────────────
     builder.add_node("classify_query",    classify_query_node)
     builder.add_node("fetch_patient_data", fetch_patient_data_node)
-    builder.add_node("score_risk",        score_risk_node)
     builder.add_node("retrieve_rag",      retrieve_rag_node)
     builder.add_node("generate_response", generate_response_node)
     builder.add_node("judge_response",    judge_response_node)
@@ -147,15 +145,14 @@ def build_graph() -> StateGraph:
         {"generate_response": "generate_response", "fetch_patient_data": "fetch_patient_data"},
     )
 
-    # ── Post-patient-data: logistics skips risk + RAG ───────────────────────────
+    # ── Post-patient-data: logistics skips RAG; medical continues to retrieval ────
     builder.add_conditional_edges(
         "fetch_patient_data",
         _route_after_patient_data,
-        {"generate_response": "generate_response", "score_risk": "score_risk"},
+        {"generate_response": "generate_response", "retrieve_rag": "retrieve_rag"},
     )
 
-    # ── Medical sequential path: risk → RAG → generate ──────────────────────────
-    builder.add_edge("score_risk",   "retrieve_rag")
+    # ── Medical path: fetch_patient_data → retrieve_rag → generate ──────────────
     builder.add_edge("retrieve_rag", "generate_response")
 
     # ── Post-generation: medical goes to judge; chitchat/logistics to finalize ───
