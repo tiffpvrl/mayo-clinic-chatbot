@@ -342,6 +342,84 @@ def ui():
       border: 1px solid #d4e3f1;
     }
 
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 760px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.22);
+      padding: 22px;
+    }
+
+    .modal-header {
+      margin-bottom: 14px;
+    }
+
+    .modal-header h2 {
+      margin: 0 0 6px 0;
+      font-size: 1.15rem;
+    }
+
+    .modal-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .record-box {
+      background: var(--bot);
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 16px;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      font-size: 0.96rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .modal-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .modal-btn.yes {
+      background: var(--brand);
+      color: white;
+    }
+
+    .modal-btn.no {
+      background: #fee2e2;
+      color: #b42318;
+    }
+
     @media (max-width: 900px) {
       .shell {
         grid-template-columns: 1fr;
@@ -376,23 +454,14 @@ def ui():
         </div>
 
         <div class="chat-window" id="chatWindow">
-          <div class="messages" id="messages">
-            <div class="message-row bot">
-              <div>
-                <div class="meta">MayoChat</div>
-                <div class="bubble bot">
-Hello! Please enter your Patient ID in the field below, then ask a question about your colonoscopy preparation.
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="messages" id="messages"></div>
         </div>
 
         <div class="composer">
           <form id="chatForm">
             <div class="composer-grid">
               <div>
-                <label for="patientId">Patient ID</label>
+                <label for="patientId">Verified Patient ID</label>
                 <input id="patientId" placeholder="Not yet set" readonly style="background:#f3f4f6;color:#6b7280;cursor:default;" />
               </div>
 
@@ -400,19 +469,47 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
                 <label for="query">Message</label>
                 <textarea
                   id="query"
-                  placeholder="Type your question here..."
+                  placeholder="Enter Patient ID first..."
                   required
+                  disabled
                 ></textarea>
               </div>
 
               <div>
-                <button class="send-btn" id="sendBtn" type="submit">Send</button>
+                <button class="send-btn" id="sendBtn" type="submit" disabled>Send</button>
               </div>
             </div>
             <div class="status" id="status"></div>
           </form>
         </div>
       </section>
+    </div>
+  </div>
+
+  <div class="modal-overlay show" id="verifyModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Confirm your information</h2>
+        <p>Please enter your Patient ID to begin.</p>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="modalPatientId">Patient ID</label>
+        <input id="modalPatientId" placeholder="Enter Patient ID" />
+      </div>
+
+      <div class="modal-actions" style="margin-top: 0; margin-bottom: 16px;">
+        <button class="modal-btn yes" id="lookupPatientBtn" type="button">Find My Record</button>
+      </div>
+
+      <div id="verifyError" style="margin-top:12px;color:#b42318;font-weight:600;"></div>
+
+      <div class="record-box" id="recordBox" style="display:none;"></div>
+
+      <div class="modal-actions" id="confirmActions" style="display:none;">
+        <button class="modal-btn yes" id="confirmYes" type="button">✓ Yes, looks correct</button>
+        <button class="modal-btn no" id="confirmNo" type="button">✗ No, something is wrong</button>
+      </div>
     </div>
   </div>
 
@@ -424,6 +521,14 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
     const messages = document.getElementById("messages");
     const chatWindow = document.getElementById("chatWindow");
     const statusEl = document.getElementById("status");
+    const verifyModal = document.getElementById("verifyModal");
+    const recordBox = document.getElementById("recordBox");
+    const confirmYes = document.getElementById("confirmYes");
+    const confirmNo = document.getElementById("confirmNo");
+    const modalPatientId = document.getElementById("modalPatientId");
+    const lookupPatientBtn = document.getElementById("lookupPatientBtn");
+    const verifyError = document.getElementById("verifyError");
+    const confirmActions = document.getElementById("confirmActions");
 
     let patientIdSet = false;
     let patientVerified = false;
@@ -458,104 +563,50 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
       return bubble;
     }
 
-    function addVerifyPrompt() {
-      const row = document.createElement("div");
-      row.className = "message-row bot";
-      const wrapper = document.createElement("div");
-      const meta = document.createElement("div");
-      meta.className = "meta";
-      meta.textContent = "MayoChat";
-      const bubble = document.createElement("div");
-      bubble.className = "bubble bot";
-      bubble.textContent = "Does this information look correct?";
-
-      const yesBtn = document.createElement("button");
-      yesBtn.className = "verify-btn yes";
-      yesBtn.textContent = "✓  Yes, looks correct";
-
-      const noBtn = document.createElement("button");
-      noBtn.className = "verify-btn no";
-      noBtn.textContent = "✗  No, something is wrong";
-
-      function disableBtns() {
-        yesBtn.disabled = true;
-        noBtn.disabled = true;
-      }
-
-      yesBtn.addEventListener("click", () => {
-        disableBtns();
-        addMessage("bot", `Thanks for verifying, ${patientName}! How can I help you with your colonoscopy prep today? You can ask questions like:\n• Can I take my regular medications?\n• What can I eat before the procedure?\n• What should I do if I feel nauseous during prep?`);
-        patientVerified = true;
-        queryInput.disabled = false;
-        sendBtn.disabled = false;
-        queryInput.focus();
-      });
-
-      noBtn.addEventListener("click", () => {
-        disableBtns();
-        addMessage("bot", "We're sorry about the confusion. Please contact your doctor or care team to update your records before proceeding.");
-      });
-
-      bubble.appendChild(document.createElement("br"));
-      bubble.appendChild(yesBtn);
-      bubble.appendChild(noBtn);
-      wrapper.appendChild(meta);
-      wrapper.appendChild(bubble);
-      row.appendChild(wrapper);
-      messages.appendChild(row);
-      scrollToBottom();
-    }
-
     function setLoadingState(isLoading) {
       sendBtn.disabled = isLoading;
       queryInput.disabled = isLoading;
       statusEl.textContent = isLoading ? "Thinking..." : "";
     }
 
-    document.querySelectorAll(".helper-chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        queryInput.value = chip.dataset.prompt;
-        queryInput.focus();
-      });
-    });
+    function closeVerifyModal() {
+      verifyModal.classList.remove("show");
+    }
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    async function lookupPatient() {
+      const input = modalPatientId.value.trim();
+      if (!input) {
+        verifyError.textContent = "Please enter a Patient ID.";
+        return;
+      }
 
-      const input = queryInput.value.trim();
-      if (!input) return;
-      if (patientIdSet && !patientVerified) return;
+      verifyError.textContent = "";
+      lookupPatientBtn.disabled = true;
+      lookupPatientBtn.textContent = "Looking up...";
 
-      addMessage("user", input);
-      queryInput.value = "";
-      queryInput.style.height = "52px";
+      try {
+        const res = await fetch("/validate-patient", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ patient_id: input })
+        });
 
-      // First message sets the patient ID — validate against BigQuery
-      if (!patientIdSet) {
-        setLoadingState(true);
-        try {
-          const res = await fetch("/validate-patient", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ patient_id: input })
-          });
-          const data = await res.json();
-          console.log("[validate-patient] Response:", data);
-          if (!data.valid) {
-            console.log("[validate-patient] Not valid. Error:", data.error);
-            addMessage("bot", `Patient ID "${input}" was not found. Please check your ID and try again.`);
-            return;
-          }
-          console.log("[validate-patient] Valid. Building summary...");
-          patientIdInput.value = input;
-          patientIdSet = true;
-          const s = data.summary;
-          console.log("[validate-patient] Summary object:", s);
-          patientName = s.patient_name || s.patient_id;
-          
-          function formatDateTime(value) {
+        const data = await res.json();
+
+        if (!data.valid) {
+          recordBox.style.display = "none";
+          confirmActions.style.display = "none";
+          verifyError.textContent = `Patient ID "${input}" was not found.`;
+          return;
+        }
+
+        const s = data.summary;
+        patientName = s.patient_name || s.patient_id;
+        patientIdInput.value = s.patient_id;
+        patientIdSet = true;
+
+        function formatDateTime(value) {
           if (!value) return "N/A";
-
           try {
             const dt = new Date(value);
             return dt.toLocaleString("en-US", {
@@ -570,38 +621,80 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
             return value;
           }
         }
-          const info = [
-            `Patient ID:            ${s.patient_id}`,
-            `Name:                  ${s.patient_name}`,
-            `Sex at Birth:          ${s.sex_at_birth}`,
-            `Gender Identity:       ${s.gender_identity}`,
-            `Comorbidities:         ${s.comorbidity_descriptions}`,
-            `Current Medications:   ${s.current_medications}`,
-            `Bowel Prep Start:      ${formatDateTime(s.bowel_prep_start)}`,
-            `Bowel Prep End:        ${formatDateTime(s.bowel_prep_end)}`,
-            `Colonoscopy Date/Time: ${formatDateTime(s.colonoscopy_datetime)}`,
-            `Indication:            ${s.colonoscopy_indication}`,
-            `Chief Complaint:       ${s.chief_complaint}`,
-            `Prep Agent:            ${s.prep_agent}`,
-          ].join("\\n");
-          try {
-            addMessage("bot", `Here is the record on file:\n\n${info}`);
-            console.log("[validate-patient] EHR message added.");
-            queryInput.disabled = true;
-            sendBtn.disabled = true;
-            addVerifyPrompt();
-            console.log("[validate-patient] Verify prompt added.");
-          } catch (renderErr) {
-            console.error("[validate-patient] Render error:", renderErr);
-            addMessage("bot", "Patient verified but could not display record. Please try again.");
-          }
-        } catch (err) {
-          addMessage("bot", "Could not verify patient ID. Please try again.");
-        } finally {
-          setLoadingState(false);
-        }
-        return;
+
+        const info = [
+          `Patient ID:            ${s.patient_id}`,
+          `Name:                  ${s.patient_name}`,
+          `Sex at Birth:          ${s.sex_at_birth}`,
+          `Gender Identity:       ${s.gender_identity}`,
+          `Comorbidities:         ${s.comorbidity_descriptions}`,
+          `Current Medications:   ${s.current_medications}`,
+          `Bowel Prep Start:      ${formatDateTime(s.bowel_prep_start)}`,
+          `Bowel Prep End:        ${formatDateTime(s.bowel_prep_end)}`,
+          `Colonoscopy Date/Time: ${formatDateTime(s.colonoscopy_datetime)}`,
+          `Indication:            ${s.colonoscopy_indication}`,
+          `Chief Complaint:       ${s.chief_complaint}`,
+          `Prep Agent:            ${s.prep_agent}`,
+        ].join("\\n");
+
+        recordBox.textContent = info;
+        recordBox.style.display = "block";
+        verifyModal.scrollTop = 0;
+        confirmActions.style.display = "flex";
+        verifyError.textContent = "";
+
+      } catch (err) {
+        verifyError.textContent = "Could not verify patient ID.";
+      } finally {
+        lookupPatientBtn.disabled = false;
+        lookupPatientBtn.textContent = "Find My Record";
       }
+    }
+
+    confirmYes.addEventListener("click", () => {
+      closeVerifyModal();
+      patientVerified = true;
+      queryInput.disabled = false;
+      sendBtn.disabled = false;
+      queryInput.placeholder = "Type your question here...";
+      addMessage(
+        "bot",
+        `Hi ${patientName}, how can I help you with your colonoscopy prep today?`
+      );
+      queryInput.focus();
+    });
+
+    confirmNo.addEventListener("click", () => {
+      patientVerified = false;
+      patientIdSet = false;
+      patientIdInput.value = "";
+
+      verifyError.textContent = "Please contact your doctor or care team to update your records before proceeding.";
+
+      recordBox.style.display = "none";
+      confirmActions.style.display = "none";
+      modalPatientId.value = "";
+    });
+
+    lookupPatientBtn.addEventListener("click", lookupPatient);
+
+    modalPatientId.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        lookupPatient();
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const input = queryInput.value.trim();
+      if (!input) return;
+      if (!patientVerified) return;
+
+      addMessage("user", input);
+      queryInput.value = "";
+      queryInput.style.height = "52px";
 
       const patient_id = patientIdInput.value.trim();
       const botBubble = addMessage("bot", "...");
