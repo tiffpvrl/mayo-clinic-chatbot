@@ -30,6 +30,7 @@ BATCH_SIZE = 100
 CLINICAL_TOP_K = 5
 QA_TOP_K = 2
 CONVERSATION_TOP_K = 2
+# CLINICAL_RELEVANCE_THRESHOLD = 0.5  # unused — all observed hits are well under 0.5; delete if confirmed unnecessary
 
 # Judge guardrail
 # Confidence thresholds vary by patient risk tier — higher-risk patients require

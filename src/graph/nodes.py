@@ -28,20 +28,25 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from typing import Any
 
 from vertexai.generative_models import GenerativeModel
 
 from src.config import JUDGE_DEFAULT_THRESHOLD, JUDGE_MAX_RETRIES, JUDGE_THRESHOLDS, LLM_MODEL
+# from src.config import CLINICAL_RELEVANCE_THRESHOLD  # unused — threshold never triggers in practice; delete if confirmed unnecessary
 from src.graph.state import ChatState
 from src.llm.generate_response import generate_response
 from src.patient_data.bigquery_client import get_patient_record
 from src.patient_data.patient_context import build_patient_context
 from src.retrieval.filters import build_clinical_where, extract_query_understanding
 from src.retrieval.rag import (
+    _build_augmented_query,
     format_clinical_context,
     format_conversation_context,
+    format_conversation_context_as_evidence,
     format_qa_context,
+    format_qa_context_as_evidence,
     retrieve_clinical,
     retrieve_conversations,
     retrieve_qa,
@@ -89,6 +94,7 @@ def classify_query_node(state: ChatState) -> dict:
     Also resets retry_count to 0 so the judge retry loop from a previous turn
     does not carry over into the current one.
     """
+    t0 = time.perf_counter()
     query = state["query"]
 
     prompt = _CLASSIFIER_PROMPT.format(query=query)
@@ -104,54 +110,47 @@ def classify_query_node(state: ChatState) -> dict:
 
     is_follow_up = len(state.get("chat_history") or []) > 0
 
-    print(f"[classify] intent={intent!r}  is_follow_up={is_follow_up}")
+    print(f"[classify] intent={intent!r}  is_follow_up={is_follow_up}  latency={1000*(time.perf_counter()-t0):.0f}ms")
     return {
         "query_intent": intent,
         "is_follow_up": is_follow_up,
-        "retry_count": 0,       # reset for this turn
+        "retry_count": 0,
         "escalated": False,
         "judge_score": None,
         "judge_reasoning": None,
+        "turn_start_time": t0,
     }
 
 
 # ── 2. Patient Data ────────────────────────────────────────────────────────────
 
 def fetch_patient_data_node(state: ChatState) -> dict:
-    """Fetch patient record from BigQuery and build patient context string."""
+    """Fetch patient record from BigQuery and build patient context string.
+    On follow-up turns the record is already in the checkpoint — skip BigQuery.
+    """
+    t0 = time.perf_counter()
     patient_id = state["patient_id"]
+
+    if state.get("patient_record"):
+        print(f"[patient_data] patient_id={patient_id}  cache_hit=True  latency=0ms")
+        return {}
+
     patient_record = get_patient_record(patient_id)
     patient_context = (
         build_patient_context(patient_record)
         if patient_record
         else "No patient-specific data found."
     )
-    print(f"[patient_data] patient_id={patient_id}  found={patient_record is not None}")
-    return {"patient_record": patient_record, "patient_context": patient_context}
-
-
-# ── 3. Risk Scoring ────────────────────────────────────────────────────────────
-
-def score_risk_node(state: ChatState) -> dict:
-    """
-    Read precomputed risk tier from BigQuery (no live model scoring).
-    """
-    patient_record = state.get("patient_record")
-
-    if not patient_record:
-        return {"risk_tier": None, "risk_probability": None}
-
-    # Pull stored values
-    risk_tier = patient_record.get("risk_tier")
-    risk_probability = patient_record.get("predicted_inadequate_risk")
-
-    # Normalize formatting
+    risk_tier = patient_record.get("risk_tier") if patient_record else None
     if isinstance(risk_tier, str):
         risk_tier = risk_tier.capitalize()
+    risk_probability = patient_record.get("predicted_inadequate_risk") if patient_record else None
 
+    print(f"[patient_data] patient_id={patient_id}  found={patient_record is not None}  latency={1000*(time.perf_counter()-t0):.0f}ms")
     print(f"[risk] tier={risk_tier}  probability={risk_probability}")
-
     return {
+        "patient_record": patient_record,
+        "patient_context": patient_context,
         "risk_tier": risk_tier,
         "risk_probability": risk_probability,
     }
@@ -164,6 +163,7 @@ def retrieve_rag_node(state: ChatState) -> dict:
     Run the full three-collection RAG pipeline (clinical, Q&A, conversations).
     Query understanding is extracted once and reused by all three retrievers.
     """
+    t0 = time.perf_counter()
     query = state["query"]
     patient_record: Any = state.get("patient_record")
     risk_tier = state.get("risk_tier")
@@ -172,6 +172,8 @@ def retrieve_rag_node(state: ChatState) -> dict:
     query_understanding = extract_query_understanding(query)
     query_where = build_clinical_where(query_understanding)
     wants_research = bool(query_understanding.get("wants_research", False))
+    augmented_query = _build_augmented_query(query, patient_record) if patient_record else query
+    t_understand = time.perf_counter()
 
     clinical_hits = retrieve_clinical(
         query,
@@ -179,15 +181,43 @@ def retrieve_rag_node(state: ChatState) -> dict:
         query_where=query_where,
         wants_research=wants_research,
     )
-    qa_hits = retrieve_qa(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
-    conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up, risk_tier=risk_tier)
+    t_clinical = time.perf_counter()
+
+    qa_hits = retrieve_qa(query, is_follow_up=is_follow_up, risk_tier=risk_tier, augmented_query=augmented_query)
+    conversation_hits = retrieve_conversations(query, is_follow_up=is_follow_up, risk_tier=risk_tier, augmented_query=augmented_query)
+    t_retrieval = time.perf_counter()
 
     clinical_context = format_clinical_context(clinical_hits)
     qa_context = format_qa_context(qa_hits)
     conversation_context = format_conversation_context(conversation_hits)
     patient_context = state.get("patient_context", "")
 
-    combined_context = f"""PATIENT-SPECIFIC CONTEXT
+    # ── Evidence tier detection ────────────────────────────────────────────────
+    best_clinical_dist = clinical_hits[0]["distance"] if clinical_hits else None
+    clinical_absent = len(clinical_hits) == 0
+    # clinical_weak = best_clinical_dist is not None and best_clinical_dist > CLINICAL_RELEVANCE_THRESHOLD  # threshold never triggers; delete if confirmed unnecessary
+    clinical_weak = False
+
+    if clinical_absent or clinical_weak:
+        has_conversational = bool(qa_hits or conversation_hits)
+        evidence_tier = "conversational_fallback" if has_conversational else "none"
+        fallback_reason = "no_clinical_hits" if clinical_absent else f"weak_clinical(dist={best_clinical_dist:.3f})"
+
+        dialogue_blocks = [
+            format_qa_context_as_evidence(qa_hits),
+            format_conversation_context_as_evidence(conversation_hits),
+        ]
+        dialogue_context = "\n\n---\n\n".join(b for b in dialogue_blocks if b)
+
+        combined_context = f"""PATIENT-SPECIFIC CONTEXT
+{patient_context}
+
+CLINICIAN DIALOGUE EXAMPLES (no verified clinical guideline found — use as secondary reference only)
+{dialogue_context or "No relevant examples found."}""".strip()
+    else:
+        evidence_tier = "clinical"
+        fallback_reason = None
+        combined_context = f"""PATIENT-SPECIFIC CONTEXT
 {patient_context}
 
 CLINICAL KNOWLEDGE BASE
@@ -198,6 +228,16 @@ SIMILAR Q&A EXAMPLES
 
 SIMILAR CONVERSATION FLOWS
 {conversation_context}""".strip()
+
+    print(f"[rag] query_understanding={query_understanding}")
+    print(f"[rag] chroma_filter={query_where}  wants_research={wants_research}")
+    print(f"[rag] latency — understand={1000*(t_understand-t0):.0f}ms  clinical={1000*(t_clinical-t_understand):.0f}ms  qa+conv={1000*(t_retrieval-t_clinical):.0f}ms  total={1000*(t_retrieval-t0):.0f}ms")
+    print(f"[rag] hits — clinical={len(clinical_hits)}  qa={len(qa_hits)}  conversation={len(conversation_hits)}")
+    print(f"[rag] evidence_tier={evidence_tier}" + (f"  reason={fallback_reason}" if fallback_reason else ""))
+    for i, h in enumerate(clinical_hits):
+        m = h["metadata"]
+        print(f"  [{i+1}] dist={h['distance']:.4f}  org={m.get('organization','')}  type={m.get('document_type','')}  section={m.get('section_title','')[:50]}")
+    print(f"[rag] combined_context={len(combined_context)} chars")
 
     return {
         "query_understanding": query_understanding,
@@ -210,6 +250,7 @@ SIMILAR CONVERSATION FLOWS
         "qa_context": qa_context,
         "conversation_context": conversation_context,
         "combined_context": combined_context,
+        "evidence_tier": evidence_tier,
     }
 
 
@@ -224,6 +265,19 @@ about their colonoscopy preparation whenever they are ready.
 Patient message: {query}
 
 Response:"""
+
+
+def _format_history(chat_history: list, max_turns: int = 2) -> str:
+    """Return the last `max_turns` exchanges formatted for the generate prompt."""
+    if not chat_history:
+        return ""
+    recent = chat_history[-(max_turns * 2):]
+    lines = ["RECENT CONVERSATION HISTORY"]
+    for msg in recent:
+        role = "Patient" if msg.get("role") == "user" else "Assistant"
+        lines.append(f"{role}: {msg.get('content', '').strip()}")
+    lines.append("")
+    return "\n".join(lines) + "\n"
 
 
 def generate_response_node(state: ChatState) -> dict:
@@ -260,6 +314,8 @@ def generate_response_node(state: ChatState) -> dict:
             )
         return ""
 
+    t0 = time.perf_counter()
+
     if intent == "chitchat":
         prompt = _CHITCHAT_PROMPT.format(query=query)
         try:
@@ -271,15 +327,41 @@ def generate_response_node(state: ChatState) -> dict:
 
     elif intent == "logistics":
         patient_context = state.get("patient_context", "No patient data available.")
-        context = _retry_prefix() + f"PATIENT-SPECIFIC CONTEXT\n{patient_context}"
+        history_text = _format_history(state.get("chat_history") or [])
+        context = _retry_prefix() + f"PATIENT-SPECIFIC CONTEXT\n{patient_context}" + history_text
         response_text = generate_response(query, context)
 
     else:
         combined_context = state.get("combined_context", "")
-        context = _retry_prefix() + combined_context
+        evidence_tier = state.get("evidence_tier", "clinical")
+        if evidence_tier == "conversational_fallback":
+            fallback_note = (
+                "[EVIDENCE NOTE] No verified clinical guideline was found for this query. "
+                "The context below contains real clinician dialogue examples as secondary reference. "
+                "Do not cite formal guidelines. Acknowledge the limitation briefly and recommend "
+                "the patient confirm with their care team for definitive guidance.\n\n"
+            )
+        elif evidence_tier == "none":
+            fallback_note = (
+                "[EVIDENCE NOTE] No relevant clinical or dialogue evidence was found for this query. "
+                "Respond only from the patient context provided and direct the patient to their care team.\n\n"
+            )
+        else:
+            fallback_note = (
+                "[MEDICATION SPECIFICITY] The retrieved clinical context may contain instructions "
+                "for multiple medication types (e.g., both insulin and oral diabetes medications). "
+                "Only apply medication-specific instructions that match the patient's CURRENT MEDICATIONS "
+                "listed above. Do not apply insulin-specific instructions to a patient who is not on insulin, "
+                "and do not reference or advise on medications not present in the patient's medication list.\n\n"
+            )
+        history_text = _format_history(state.get("chat_history") or [])
+        context = _retry_prefix() + fallback_note + history_text + combined_context
         response_text = generate_response(query, context)
 
-    print(f"[generate] intent={intent}  retry={retry_count}  response_len={len(response_text)}")
+    evidence_tier = state.get("evidence_tier", "clinical")
+    latency = 1000 * (time.perf_counter() - t0)
+    print(f"\n[generate] intent={intent}  evidence_tier={evidence_tier}  retry={retry_count}  latency={latency:.0f}ms  response_len={len(response_text)}")
+    print(f"[generate] response preview: {response_text[:300]!r}")
     return {"response": response_text}
 
 
@@ -289,12 +371,27 @@ _JUDGE_PROMPT = """\
 You are a clinical quality reviewer for a patient-facing colonoscopy preparation chatbot.
 Score the candidate response on a continuous scale from 0.0 to 1.0.
 
+Intent: {intent}
+Evidence tier: {evidence_tier}
+- "clinical": retrieved context contains verified clinical guidelines (AGA, FDA, drug labels).
+  Evaluate full factual accuracy against this source material.
+- "conversational_fallback": no verified clinical guideline was found. Context contains real
+  clinician dialogue examples as secondary reference. Evaluate consistency against these examples
+  but apply stricter scrutiny. Your score MUST NOT exceed 0.85 regardless of response quality,
+  reflecting the absence of verified clinical source material.
+- "none": no useful evidence found. Score should reflect that the response is operating without
+  any external grounding. Cap score at 0.70.
+- "logistics": no clinical retrieval was performed. The response is based solely on the patient's
+  EHR record. Evaluate whether the response accurately reflects the patient data provided (dates,
+  times, prep agent, medications). Penalise heavily for any date, time, or factual detail that
+  contradicts the patient record.
+
 Scoring dimensions:
-1. Factual consistency — Is every claim in the response supported by the retrieved evidence?
+1. Factual consistency — Is every claim supported by the retrieved context?
    Penalise heavily for hallucinated drug names, dosages, or instructions not in the context.
 2. Relevance — Does the response directly answer the patient's question?
 3. Absence of unsupported claims — No advice introduced beyond what the context provides.
-4. Appropriate tone for patient risk tier ({risk_tier}) — see below.
+4. Appropriate tone for patient risk tier ({risk_tier}):
    Low risk   → concise, reassuring
    Medium risk → explicit, reinforcing
    High risk   → directive, emphasises consequences, suggests care team contact when warranted
@@ -304,7 +401,7 @@ Patient question:
 
 Patient risk tier: {risk_tier} (confidence threshold: {threshold:.2f})
 
-Retrieved evidence (truncated to 2000 chars):
+Retrieved evidence:
 {context}
 
 Candidate response:
@@ -332,34 +429,61 @@ def judge_response_node(state: ChatState) -> dict:
     blocks a valid patient response.
     """
     query = state["query"]
+    intent = state.get("query_intent") or "medical"
     response = state.get("response", "")
     combined_context = state.get("combined_context", "")
+    clinical_context = state.get("clinical_context", "")
+    patient_context = state.get("patient_context", "")
     risk_tier = state.get("risk_tier") or "unknown"
     threshold = _judge_threshold(risk_tier)
     current_retry = state.get("retry_count", 0)
 
+    history_text = _format_history(state.get("chat_history") or [])
+
+    # For logistics, no clinical retrieval was performed — judge evaluates against patient record only.
+    if intent == "logistics":
+        evidence_tier = "logistics"
+        context_for_judge = history_text + patient_context
+    elif state.get("evidence_tier") == "clinical":
+        evidence_tier = "clinical"
+        context_for_judge = history_text + f"{patient_context}\n\nCLINICAL KNOWLEDGE BASE\n{clinical_context}"
+    else:
+        evidence_tier = state.get("evidence_tier", "none")
+        context_for_judge = history_text + combined_context
+
     prompt = _JUDGE_PROMPT.format(
+        intent=intent,
+        evidence_tier=evidence_tier,
         risk_tier=risk_tier,
         threshold=threshold,
         query=query,
-        context=combined_context[:2000],
+        context=context_for_judge,
         response=response,
     )
 
+    # Score ceilings by evidence tier — applied after LLM scoring
+    EVIDENCE_TIER_CEILING = {"conversational_fallback": 0.85, "none": 0.70}
+    score_ceiling = EVIDENCE_TIER_CEILING.get(evidence_tier, 1.0)
+
+    t0 = time.perf_counter()
     try:
         raw = GenerativeModel(LLM_MODEL).generate_content(prompt)
         result = _parse_json_response(raw.text, {"score": 1.0, "reasoning": "parse error — failing open"})
         score = float(result.get("score", 1.0))
-        score = max(0.0, min(1.0, score))   # clamp to [0, 1]
+        score = max(0.0, min(score_ceiling, score))  # clamp to [0, ceiling]
         reasoning = str(result.get("reasoning", ""))
     except Exception as exc:
-        logger.warning("[judge] Evaluation failed, failing open: %s", exc)
-        score = 1.0
-        reasoning = f"Judge skipped (error: {exc})"
+        logger.warning("[judge] Evaluation failed, failing to retry: %s", exc)
+        score = 0.0
+        reasoning = f"Judge error — retrying: {exc}"
 
+    latency = 1000 * (time.perf_counter() - t0)
     passed = score >= threshold
-    print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  "
-          f"retry={current_retry}  reasoning={reasoning!r}")
+
+    print(f"[judge] score={score:.3f}  threshold={threshold:.2f}  passed={passed}  risk={risk_tier}  evidence_tier={evidence_tier}  retry={current_retry}  latency={latency:.0f}ms")
+    print(f"[judge] reasoning: {reasoning}")
+    print(f"[judge] context_chars={len(context_for_judge)}  evidence_basis={'clinical+patient' if evidence_tier == 'clinical' else evidence_tier}")
+    print(f"[judge] context sent to judge:\n{context_for_judge}")
 
     update: dict = {
         "judge_score": score,
@@ -378,7 +502,8 @@ def judge_response_node(state: ChatState) -> dict:
 _ESCALATION_MESSAGE = (
     "I wasn't able to generate a confident enough answer to your question after multiple attempts. "
     "To make sure you receive accurate guidance, your care team has been notified and will follow "
-    "up with you directly. Please do not make any changes to your preparation until you hear from them."
+    "up with you directly. Please do not make any changes to your preparation until you hear from them. "
+    "If you need to reach us sooner, please call (555) 012-3456."
 )
 
 
@@ -413,8 +538,10 @@ def finalize_node(state: ChatState) -> dict:
     query = state["query"]
     response = state.get("response", "")
     escalated = state.get("escalated", False)
+    turn_start = state.get("turn_start_time")
+    total_ms = f"{1000*(time.perf_counter()-turn_start):.0f}ms" if turn_start else "n/a"
 
-    print(f"[finalize] escalated={escalated}  history_len={len(state.get('chat_history') or [])}")
+    print(f"[finalize] escalated={escalated}  response_len={len(response)}  total_turn_latency={total_ms}  history_len={len(state.get('chat_history') or [])}")
 
     new_messages = [
         {"role": "user", "content": query},

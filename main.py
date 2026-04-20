@@ -487,7 +487,7 @@ Hello! Please enter your Patient ID in the field below, then ask a question abou
 
       yesBtn.addEventListener("click", () => {
         disableBtns();
-        addMessage("bot", `Thanks for verifying, ${patientName}! How can I help you with your colonoscopy prep today? You can ask questions like:\n• Can I take my regular medications?\n• What can I eat before the procedure?\n• What should I do if I feel nauseous during prep?\n• How long does the procedure take?`);
+        addMessage("bot", `Thanks for verifying, ${patientName}! How can I help you with your colonoscopy prep today? You can ask questions like:\n• Can I take my regular medications?\n• What can I eat before the procedure?\n• What should I do if I feel nauseous during prep?`);
         patientVerified = true;
         queryInput.disabled = false;
         sendBtn.disabled = false;
@@ -765,7 +765,6 @@ def chat(req: ChatRequest):
             {
                 "query": req.query,
                 "patient_id": req.patient_id,
-                "chat_history": [],
                 "retry_count": 0,
                 "max_retries": 2,
                 "escalated": False,
