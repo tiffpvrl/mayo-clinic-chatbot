@@ -238,30 +238,6 @@ def _query_collection_with_embeddings(collection: Any, query_embedding: list, to
     return hits
 
 
-def _union_query(collection: Any, query_embedding: list, top_k: int, where: Any) -> list[dict]:
-    """
-    Run both a filtered and an unfiltered query, merge by best distance per
-    unique chunk ID, and return the top_k results sorted by distance.
-
-    This ensures chunks missed by incomplete tagging are still retrievable
-    when a more semantically similar unfiltered result exists.
-    If no filter is provided, falls through to a single unfiltered query.
-    """
-    unfiltered = _query_collection(collection, query_embedding, top_k, None)
-    if where is None:
-        return unfiltered
-
-    filtered = _query_collection(collection, query_embedding, top_k, where)
-
-    best: dict[str, dict] = {}
-    for hit in filtered + unfiltered:
-        id_ = hit["id"]
-        if id_ not in best or hit["distance"] < best[id_]["distance"]:
-            best[id_] = hit
-
-    return sorted(best.values(), key=lambda h: h["distance"])[:top_k]
-
-
 def _union_query_with_embeddings(collection: Any, query_embedding: list, fetch_k: int, where: Any) -> list[dict]:
     """
     Like _union_query but fetches embeddings for diversity filtering.
@@ -364,6 +340,7 @@ def retrieve_clinical(
     where: Any = None
     try:
         if query_where is None:
+            logger.warning("[clinical] query_where not provided — falling back to extract_filters (extra LLM call)")
             query_where = extract_filters(query)
         patient_where = extract_patient_filters(patient_record) if patient_record else None
         if query_where and patient_where:
@@ -375,11 +352,14 @@ def retrieve_clinical(
 
     print(f"[clinical] augmented_query={augmented_query!r}")
     print(f"[clinical] patient_filter={patient_where}  combined_filter={where}")
-    hits = _union_query(clinical_collection, query_embedding, top_k, where)
+    fetch_k = top_k * DIVERSITY_FETCH_MULTIPLIER
+    candidates = _union_query_with_embeddings(clinical_collection, query_embedding, fetch_k, where)
+    hits = _diversify_hits(candidates, top_k, DIVERSITY_SIMILARITY_THRESHOLD)
+    print(f"[clinical] fetched={len(candidates)}  after_diversity={len(hits)}  threshold={DIVERSITY_SIMILARITY_THRESHOLD}")
     return postprocess_hits(hits, wants_research=wants_research)
 
 
-def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
+def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None, augmented_query: str | None = None) -> list[dict]:
     """
     Retrieve turn-level Q&A examples from qa_collection.
     Used for tone/phrasing reference — caller surfaces clinician_response from metadata.
@@ -387,12 +367,14 @@ def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = N
     Over-fetches by DIVERSITY_FETCH_MULTIPLIER then applies cosine-similarity diversity
     filtering so the returned top_k examples are semantically distinct from each other.
 
+    augmented_query: when provided, used for embedding instead of raw query so the
+        vector reflects the patient's specific context (conditions, prep agent, timing).
     is_follow_up: when provided, filters examples to the same turn state —
         True  → retrieve follow-up turn examples (turn_number > 1)
         False → retrieve first-turn examples
         None  → no filter (default)
     """
-    query_embedding = embedder.encode([query])[0]
+    query_embedding = embedder.encode([augmented_query or query])[0]
     fetch_k = top_k * DIVERSITY_FETCH_MULTIPLIER
     where: Any = None
     try:
@@ -412,7 +394,7 @@ def retrieve_qa(query: str, top_k: int = QA_TOP_K, is_follow_up: bool | None = N
     return diverse
 
 
-def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None) -> list[dict]:
+def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follow_up: bool | None = None, risk_tier: str | None = None, augmented_query: str | None = None) -> list[dict]:
     """
     Retrieve full conversation threads from conversation_collection.
     Used for multi-turn flow reference — shows how similar questions were handled end-to-end.
@@ -420,12 +402,14 @@ def retrieve_conversations(query: str, top_k: int = CONVERSATION_TOP_K, is_follo
     Over-fetches by DIVERSITY_FETCH_MULTIPLIER then applies cosine-similarity diversity
     filtering so returned threads are semantically distinct from each other.
 
+    augmented_query: when provided, used for embedding instead of raw query so the
+        vector reflects the patient's specific context (conditions, prep agent, timing).
     is_follow_up: when True, restricts results to multi-turn conversations
         (demonstrates_multi_turn=True) so the LLM sees flow examples that
         actually demonstrate follow-up handling.
         False/None → no filter on demonstrates_multi_turn.
     """
-    query_embedding = embedder.encode([query])[0]
+    query_embedding = embedder.encode([augmented_query or query])[0]
     fetch_k = top_k * DIVERSITY_FETCH_MULTIPLIER
     where: Any = None
     try:
