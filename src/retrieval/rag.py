@@ -152,13 +152,16 @@ def postprocess_hits(hits: list[dict], wants_research: bool = False) -> list[dic
 
         # Drop chunks that look primarily administrative/contact-oriented
         if contact_flag and admin_flag:
+            print(f"[postprocess] DROP contact+admin | dist={hit.get('distance', '?'):.3f} | org={metadata.get('organization')} | section={metadata.get('section_title', '')[:60]}")
             continue
 
         # Drop research-background chunks unless the patient is explicitly asking
         # for trial/study evidence — these are not appropriate for routine patient queries
         if not wants_research and is_research_background_metadata(metadata):
+            print(f"[postprocess] DROP research    | dist={hit.get('distance', '?'):.3f} | audience_tier={metadata.get('audience_tier')} | section={metadata.get('section_title', '')[:60]}")
             continue
 
+        print(f"[postprocess] KEEP              | dist={hit.get('distance', '?'):.3f} | doc_type={metadata.get('document_type')} | audience_tier={metadata.get('audience_tier')} | section={metadata.get('section_title', '')[:60]}")
         hit["metadata"] = metadata
         cleaned.append(hit)
 
@@ -240,23 +243,39 @@ def _query_collection_with_embeddings(collection: Any, query_embedding: list, to
 
 def _union_query_with_embeddings(collection: Any, query_embedding: list, fetch_k: int, where: Any) -> list[dict]:
     """
-    Like _union_query but fetches embeddings for diversity filtering.
-    Merges filtered and unfiltered results by best distance per unique chunk ID.
-    If no filter is provided, falls through to a single unfiltered query.
+    Fetch candidates for diversity filtering, prioritising filtered hits.
+
+    When a filter is provided:
+    - Run the filtered query first (patient_instructions / clinician_guideline chunks).
+    - Only supplement with unfiltered results when the filtered pass returns fewer
+      than fetch_k hits, so research/background chunks never displace patient-facing
+      ones when the KB has enough relevant content.
+    - When supplementing, filtered hits are ordered before unfiltered hits so that
+      _diversify_hits processes preferred chunks first and research chunks only
+      fill remaining diversity slots.
     """
-    unfiltered = _query_collection_with_embeddings(collection, query_embedding, fetch_k, None)
     if where is None:
-        return unfiltered
+        results = _query_collection_with_embeddings(collection, query_embedding, fetch_k, None)
+        print(f"[union] no filter — unfiltered_only={len(results)}")
+        return results
 
     filtered = _query_collection_with_embeddings(collection, query_embedding, fetch_k, where)
+    print(f"[union] filtered={len(filtered)}  fetch_k={fetch_k}  sufficient={len(filtered) >= fetch_k}")
+    if len(filtered) >= fetch_k:
+        return filtered
 
-    best: dict[str, dict] = {}
-    for hit in filtered + unfiltered:
-        id_ = hit["id"]
-        if id_ not in best or hit["distance"] < best[id_]["distance"]:
-            best[id_] = hit
-
-    return sorted(best.values(), key=lambda h: h["distance"])[:fetch_k]
+    # Filtered pass came up short — supplement with unfiltered results.
+    unfiltered = _query_collection_with_embeddings(collection, query_embedding, fetch_k, None)
+    filtered_ids = {h["id"] for h in filtered}
+    extras = sorted(
+        [h for h in unfiltered if h["id"] not in filtered_ids],
+        key=lambda h: h["distance"],
+    )
+    print(f"[union] supplementing — filtered={len(filtered)}  unfiltered_new={len(extras)}  total={len(filtered) + len(extras)}")
+    for h in extras[:5]:
+        meta = h.get("metadata", {})
+        print(f"[union]   extra chunk | dist={h['distance']:.3f} | audience_tier={meta.get('audience_tier')} | doc_type={meta.get('document_type')} | section={meta.get('section_title','')[:50]}")
+    return (filtered + extras)[:fetch_k]
 
 
 def _build_augmented_query(query: str, patient_record: dict) -> str:

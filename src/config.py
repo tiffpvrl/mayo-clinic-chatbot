@@ -14,7 +14,7 @@ EMBEDDING_MODEL = "mini_lm"
 
 # LLM settings
 LLM_PROVIDER = "vertex"
-LLM_MODEL = "gemini-2.0-flash"
+LLM_MODEL = "gemini-2.5-flash"
 
 # Vector DB = chromadb (absolute path so uvicorn/cron/index_kb share one store)
 CHROMA_PATH = str(_REPO_ROOT / "src" / "retrieval" / "vector_storage" / "chroma_db")

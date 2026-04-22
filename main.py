@@ -8,6 +8,8 @@ Handles:
 - RAG retrieval + response generation
 """
 
+from typing import Any
+
 import vertexai
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -27,6 +29,43 @@ vertexai.init(
 )
 
 app = FastAPI()
+
+# Patient-facing source rows (excludes conversational_example metadata if present in clinical index).
+_CONVERSATIONAL_DOC_TYPE = "conversational_example"
+_CLINICAL_SNIPPET_UI_MAX = 200
+
+
+def _build_clinical_sources_for_ui(clinical_hits: list[Any]) -> list[dict[str, str]]:
+    """organization, title, and a short snippet for the UI. Skips conversational document types."""
+    rows: list[dict[str, str]] = []
+    for h in clinical_hits:
+        meta = h.get("metadata") or {}
+        if (meta.get("document_type") or "").strip() == _CONVERSATIONAL_DOC_TYPE:
+            continue
+        doc = (h.get("document") or "").strip()
+        org = (meta.get("organization") or "").strip()
+        section = (meta.get("section_title") or "").strip()
+        doc_type = (meta.get("document_type") or "").strip()
+        if section:
+            title = section
+        elif doc_type and doc_type not in ("", "unknown"):
+            title = doc_type.replace("_", " ").title()
+        else:
+            title = (doc[:60] + "…") if len(doc) > 60 else doc
+        if not title:
+            title = "Clinical source"
+        snippet = doc
+        if len(snippet) > _CLINICAL_SNIPPET_UI_MAX:
+            snippet = snippet[: _CLINICAL_SNIPPET_UI_MAX - 1].rstrip() + "…"
+        rows.append(
+            {
+                "organization": org,
+                "title": title,
+                "snippet": snippet,
+            }
+        )
+    return rows
+
 
 class ChatRequest(BaseModel):
     patient_id: str
@@ -187,6 +226,76 @@ def ui():
       background: var(--bot);
       border-color: #e5e7eb;
       border-bottom-left-radius: 6px;
+    }
+
+    .clinical-sources {
+      margin-top: 8px;
+      max-width: 100%;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      background: #fafbfc;
+      font-size: 0.88rem;
+    }
+
+    .clinical-sources > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 8px 12px;
+      font-weight: 600;
+      color: var(--brand);
+      user-select: none;
+    }
+
+    .clinical-sources > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .clinical-sources > summary::before {
+      content: "▸";
+      display: inline-block;
+      margin-right: 6px;
+      transition: transform 0.15s ease;
+      color: var(--muted);
+    }
+
+    .clinical-sources[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    .clinical-sources-list {
+      padding: 0 12px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .clinical-source-item {
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid #eef2f7;
+    }
+
+    .clinical-source-org {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .clinical-source-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    .clinical-source-snippet {
+      font-size: 0.84rem;
+      color: #4b5563;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .meta {
@@ -560,7 +669,40 @@ def ui():
       messages.appendChild(row);
       scrollToBottom();
 
-      return bubble;
+      return { bubble, wrapper };
+    }
+
+    function attachClinicalSources(wrapper, sources) {
+      if (!sources || !sources.length) return;
+      const details = document.createElement("details");
+      details.className = "clinical-sources";
+      const summary = document.createElement("summary");
+      summary.textContent = "View clinical sources";
+      details.appendChild(summary);
+      const list = document.createElement("div");
+      list.className = "clinical-sources-list";
+      for (const s of sources) {
+        const item = document.createElement("div");
+        item.className = "clinical-source-item";
+        const org = (s.organization || "").trim();
+        if (org) {
+          const orgEl = document.createElement("div");
+          orgEl.className = "clinical-source-org";
+          orgEl.textContent = org;
+          item.appendChild(orgEl);
+        }
+        const titleEl = document.createElement("div");
+        titleEl.className = "clinical-source-title";
+        titleEl.textContent = s.title || "Source";
+        item.appendChild(titleEl);
+        const sn = document.createElement("div");
+        sn.className = "clinical-source-snippet";
+        sn.textContent = s.snippet || "";
+        item.appendChild(sn);
+        list.appendChild(item);
+      }
+      details.appendChild(list);
+      wrapper.appendChild(details);
     }
 
     function setLoadingState(isLoading) {
@@ -697,7 +839,7 @@ def ui():
       queryInput.style.height = "52px";
 
       const patient_id = patientIdInput.value.trim();
-      const botBubble = addMessage("bot", "...");
+      const { bubble: botBubble, wrapper: botWrapper } = addMessage("bot", "...");
       setLoadingState(true);
 
       try {
@@ -711,14 +853,17 @@ def ui():
 
         if (data.error) {
           botBubble.textContent = data.error;
-          botBubble.parentElement.parentElement.querySelector(".meta").textContent = "System";
+          botWrapper.querySelector(".meta").textContent = "System";
           statusEl.innerHTML = '<span class="error">Request completed with an error.</span>';
         } else {
           botBubble.textContent = data.answer || "No answer returned.";
+          if (data.clinical_sources && data.clinical_sources.length) {
+            attachClinicalSources(botWrapper, data.clinical_sources);
+          }
         }
       } catch (err) {
         botBubble.textContent = "Something went wrong while contacting the server.";
-        botBubble.parentElement.parentElement.querySelector(".meta").textContent = "System";
+        botWrapper.querySelector(".meta").textContent = "System";
         statusEl.innerHTML = '<span class="error">Network or server error.</span>';
       } finally {
         setLoadingState(false);
@@ -880,6 +1025,7 @@ def chat(req: ChatRequest):
         print("==========================================\n")
 
         clinical_hits = result.get("clinical_hits") or []
+        clinical_sources = _build_clinical_sources_for_ui(clinical_hits)
         sources = [
             {
                 "id": h.get("id"),
@@ -892,6 +1038,7 @@ def chat(req: ChatRequest):
         return {
             "query": req.query,
             "answer": result.get("response", ""),
+            "clinical_sources": clinical_sources,
             "debug": {
                 "intent": intent,
                 "num_chunks": len(clinical_hits),
