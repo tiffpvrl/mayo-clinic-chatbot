@@ -8,8 +8,6 @@ Handles:
 - RAG retrieval + response generation
 """
 
-from typing import Any
-
 import vertexai
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -21,6 +19,7 @@ from src.notifications.email_templates import build_prep_email
 from src.notifications.email_service import send_email
 from src.config import EMAIL_ENABLED, DEFAULT_PATIENT_EMAIL
 from src.notifications.schedule_utils import build_demo_schedule
+from src.retrieval.source_display import build_patient_facing_clinical_sources
 
 # Initialize Vertex AI
 vertexai.init(
@@ -29,43 +28,6 @@ vertexai.init(
 )
 
 app = FastAPI()
-
-# Patient-facing source rows (excludes conversational_example metadata if present in clinical index).
-_CONVERSATIONAL_DOC_TYPE = "conversational_example"
-_CLINICAL_SNIPPET_UI_MAX = 200
-
-
-def _build_clinical_sources_for_ui(clinical_hits: list[Any]) -> list[dict[str, str]]:
-    """organization, title, and a short snippet for the UI. Skips conversational document types."""
-    rows: list[dict[str, str]] = []
-    for h in clinical_hits:
-        meta = h.get("metadata") or {}
-        if (meta.get("document_type") or "").strip() == _CONVERSATIONAL_DOC_TYPE:
-            continue
-        doc = (h.get("document") or "").strip()
-        org = (meta.get("organization") or "").strip()
-        section = (meta.get("section_title") or "").strip()
-        doc_type = (meta.get("document_type") or "").strip()
-        if section:
-            title = section
-        elif doc_type and doc_type not in ("", "unknown"):
-            title = doc_type.replace("_", " ").title()
-        else:
-            title = (doc[:60] + "…") if len(doc) > 60 else doc
-        if not title:
-            title = "Clinical source"
-        snippet = doc
-        if len(snippet) > _CLINICAL_SNIPPET_UI_MAX:
-            snippet = snippet[: _CLINICAL_SNIPPET_UI_MAX - 1].rstrip() + "…"
-        rows.append(
-            {
-                "organization": org,
-                "title": title,
-                "snippet": snippet,
-            }
-        )
-    return rows
-
 
 class ChatRequest(BaseModel):
     patient_id: str
@@ -276,7 +238,7 @@ def ui():
       border: 1px solid #eef2f7;
     }
 
-    .clinical-source-org {
+    .clinical-source-name {
       font-size: 0.78rem;
       font-weight: 600;
       color: var(--muted);
@@ -684,12 +646,12 @@ def ui():
       for (const s of sources) {
         const item = document.createElement("div");
         item.className = "clinical-source-item";
-        const org = (s.organization || "").trim();
-        if (org) {
-          const orgEl = document.createElement("div");
-          orgEl.className = "clinical-source-org";
-          orgEl.textContent = org;
-          item.appendChild(orgEl);
+        const prov = (s.source_name || s.organization || "").trim();
+        if (prov) {
+          const nameEl = document.createElement("div");
+          nameEl.className = "clinical-source-name";
+          nameEl.textContent = prov;
+          item.appendChild(nameEl);
         }
         const titleEl = document.createElement("div");
         titleEl.className = "clinical-source-title";
@@ -1025,7 +987,7 @@ def chat(req: ChatRequest):
         print("==========================================\n")
 
         clinical_hits = result.get("clinical_hits") or []
-        clinical_sources = _build_clinical_sources_for_ui(clinical_hits)
+        clinical_sources = build_patient_facing_clinical_sources(clinical_hits)
         sources = [
             {
                 "id": h.get("id"),

@@ -15,6 +15,8 @@ EMBEDDING_MODEL = "mini_lm"
 # LLM settings
 LLM_PROVIDER = "vertex"
 LLM_MODEL = "gemini-2.5-flash"
+# Short patient-facing labels for RAG “View clinical sources” (any flash-tier model is fine)
+CLINICAL_SOURCE_DISPLAY_MODEL = os.getenv("CLINICAL_SOURCE_DISPLAY_MODEL", "gemini-2.5-flash-lite")
 
 # Vector DB = chromadb (absolute path so uvicorn/cron/index_kb share one store)
 CHROMA_PATH = str(_REPO_ROOT / "src" / "retrieval" / "vector_storage" / "chroma_db")
