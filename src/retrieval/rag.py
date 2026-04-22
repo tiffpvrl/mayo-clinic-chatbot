@@ -336,6 +336,8 @@ def retrieve_clinical(
     patient_record: dict | None = None,
     query_where: dict | None = None,
     wants_research: bool = False,
+    *,
+    filters_from_upstream: bool = False,
 ) -> list[dict]:
     """
     Embed the query, run cosine search in clinical_collection, return top_k results.
@@ -344,8 +346,11 @@ def retrieve_clinical(
         query-based filters so results are scoped to chunks relevant to
         both what the patient asked AND who the patient is.
     query_where: pre-built ChromaDB where clause from build_clinical_where().
-        When provided, skips the extract_filters() LLM call — caller is
-        responsible for running extract_query_understanding() once upstream.
+        When filters_from_upstream is True, a None value means the caller
+        already ran extract_query_understanding / build_clinical_where and there
+        is no query-level filter (no second LLM call).
+        When filters_from_upstream is False (default) and query_where is None,
+        extract_filters() runs once for backward compatibility.
     wants_research: pre-computed research intent flag, passed through to
         postprocess_hits() to suppress research chunks when not needed.
 
@@ -358,8 +363,8 @@ def retrieve_clinical(
     patient_where = None
     where: Any = None
     try:
-        if query_where is None:
-            logger.warning("[clinical] query_where not provided — falling back to extract_filters (extra LLM call)")
+        if query_where is None and not filters_from_upstream:
+            logger.warning("[clinical] query_where not provided — falling back to extract_filters (LLM call)")
             query_where = extract_filters(query)
         patient_where = extract_patient_filters(patient_record) if patient_record else None
         if query_where and patient_where:

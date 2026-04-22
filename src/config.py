@@ -14,7 +14,11 @@ EMBEDDING_MODEL = "mini_lm"
 
 # LLM settings
 LLM_PROVIDER = "vertex"
-LLM_MODEL = "gemini-2.5-flash"
+# Primary model: final patient answer + judge (quality / safety).
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.5-flash")
+# Cheaper Vertex models for routing, structured JSON extraction, and source titles.
+ROUTING_LLM_MODEL = os.getenv("ROUTING_LLM_MODEL", "gemini-2.5-flash-lite")
+STRUCTURED_LLM_MODEL = os.getenv("STRUCTURED_LLM_MODEL", "gemini-2.5-flash-lite")
 # Short patient-facing labels for RAG “View clinical sources” (any flash-tier model is fine)
 CLINICAL_SOURCE_DISPLAY_MODEL = os.getenv("CLINICAL_SOURCE_DISPLAY_MODEL", "gemini-2.5-flash-lite")
 

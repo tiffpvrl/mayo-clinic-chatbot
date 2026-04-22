@@ -33,7 +33,13 @@ from typing import Any
 
 from vertexai.generative_models import GenerativeModel
 
-from src.config import JUDGE_DEFAULT_THRESHOLD, JUDGE_MAX_RETRIES, JUDGE_THRESHOLDS, LLM_MODEL
+from src.config import (
+    JUDGE_DEFAULT_THRESHOLD,
+    JUDGE_MAX_RETRIES,
+    JUDGE_THRESHOLDS,
+    LLM_MODEL,
+    ROUTING_LLM_MODEL,
+)
 # from src.config import CLINICAL_RELEVANCE_THRESHOLD  # unused — threshold never triggers in practice; delete if confirmed unnecessary
 from src.graph.state import ChatState
 from src.llm.generate_response import generate_response
@@ -99,7 +105,7 @@ def classify_query_node(state: ChatState) -> dict:
 
     prompt = _CLASSIFIER_PROMPT.format(query=query)
     try:
-        raw = GenerativeModel(LLM_MODEL).generate_content(prompt)
+        raw = GenerativeModel(ROUTING_LLM_MODEL).generate_content(prompt)
         result = _parse_json_response(raw.text, {"intent": "medical"})
         intent = result.get("intent", "medical")
         if intent not in ("medical", "logistics", "chitchat"):
@@ -180,6 +186,7 @@ def retrieve_rag_node(state: ChatState) -> dict:
         patient_record=patient_record,
         query_where=query_where,
         wants_research=wants_research,
+        filters_from_upstream=True,
     )
     t_clinical = time.perf_counter()
 
@@ -319,7 +326,7 @@ def generate_response_node(state: ChatState) -> dict:
     if intent == "chitchat":
         prompt = _CHITCHAT_PROMPT.format(query=query)
         try:
-            raw = GenerativeModel(LLM_MODEL).generate_content(prompt)
+            raw = GenerativeModel(ROUTING_LLM_MODEL).generate_content(prompt)
             response_text = raw.text.strip() or "Hello! How can I help you with your colonoscopy preparation?"
         except Exception as exc:
             logger.warning("[generate] Chitchat generation failed: %s", exc)

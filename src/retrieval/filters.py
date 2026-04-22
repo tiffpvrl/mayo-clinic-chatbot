@@ -14,7 +14,7 @@ import time
 from datetime import datetime
 
 from vertexai.generative_models import GenerativeModel, GenerationConfig
-from src.config import LLM_MODEL
+from src.config import STRUCTURED_LLM_MODEL
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +103,7 @@ def extract_query_understanding(query: str) -> dict:
     """
     try:
         t0 = time.perf_counter()
-        model = GenerativeModel(LLM_MODEL)
+        model = GenerativeModel(STRUCTURED_LLM_MODEL)
         response = model.generate_content(
             _FILTER_EXTRACTION_PROMPT.format(query=query),
             generation_config=GenerationConfig(
@@ -170,7 +170,8 @@ def extract_filters(query: str) -> dict | None:
 
     For the main pipeline, prefer calling extract_query_understanding() once in
     retrieve_rag_node and passing the result to build_clinical_where() and
-    retrieve_clinical() separately to avoid a second LLM call.
+    retrieve_clinical(..., filters_from_upstream=True) so a None where clause
+    does not trigger a second LLM call.
     """
     understanding = extract_query_understanding(query)
     return build_clinical_where(understanding)
