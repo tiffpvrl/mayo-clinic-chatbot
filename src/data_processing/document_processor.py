@@ -18,6 +18,8 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 from enum import Enum
+
+from src.retrieval.patient_source_label import drug_patient_source_label, patient_source_label_from_stem
 # PyMuPDF4LLM — layout-aware PDF extractor that outputs Markdown.
 # Preserves headings (##/###), tables, and bold emphasis; eliminates the
 # OCR-artifact / collapsed-header problems produced by PyPDF2.
@@ -148,6 +150,8 @@ class ChunkMetadata:
     audience_tier: str | None = None  # patient_care | clinician_guideline | research_education
     source_category: str | None = None  # society_guideline | hospital | trial | meta_analysis | patient_handout | other
     content_use_policy: str | None = None  # e.g. research_background for trials/meta-analyses
+    # Precomputed patient-facing source line for citations (PDF stem or DailyMed/OpenFDA)
+    patient_source_label: str | None = None
 
 
 @dataclass
@@ -522,6 +526,7 @@ def chunk_drug_label(
         labeled_prep = True
     id_slug = set_id[:8] if len(set_id) >= 8 else (set_id or label_source.replace(" ", "")[:8] or "label")
 
+    _psl = drug_patient_source_label(label_source)
     base_metadata = ChunkMetadata(
         source_file=str(source_path),
         document_type=doc_type,
@@ -529,6 +534,7 @@ def chunk_drug_label(
         organization=label_source,
         label_source=label_source,
         labeled_for_colonoscopy_prep=labeled_prep,
+        patient_source_label=_psl,
     )
 
     for section_key, section_data in sections.items():
@@ -561,6 +567,7 @@ def chunk_drug_label(
                 label_source=label_source,
                 canonical_section_key=section_key,
                 labeled_for_colonoscopy_prep=labeled_prep,
+                patient_source_label=base_metadata.patient_source_label,
             )
             chunks.append(ProcessedChunk(id=chunk_id, content=sub_content.strip(), metadata=meta))
 
@@ -653,6 +660,7 @@ def chunk_pdf_document(
     chunks: list[ProcessedChunk] = []
     year = extract_publication_year(source_path, content)
     org = extract_organization(source_path, content)
+    patient_source_label = patient_source_label_from_stem(source_path.stem)
 
     id_prefix = "patient" if doc_type == DocumentType.PATIENT_INSTRUCTIONS else "guideline"
 
@@ -694,6 +702,7 @@ def chunk_pdf_document(
                     section_title=title, section_hierarchy=[title],
                     publication_year=year, organization=org,
                     chunk_index=len(chunks), tags=tags,
+                    patient_source_label=patient_source_label,
                 )
                 if pdf_entry:
                     apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
@@ -726,6 +735,7 @@ def chunk_pdf_document(
                 section_title=title, section_hierarchy=section_titles.copy(),
                 publication_year=year, organization=org,
                 chunk_index=len(chunks), tags=tags,
+                patient_source_label=patient_source_label,
             )
             if pdf_entry:
                 apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
@@ -770,6 +780,7 @@ def chunk_pdf_document(
                 section_title="Full Document", section_hierarchy=[],
                 publication_year=year, organization=org,
                 chunk_index=len(chunks), tags=tags,
+                patient_source_label=patient_source_label,
             )
             if pdf_entry:
                 apply_pdf_manifest_to_metadata(meta, source_path.stem, pdf_entry)
@@ -1042,6 +1053,7 @@ def process_patient_kb(
                     audience_tier=c["metadata"].get("audience_tier"),
                     source_category=c["metadata"].get("source_category"),
                     content_use_policy=c["metadata"].get("content_use_policy"),
+                    patient_source_label=c["metadata"].get("patient_source_label"),
                 ),
             )
             for c in raw
@@ -1120,6 +1132,7 @@ def process_patient_kb(
                     "audience_tier": c.metadata.audience_tier,
                     "source_category": c.metadata.source_category,
                     "content_use_policy": c.metadata.content_use_policy,
+                    "patient_source_label": c.metadata.patient_source_label,
                 },
             }
             for c in all_chunks

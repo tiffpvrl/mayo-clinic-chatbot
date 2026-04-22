@@ -51,6 +51,7 @@ def _clinical_metadata_for_chroma(c: ProcessedChunk) -> dict:
         "content_use_policy": meta.content_use_policy or "",
         "source_category": meta.source_category or "",
         "source_file": source_basename,
+        "patient_source_label": meta.patient_source_label or "",
     }
 
 

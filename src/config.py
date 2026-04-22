@@ -19,8 +19,6 @@ LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.5-flash")
 # Cheaper Vertex models for routing, structured JSON extraction, and source titles.
 ROUTING_LLM_MODEL = os.getenv("ROUTING_LLM_MODEL", "gemini-2.5-flash-lite")
 STRUCTURED_LLM_MODEL = os.getenv("STRUCTURED_LLM_MODEL", "gemini-2.5-flash-lite")
-# Short patient-facing labels for RAG “View clinical sources” (any flash-tier model is fine)
-CLINICAL_SOURCE_DISPLAY_MODEL = os.getenv("CLINICAL_SOURCE_DISPLAY_MODEL", "gemini-2.5-flash-lite")
 
 # Vector DB = chromadb (absolute path so uvicorn/cron/index_kb share one store)
 CHROMA_PATH = str(_REPO_ROOT / "src" / "retrieval" / "vector_storage" / "chroma_db")
