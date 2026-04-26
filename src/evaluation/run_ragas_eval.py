@@ -122,9 +122,11 @@ def build_ragas_input(df: pd.DataFrame) -> pd.DataFrame:
     work["reference"] = work["ground_truth"].apply(clean_text)
     work["contexts_list"] = work["contexts"].apply(parse_contexts)
     work["has_context"] = work["contexts_list"].apply(lambda x: len(x) > 0)
+    # Stable, hashable key for dedupe/merge (pandas can't hash list objects).
+    work["contexts_key"] = work["contexts_list"].apply(lambda xs: "\n\n---CONTEXT---\n\n".join(xs or []))
 
     # Deduplicate RAGAS inputs. Clinician labels are merged back later.
-    unique_cols = ["question", "answer", "contexts", "reference"]
+    unique_cols = ["question", "answer", "contexts_key", "reference"]
     unique = work.drop_duplicates(subset=unique_cols).copy()
     unique = unique.reset_index(drop=True)
     unique["ragas_case_id"] = [f"RAGAS-{i+1:03d}" for i in range(len(unique))]
@@ -416,13 +418,13 @@ def main() -> None:
     scores.to_csv(output_dir / "ragas_unique_scores.csv", index=False)
 
     # Create merge key BEFORE merging with RAGAS scores
-    def make_merge_key(question, answer, contexts, ground_truth):
+    def make_merge_key(question, answer, contexts_key, ground_truth):
         return (
             clean_text(question)
             + "||"
             + clean_text(answer)
             + "||"
-            + clean_text(contexts)
+            + clean_text(contexts_key)
             + "||"
             + clean_text(ground_truth)
         )
@@ -431,7 +433,7 @@ def main() -> None:
         lambda r: make_merge_key(
             r["question"],
             r["answer"],
-            r["contexts"],
+            r["contexts_key"],
             r["reference"],
         ),
         axis=1,
@@ -443,23 +445,25 @@ def main() -> None:
 
     # Merge RAGAS case ids + scores back to all clinician rows.
     # Use a stable string key instead of relying on RAGAS output column names.
-    def make_merge_key(question, answer, contexts, ground_truth):
+    def make_merge_key(question, answer, contexts_key, ground_truth):
         return (
             clean_text(question)
             + "||"
             + clean_text(answer)
             + "||"
-            + clean_text(contexts)
+            + clean_text(contexts_key)
             + "||"
             + clean_text(ground_truth)
         )
 
     raw_work = ragas_raw.copy()
+    # Must match build_ragas_input() keying logic.
+    raw_work["contexts_key"] = raw_work["contexts"].apply(parse_contexts).apply(lambda xs: "\n\n---CONTEXT---\n\n".join(xs or []))
     raw_work["merge_key"] = raw_work.apply(
         lambda r: make_merge_key(
             r["query"],
             r["answer"],
-            r["contexts"],
+            r["contexts_key"],
             r["ground_truth"],
         ),
         axis=1,
