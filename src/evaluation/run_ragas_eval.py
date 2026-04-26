@@ -39,8 +39,8 @@ python src/evaluation/run_ragas_eval.py \
   --output-dir outputs/ragas_eval \
   --project YOUR_PROJECT_ID \
   --location us-central1 \
-  --judge-model gemini-2.0-flash-001 \
-  --embedding-model text-embedding-005
+  --judge-model gemini-2.0-flash \
+  --embedding-model mini_lm
 """
 
 from __future__ import annotations
@@ -154,7 +154,14 @@ def make_hf_dataset(eval_df: pd.DataFrame):
     return Dataset.from_list(records)
 
 
-def init_vertex_ragas_models(project: str, location: str, judge_model: str, embedding_model: str):
+def init_vertex_ragas_models(
+    project: str,
+    location: str,
+    judge_model: str,
+    embedding_model: str,
+    *,
+    hf_cache_dir: Path | None = None,
+):
     """
     Initialize Gemini/Vertex models for RAGAS.
 
@@ -173,11 +180,32 @@ def init_vertex_ragas_models(project: str, location: str, judge_model: str, embe
         temperature=0,
         max_output_tokens=2048,
     )
-    embeddings = VertexAIEmbeddings(
-        model_name=embedding_model,
-        project=project,
-        location=location,
-    )
+    if embedding_model in {"mini_lm", "minilm"}:
+        # Use the same MiniLM model as retrieval for RAGAS embedding-based metrics.
+        # Cache the model weights locally so Cloud Shell doesn't re-download each run.
+        from sentence_transformers import SentenceTransformer
+
+        cache_dir = hf_cache_dir or Path(os.environ.get("HF_HOME", "") or ".").resolve()
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        os.environ.setdefault("HF_HOME", str(cache_dir))
+        os.environ.setdefault("TRANSFORMERS_CACHE", str(cache_dir / "transformers"))
+
+        model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", cache_folder=str(cache_dir))
+
+        class _MiniLMEmbeddings:
+            def embed_documents(self, texts: list[str]) -> list[list[float]]:
+                return model.encode(texts, show_progress_bar=False).tolist()
+
+            def embed_query(self, text: str) -> list[float]:
+                return model.encode([text], show_progress_bar=False).tolist()[0]
+
+        embeddings = _MiniLMEmbeddings()
+    else:
+        embeddings = VertexAIEmbeddings(
+            model_name=embedding_model,
+            project=project,
+            location=location,
+        )
 
     # Newer RAGAS versions may want wrappers. Older versions accept LangChain directly.
     try:
@@ -213,8 +241,12 @@ def main() -> None:
     parser.add_argument("--output-dir", default="outputs/ragas_eval", help="Directory for outputs")
     parser.add_argument("--project", default=os.environ.get("GOOGLE_CLOUD_PROJECT"))
     parser.add_argument("--location", default=os.environ.get("GOOGLE_CLOUD_LOCATION", "us-central1"))
-    parser.add_argument("--judge-model", default="gemini-2.0-flash-001")
-    parser.add_argument("--embedding-model", default="text-embedding-005")
+    parser.add_argument("--judge-model", default="gemini-2.0-flash")
+    parser.add_argument(
+        "--embedding-model",
+        default="mini_lm",
+        help='RAGAS embedding model. Use "mini_lm" to match retrieval; otherwise pass a Vertex embedding model name (e.g. text-embedding-005).',
+    )
     parser.add_argument("--limit", type=int, default=None, help="Optional small test limit")
     parser.add_argument(
         "--thread-suffix",
@@ -228,6 +260,7 @@ def main() -> None:
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    hf_cache_dir = output_dir / ".hf_cache"
 
     raw = pd.read_excel(args.input_xlsx)
 
@@ -339,6 +372,7 @@ def main() -> None:
         location=args.location,
         judge_model=args.judge_model,
         embedding_model=args.embedding_model,
+        hf_cache_dir=hf_cache_dir,
     )
 
     # Import metrics. Names are stable across many RAGAS versions.
