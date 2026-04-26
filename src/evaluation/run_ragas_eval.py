@@ -34,10 +34,10 @@ What this script does:
   9. Exports CSV files for analysis.
 
 Example:
-python src/evaluation/run_ragas_eval.py \
-  --input-xlsx data/ragas_evaluation.xlsx \
+PYTHONPATH="$PWD" python src/evaluation/run_ragas_eval.py \
+  --input-xlsx src/evaluation/ragas_evaluation.xlsx \
   --output-dir outputs/ragas_eval \
-  --project YOUR_PROJECT_ID \
+  --project industrial-net-487818-h9 \
   --location us-central1 \
   --judge-model gemini-2.0-flash \
   --embedding-model mini_lm

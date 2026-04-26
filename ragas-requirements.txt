@@ -1,0 +1,35 @@
+# Minimal dependencies for running src/evaluation/run_ragas_eval.py
+#
+# Notes (Cloud Shell):
+# - sentence-transformers pulls in torch; to avoid huge CUDA wheels, install torch CPU-only, e.g.:
+#     pip install --extra-index-url https://download.pytorch.org/whl/cpu torch
+#   then:
+#     pip install -r ragas-requirements.txt
+#
+# Data
+numpy>=1.24.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+python-dotenv
+joblib
+
+# GCP (BigQuery + Vertex)
+google-cloud-bigquery>=3.0.0
+db-dtypes
+google-cloud-aiplatform>=1.38.0
+
+# LangGraph
+langgraph>=0.2.0
+# Persistent checkpoints for resume support
+langgraph-checkpoint-sqlite
+
+# Retrieval runtime (your graph uses Chroma + sentence-transformers)
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# RAGAS
+ragas>=0.1.0
+datasets>=2.0.0
+
+# Vertex judge wrapper used by run_ragas_eval.py
+langchain-google-vertexai

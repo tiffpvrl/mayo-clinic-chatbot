@@ -196,24 +196,19 @@ def build_graph_with_sqlite(sqlite_path: str | Path) -> StateGraph:
     sqlite_path = Path(sqlite_path)
     sqlite_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # LangGraph's SQLite saver import path has differed across versions.
-    SqliteSaver = None
-    for mod in ("langgraph.checkpoint.sqlite", "langgraph.checkpoint.sqlite_saver"):
-        try:
-            module = __import__(mod, fromlist=["SqliteSaver"])
-            SqliteSaver = getattr(module, "SqliteSaver", None)
-            if SqliteSaver is not None:
-                break
-        except Exception:
-            continue
-
-    if SqliteSaver is None:
+    try:
+        import sqlite3
+        from langgraph.checkpoint.sqlite import SqliteSaver
+    except Exception as exc:
         raise ImportError(
-            "Could not import LangGraph SqliteSaver. "
-            "Please ensure your langgraph installation includes SQLite checkpoint support."
-        )
+            "Could not import LangGraph SqliteSaver. Install SQLite checkpoint support with "
+            "`pip install langgraph-checkpoint-sqlite`."
+        ) from exc
 
-    return build_graph(checkpointer=SqliteSaver(str(sqlite_path)))
+    # Keep the connection open for the lifetime of the compiled graph.
+    conn = sqlite3.connect(str(sqlite_path), check_same_thread=False)
+    saver = SqliteSaver(conn)
+    return build_graph(checkpointer=saver)
 
 
 # Singleton — compiled once at import time and reused across all requests
