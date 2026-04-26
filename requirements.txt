@@ -31,3 +31,6 @@ db-dtypes
 
 # LangGraph orchestration
 langgraph>=0.2.0
+
+# RAGAS
+ragas>=0.1.0

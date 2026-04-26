@@ -3,9 +3,9 @@
 Run RAGAS evaluation for MayoChat clinician-reviewed dataset.
 
 Input:
-  - Excel file with 42 rows: 21 prompts x 2 clinicians
-  - Required columns:
-      clinician, query, answer, contexts, ground_truth
+  - Excel file with 42 rows: 7 patients x 3 turns x 2 clinicians
+  - Required columns (evaluation sheet):
+      clinician, patient_id, turn, query, ground_truth
     plus clinician review columns:
       factual, factual_quality, accurate, accuracy_quality, relevant,
       relevance_quality, hallucination, hallucination_quality, harmful,
@@ -13,18 +13,25 @@ Input:
 
 What this script does:
   1. Loads the clinician Excel file.
-  2. Deduplicates to one unique RAGAS row per query/answer/context/ground_truth.
-  3. Splits examples into:
+  2. Runs the full MayoChat LangGraph pipeline once per (patient_id, turn),
+     reusing the output for both clinicians' ground-truth rows.
+  3. Builds RAGAS inputs using:
+       - question: Excel query
+       - answer: pipeline response
+       - contexts: pipeline clinical_hits (retrieved chunks)
+       - ground_truth: clinician golden answer
+  4. Deduplicates to one unique RAGAS row per question/answer/contexts/ground_truth.
+  5. Splits examples into:
        a) rows with retrieved contexts
        b) rows without retrieved contexts
-  4. Runs full RAGAS metrics on rows with contexts:
+  6. Runs full RAGAS metrics on rows with contexts:
        - faithfulness
        - answer_relevancy
        - context_precision
        - context_recall
-  5. Runs answer_relevancy only on rows without contexts.
-  6. Merges RAGAS scores back to all clinician rows.
-  7. Exports CSV files for analysis.
+  7. Runs answer_relevancy only on rows without contexts.
+  8. Merges RAGAS scores back to all clinician rows.
+  9. Exports CSV files for analysis.
 
 Example:
 python src/evaluation/run_ragas_eval.py \
@@ -67,6 +74,10 @@ def parse_contexts(x: Any) -> List[str]:
     The splitting logic is intentionally conservative. If we cannot confidently split,
     we keep the full context as one string.
     """
+    # Allow callers to pass contexts directly as a list[str]
+    if isinstance(x, list):
+        return [clean_text(v) for v in x if clean_text(v)]
+
     if pd.isna(x):
         return []
 
@@ -205,6 +216,11 @@ def main() -> None:
     parser.add_argument("--judge-model", default="gemini-2.0-flash-001")
     parser.add_argument("--embedding-model", default="text-embedding-005")
     parser.add_argument("--limit", type=int, default=None, help="Optional small test limit")
+    parser.add_argument(
+        "--thread-suffix",
+        default="ragas_eval",
+        help="Suffix appended to patient_id for LangGraph thread_id isolation",
+    )
     args = parser.parse_args()
 
     if not args.project:
@@ -214,7 +230,94 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     raw = pd.read_excel(args.input_xlsx)
-    unique = build_ragas_input(raw)
+
+    # ── Run LangGraph once per (patient_id, turn) ────────────────────────────
+    # The sheet contains 2 clinician rows per (patient_id, turn). We run the
+    # pipeline once per patient-turn, then reuse its answer/contexts for both.
+    required_cols = ["clinician", "patient_id", "turn", "query", "ground_truth"]
+    missing_cols = [c for c in required_cols if c not in raw.columns]
+    if missing_cols:
+        raise ValueError(f"Missing required columns in Excel: {missing_cols}")
+
+    from src.graph.graph import graph
+
+    raw_work = raw.copy()
+    raw_work["turn"] = raw_work["turn"].astype(int)
+    raw_work["query"] = raw_work["query"].apply(clean_text)
+
+    # Map (patient_id, turn) -> pipeline outputs
+    pipeline_outputs: dict[tuple[str, int], dict[str, Any]] = {}
+
+    for patient_id, g_patient in raw_work.groupby("patient_id", dropna=False):
+        if pd.isna(patient_id) or clean_text(patient_id) == "":
+            raise ValueError("Found missing patient_id in input Excel.")
+
+        g_patient = g_patient.sort_values("turn")
+        thread_id = f"{clean_text(patient_id)}:{args.thread_suffix}"
+
+        # Run turns sequentially for this patient so follow-up behavior is preserved.
+        for turn, g_turn in g_patient.groupby("turn"):
+            queries = [q for q in g_turn["query"].tolist() if q]
+            if not queries:
+                raise ValueError(f"Empty query for patient_id={patient_id!r}, turn={turn!r}.")
+            if len(set(queries)) != 1:
+                raise ValueError(
+                    f"Non-identical queries for patient_id={patient_id!r}, turn={turn!r}: {set(queries)}"
+                )
+            query = queries[0]
+
+            # Provide a minimal input state. The MemorySaver checkpointer preserves
+            # patient_record + chat_history across turns for the same thread_id.
+            state = graph.invoke(
+                {"query": query, "patient_id": clean_text(patient_id)},
+                config={"configurable": {"thread_id": thread_id}},
+            )
+
+            response = clean_text(state.get("response", ""))
+            clinical_hits = state.get("clinical_hits") or []
+            contexts_list = [clean_text(h.get("document", "")) for h in clinical_hits if clean_text(h.get("document", ""))]
+
+            # Keep a lightweight, analysis-friendly sources string too.
+            sources = []
+            for h in clinical_hits:
+                meta = h.get("metadata", {}) or {}
+                sources.append(
+                    " | ".join(
+                        [
+                            clean_text(meta.get("organization", "")),
+                            clean_text(meta.get("source_file", "")),
+                            clean_text(meta.get("section_title", "")),
+                        ]
+                    ).strip(" |")
+                )
+            sources = [s for s in sources if s]
+
+            pipeline_outputs[(clean_text(patient_id), int(turn))] = {
+                "pipeline_answer": response,
+                "pipeline_contexts": contexts_list,
+                "pipeline_sources": sources,
+            }
+
+    # Attach pipeline outputs to every clinician row.
+    raw_work["pipeline_answer"] = raw_work.apply(
+        lambda r: pipeline_outputs[(clean_text(r["patient_id"]), int(r["turn"]))]["pipeline_answer"],
+        axis=1,
+    )
+    raw_work["pipeline_contexts"] = raw_work.apply(
+        lambda r: pipeline_outputs[(clean_text(r["patient_id"]), int(r["turn"]))]["pipeline_contexts"],
+        axis=1,
+    )
+    raw_work["pipeline_sources"] = raw_work.apply(
+        lambda r: pipeline_outputs[(clean_text(r["patient_id"]), int(r["turn"]))]["pipeline_sources"],
+        axis=1,
+    )
+
+    # Build RAGAS input df (one row per clinician golden answer).
+    ragas_raw = raw_work.copy()
+    ragas_raw["answer"] = ragas_raw["pipeline_answer"]
+    ragas_raw["contexts"] = ragas_raw["pipeline_contexts"]
+
+    unique = build_ragas_input(ragas_raw)
 
     if args.limit:
         unique = unique.head(args.limit).copy()
@@ -317,7 +420,7 @@ def main() -> None:
             + clean_text(ground_truth)
         )
 
-    raw_work = raw.copy()
+    raw_work = ragas_raw.copy()
     raw_work["merge_key"] = raw_work.apply(
         lambda r: make_merge_key(
             r["query"],
