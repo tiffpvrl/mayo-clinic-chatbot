@@ -51,6 +51,9 @@ thread_id, providing multi-turn memory without an external session store.
     )
 """
 
+from pathlib import Path
+from typing import Any, Optional
+
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
 
@@ -123,7 +126,7 @@ def _route_after_judge(state: ChatState) -> str:
 
 # ── Graph construction ─────────────────────────────────────────────────────────
 
-def build_graph() -> StateGraph:
+def build_graph(*, checkpointer: Optional[Any] = None) -> StateGraph:
     builder = StateGraph(ChatState)
 
     # ── Register nodes ──────────────────────────────────────────────────────────
@@ -179,7 +182,38 @@ def build_graph() -> StateGraph:
     # ── Finalize is the sole exit point ─────────────────────────────────────────
     builder.add_edge("finalize", END)
 
-    return builder.compile(checkpointer=MemorySaver())
+    return builder.compile(checkpointer=checkpointer or MemorySaver())
+
+
+def build_graph_with_sqlite(sqlite_path: str | Path) -> StateGraph:
+    """
+    Build a graph that persists checkpoints to a local SQLite DB.
+
+    This is intended for offline evaluation runs (e.g. RAGAS) so that long jobs
+    can resume after rate limiting or process restarts without changing the
+    production chatbot's default in-memory behavior.
+    """
+    sqlite_path = Path(sqlite_path)
+    sqlite_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # LangGraph's SQLite saver import path has differed across versions.
+    SqliteSaver = None
+    for mod in ("langgraph.checkpoint.sqlite", "langgraph.checkpoint.sqlite_saver"):
+        try:
+            module = __import__(mod, fromlist=["SqliteSaver"])
+            SqliteSaver = getattr(module, "SqliteSaver", None)
+            if SqliteSaver is not None:
+                break
+        except Exception:
+            continue
+
+    if SqliteSaver is None:
+        raise ImportError(
+            "Could not import LangGraph SqliteSaver. "
+            "Please ensure your langgraph installation includes SQLite checkpoint support."
+        )
+
+    return build_graph(checkpointer=SqliteSaver(str(sqlite_path)))
 
 
 # Singleton — compiled once at import time and reused across all requests

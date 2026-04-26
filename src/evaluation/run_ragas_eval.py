@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import json
 import os
 import re
 from pathlib import Path
@@ -255,6 +256,12 @@ def main() -> None:
         default="ragas_eval",
         help="Suffix appended to patient_id for LangGraph thread_id isolation",
     )
+    parser.add_argument(
+        "--checkpoint-sqlite",
+        default=None,
+        help="Optional path to a SQLite DB for persistent LangGraph checkpoints (enables resume). "
+        "Defaults to <output-dir>/langgraph_checkpoints.sqlite when unset.",
+    )
     args = parser.parse_args()
 
     if not args.project:
@@ -263,6 +270,8 @@ def main() -> None:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     hf_cache_dir = output_dir / ".hf_cache"
+    checkpoint_path = Path(args.checkpoint_sqlite) if args.checkpoint_sqlite else (output_dir / "langgraph_checkpoints.sqlite")
+    progress_path = output_dir / "progress.jsonl"
 
     raw = pd.read_excel(args.input_xlsx)
 
@@ -274,7 +283,9 @@ def main() -> None:
     if missing_cols:
         raise ValueError(f"Missing required columns in Excel: {missing_cols}")
 
-    from src.graph.graph import graph
+    # Use persistent checkpoints so multi-turn state survives restarts and we can resume after 429s.
+    from src.graph.graph import build_graph_with_sqlite
+    graph = build_graph_with_sqlite(checkpoint_path)
 
     raw_work = raw.copy()
     raw_work["turn"] = raw_work["turn"].astype(int)
@@ -282,6 +293,46 @@ def main() -> None:
 
     # Map (patient_id, turn) -> pipeline outputs
     pipeline_outputs: dict[tuple[str, int], dict[str, Any]] = {}
+
+    # ── Load progress (if any) so we can skip completed turns ───────────────
+    if progress_path.exists():
+        with progress_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rec = json.loads(line)
+                except Exception:
+                    # Ignore malformed/truncated lines (e.g. interrupted write).
+                    continue
+                pid = clean_text(rec.get("patient_id", ""))
+                turn = rec.get("turn", None)
+                if not pid or turn is None:
+                    continue
+                try:
+                    turn_i = int(turn)
+                except Exception:
+                    continue
+                pipeline_outputs[(pid, turn_i)] = {
+                    "pipeline_answer": clean_text(rec.get("pipeline_answer", "")),
+                    "pipeline_contexts": rec.get("pipeline_contexts") or [],
+                    "pipeline_sources": rec.get("pipeline_sources") or [],
+                }
+
+        print(f"[resume] loaded {len(pipeline_outputs)} completed patient-turn(s) from {progress_path}")
+
+    def _append_progress(patient_id: str, turn: int, query: str, response: str, contexts_list: list[str], sources: list[str]) -> None:
+        rec = {
+            "patient_id": patient_id,
+            "turn": int(turn),
+            "query": query,
+            "pipeline_answer": response,
+            "pipeline_contexts": contexts_list,
+            "pipeline_sources": sources,
+        }
+        with progress_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
     for patient_id, g_patient in raw_work.groupby("patient_id", dropna=False):
         if pd.isna(patient_id) or clean_text(patient_id) == "":
@@ -292,6 +343,12 @@ def main() -> None:
 
         # Run turns sequentially for this patient so follow-up behavior is preserved.
         for turn, g_turn in g_patient.groupby("turn"):
+            pid = clean_text(patient_id)
+            key = (pid, int(turn))
+            if key in pipeline_outputs:
+                # Already computed in a previous run; skip invoking the graph.
+                continue
+
             queries = [q for q in g_turn["query"].tolist() if q]
             if not queries:
                 raise ValueError(f"Empty query for patient_id={patient_id!r}, turn={turn!r}.")
@@ -327,11 +384,27 @@ def main() -> None:
                 )
             sources = [s for s in sources if s]
 
-            pipeline_outputs[(clean_text(patient_id), int(turn))] = {
+            pipeline_outputs[key] = {
                 "pipeline_answer": response,
                 "pipeline_contexts": contexts_list,
                 "pipeline_sources": sources,
             }
+            _append_progress(pid, int(turn), query, response, contexts_list, sources)
+
+    # End-of-retrieval resume summary (helps after Vertex 429 interruptions).
+    expected_keys = {
+        (clean_text(r["patient_id"]), int(r["turn"]))
+        for _, r in raw_work[["patient_id", "turn"]].drop_duplicates().iterrows()
+        if clean_text(r["patient_id"])
+    }
+    completed_keys = set(pipeline_outputs.keys())
+    missing_keys = sorted(expected_keys - completed_keys, key=lambda x: (x[0], x[1]))
+    if missing_keys:
+        preview = ", ".join([f"{pid}:turn{turn}" for pid, turn in missing_keys[:20]])
+        suffix = "" if len(missing_keys) <= 20 else f" ... (+{len(missing_keys) - 20} more)"
+        print(f"[resume] completed={len(completed_keys)}/{len(expected_keys)} patient-turn(s). Missing: {preview}{suffix}")
+    else:
+        print(f"[resume] completed all {len(expected_keys)} patient-turn(s).")
 
     # Attach pipeline outputs to every clinician row.
     raw_work["pipeline_answer"] = raw_work.apply(
